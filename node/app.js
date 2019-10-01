@@ -14,9 +14,10 @@ const dbName = 'Recipes';
 // Create a new MongoClient
 const client = new MongoClient(url);
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testAPIRouter = require('./routes/testApi');
+
+var recipesRouter = require('./routes/recipes');
+
+
 var app = express();
 
 process.env.PORT = 4000;
@@ -31,9 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use("/testAPI", testAPIRouter);
+app.use('/recipesRouter', recipesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
