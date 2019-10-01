@@ -8,16 +8,36 @@ const url = 'mongodb://localhost:27017/Recipes';
 const dbName = 'Recipes';
 // Create a new MongoClient
 const client = new MongoClient(url);
+var mongoose = require('mongoose');
+mongoose.connect(url,{useNewUrlParser: true});
+
+var Recipe = require('../models/recipe');
+var Product = require('../models/product');
 
 function insertTestThings(db, params, callback) {
     const collection = db.collection('Recipes');
-    console.log('params',params.body)
-    collection.insert({
-        nazwa: params.body.name,
-        test: params.body.test
-    }, function (err, result) {
-        callback(result);
-    });
+    var testProduct = new Product({
+        name: 'woda',
+        amount: 100,
+        calories: 50,
+        unit: 'ml'
+    })
+    console.log(testProduct)
+    testProduct.save();
+    var test = new Recipe({
+        name: 'Barszcz',
+        difficulty: 1,
+        numberOfPersons: 4,
+        description: 'Cos tam cos tam',
+        listOfProducts:[testProduct._id]
+    })
+    console.log(test);
+    test.save().then(item=>{
+        console.log('item',item)
+        res.send('item saved');
+    }).catch(err=>{
+        res.status(400).send("unable to save to database");
+    })
 
 }
 router.get("/", function (req, res, next) {

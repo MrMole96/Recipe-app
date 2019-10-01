@@ -5,11 +5,9 @@ var ProductSchema = new mongoose.Schema({
     amount: Number,
     calories: Number,
     unit: String,
-    listOfRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }]
+    // listOfRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }]
 });
 
-var Product = mongoose.model('Product', ProductSchema);
+var Product = mongoose.model('Product', ProductSchema, 'Products');
 
-module.exports = {
-    Product: Product
-}
+module.exports = Product

@@ -10,8 +10,6 @@ var RecipeSchema = new mongoose.Schema({
     listOfProducts: [{ type: mongoose.Schema.ObjectId, ref: 'Product' }]
 });
 
-var Recipe = mongoose.model('Recipe', RecipeSchema);
+var Recipe = mongoose.model('Recipe', RecipeSchema, 'Recipes');
 
-module.exports = {
-    Recipe: Recipe
-}
+module.exports =  Recipe;
