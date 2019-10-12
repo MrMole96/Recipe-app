@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from '../../assets/images/logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -13,7 +13,7 @@ class App extends Component {
   }
 
   callApi() {
-    fetch('http://localhost:9000/recipesRouter')
+    fetch('http://localhost:9000/allProducts')
       .then(res => res.text())
       .then(res => this.setState({ apiResponse: res }))
       .catch(err => err);

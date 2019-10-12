@@ -16,6 +16,7 @@ const client = new MongoClient(url);
 
 
 var recipesRouter = require('./routes/recipes');
+var productsRouter = require('./routes/products');
 
 
 var app = express();
@@ -33,12 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/recipesRouter', recipesRouter);
-
-// catch 404 and forward to error handler
-// app.use(function (req, res, next) {
-//   next(createError(404));
-// });
-
+app.use('/allProducts', productsRouter);
 
 app.listen(9000, 'localhost');
 // error handler
@@ -51,32 +47,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
-// Use connect method to connect to the Server
-client.connect(function (err) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-
-  const db = client.db(dbName);
-  insertDocuments(db, function () {
-    client.close();
-  })
-
-  client.close();
-});
-
-const insertDocuments = function (db, callback) {
-  // Get the documents collection
-  const collection = db.collection('Recipes');
-  // Insert some documents
-  //   collection.insertMany([
-  //     {a : 1}, {a : 2}, {a : 3}
-  //   ], function(err, result) {
-  //  console.log(result);
-  //     console.log("Inserted 3 documents into the collection");
-  //     callback(result);
-  //   });
-}
 
 module.exports = app;
