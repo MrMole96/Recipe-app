@@ -2,56 +2,28 @@ import React, { Component } from 'react';
 import logo from '../../assets/images/logo.svg';
 import './App.css';
 
+import Container from '@material-ui/core/Container';
+import Search from '../search/search'
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      apiResponse: "",
-      testInput: "sss"
-    };
 
-  }
+  state = {
+    products: 'aopppppp'
+};
 
-  callApi() {
-    fetch('http://localhost:9000/allProducts')
-      .then(res => res.text())
-      .then(res => this.setState({ apiResponse: res }))
-      .catch(err => err);
-  }
-  sendTestData = () => {
-  
-    fetch('http://localhost:9000/recipesRouter', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.state.testInput,
-        test:'test'
-      })
-    });
-  }
   handleChange = (event) => {
     console.log(event);
     this.setState({ testInput: event.target.value })
   }
 
-  componentDidMount() {
-    this.callApi();
-  }
-
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <input value={this.state.testInput} onChange={this.handleChange} />
-        <p className="App-intro">{this.state.apiResponse}</p>
-        <button onClick={this.sendTestData}>POST</button>
-      </div>
+      <Container maxWidth="sm">
+        <h2>Recipe mole</h2>
+        <p>App state {this.state.products}</p>
+        
+        <Search />
+      </Container>
     );
   }
 
