@@ -23,5 +23,14 @@ router.get('/',function (req, res, next) {
   
   });
 
+  router.post('/',function (req,res,next) {
+
+    //Array of products from which i want to make something
+    console.log(req.body);
+      // var data = req.body
+
+      res.send('Ok')
+    })
+
 
   module.exports = router;

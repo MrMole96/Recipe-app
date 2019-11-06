@@ -33,8 +33,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/recipesRouter', recipesRouter);
-app.use('/allProducts', productsRouter);
+app.use('/Recipes', recipesRouter);
+app.use('/Products', productsRouter);
 
 app.listen(9000, 'localhost');
 // error handler
