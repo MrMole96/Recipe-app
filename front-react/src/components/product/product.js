@@ -1,20 +1,11 @@
-import React, { Component } from 'react'
-
-export class product extends Component {
-
-    constructor(props) {
-        super(props);  
-        this.setState({})      
-    }
-    
-    render() {
-        return (
-            <div>
-
-            </div>
-        )
-    }
+import React from 'react'
+import './product.css'
+const Product = (props) => {
+    return (
+        <div className='Product'>
+            <h3>{props.name}</h3>
+        </div>
+    )
 }
 
-export default product
-
+export default Product;

@@ -1,6 +1,15 @@
 body{
   background-color: #9CCAFF;
 }
+.search{
+  width: 400px;
+  margin: 0 auto;
+}
+.nav{
+  margin-top: 0;
+  display: inline-block;
+  
+}
 
 .primary{
   color: #4FA1FF

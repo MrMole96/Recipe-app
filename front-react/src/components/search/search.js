@@ -9,20 +9,23 @@ export default class Search extends Component {
         console.log('[App.js] constructor');
     }
     state = {
-        products: []
+        products: [],
+        recipes:[]
     };
 
     componentDidMount() {
         axios.get('https://jsonplaceholder.typicode.com/users')
             .then(res => {
-                this.setState({ products: res.data })
+                this.setState({ products: res.data })            
                 console.log(res.data)
             })
     }
     selectHandler = (event, value) => {
+        let that = this;
         axios.post('http://localhost:9000/Products', value)
             .then(function (response) {
                 console.log(response)
+                that.setState({recipes:response})
             })
             .catch(function (err) {
                 console.log(err);
@@ -30,7 +33,7 @@ export default class Search extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="search">
                 <Autocomplete
                     multiple
                     options={this.state.products}
@@ -48,7 +51,6 @@ export default class Search extends Component {
                         />
                     )}
                 />
-
             </div>
 
         )

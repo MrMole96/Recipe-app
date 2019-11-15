@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import logo from '../../assets/images/logo.svg';
 import './App.css';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Search from '../search/search'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import amber from '@material-ui/core/colors/amber';
 import Listrecipes from '../../container/Listrecipes'
+import Products from '../product/products'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Navigation from '../navigation/navigation'
+import axios from 'axios';
+import { width } from '@material-ui/system';
+
+import { StylesProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -22,7 +33,13 @@ const theme = createMuiTheme({
 class App extends Component {
 
   state = {
-    products: 'aopppppp'
+    products: 'aopppppp',
+    productForm: {
+      name: '',
+      amount: 0,
+      calories: 0,
+      unit: ''
+    }
   };
 
   handleChange = (event) => {
@@ -30,17 +47,58 @@ class App extends Component {
     this.setState({ testInput: event.target.value })
   }
 
+  inputHandler = (event) => {
+    const productForm = {
+      ...this.state.productForm,
+      [event.target.id]: event.target.value,
+    }
+
+    this.setState({ productForm: productForm })
+
+  }
+  inputSelectHandler = (event) => {
+    const productForm = {
+      ...this.state.productForm,
+      unit: event.target.value,
+    }
+    this.setState({ productForm: productForm })
+  }
+  sendForm = () => {
+    console.log('wysylam');
+    axios.post('http://localhost:9000/Products', this.state.productForm)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }
+
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <Container maxWidth="sm">
-          <h2>Recipe mole</h2>
-          <Button variant="contained" color="primary">Primary</Button>
-          <Button variant="contained" color="secondary">Secondary</Button>
-          <Search />
-          <Listrecipes />
-        </Container>
-      </ThemeProvider>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <Navigation />
+          <Container maxWidth="sm">
+            <h1>Swiat przepisow</h1>
+            <Switch>
+              <Route path="/products">
+                <StylesProvider injectFirst>
+                  <Products
+                    formHandler={this.inputHandler}
+                    formSelectHandler={this.inputSelectHandler}
+                    unit={this.state.productForm.unit}
+                    sendForm={this.sendForm} />
+                </StylesProvider>
+              </Route>
+              <Route exact path="/">
+                <Search />
+                <Listrecipes />
+              </Route>
+            </Switch>
+          </Container>
+        </ThemeProvider>
+      </Router >
     );
   }
 
