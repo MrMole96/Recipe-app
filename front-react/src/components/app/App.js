@@ -33,46 +33,10 @@ const theme = createMuiTheme({
 class App extends Component {
 
   state = {
-    products: 'aopppppp',
-    productForm: {
-      name: '',
-      amount: 0,
-      calories: 0,
-      unit: ''
-    }
+      
   };
 
-  handleChange = (event) => {
-    console.log(event);
-    this.setState({ testInput: event.target.value })
-  }
 
-  inputHandler = (event) => {
-    const productForm = {
-      ...this.state.productForm,
-      [event.target.id]: event.target.value,
-    }
-
-    this.setState({ productForm: productForm })
-
-  }
-  inputSelectHandler = (event) => {
-    const productForm = {
-      ...this.state.productForm,
-      unit: event.target.value,
-    }
-    this.setState({ productForm: productForm })
-  }
-  sendForm = () => {
-    console.log('wysylam');
-    axios.post('http://localhost:9000/Products', this.state.productForm)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(function (err) {
-        console.log(err);
-      })
-  }
 
   render() {
     return (
@@ -84,11 +48,7 @@ class App extends Component {
             <Switch>
               <Route path="/products">
                 <StylesProvider injectFirst>
-                  <Products
-                    formHandler={this.inputHandler}
-                    formSelectHandler={this.inputSelectHandler}
-                    unit={this.state.productForm.unit}
-                    sendForm={this.sendForm} />
+                  <Products/>
                 </StylesProvider>
               </Route>
               <Route exact path="/">

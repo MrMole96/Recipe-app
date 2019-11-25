@@ -1,10 +1,23 @@
-.Product{
-    width: 60%;
+.product{   
     margin: 16px auto;
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
     padding: 16px;
     text-align: center;
+}
+.product__content{
+    display: flex;
+}
+.product__content__property{
+    flex: 1 33%;
+    margin:5px;    
+}
+.product__content__property >h3{
+    margin: 0 auto;
+}
+.product__content__property > span{
+    color: #000;
+    font-style: italic;
 }
 .Button{
     text-align: right;

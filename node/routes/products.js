@@ -23,7 +23,6 @@ router.get('/', function (req, res, next) {
 
 router.post("/", function (req, res, next) {
   client.connect(function (err) {
-    const db = client.db(dbName);
     var product = new Product(req.body);
     product.save().then(item => {
       res.send('item saved');
