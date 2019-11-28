@@ -1,8 +1,15 @@
 import React from 'react'
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import './product.css'
 const Product = (props) => {
     return (
         <div className='product primary-3'>
+            <IconButton className="button__delete" aria-label="delete" onClick={()=>props.deleteProduct(props.id)}>
+                <HighlightOffOutlinedIcon color="secondary" style={{ fontSize: 30 }} />
+            </IconButton>
             <h2>{props.name}</h2>
             <div className='product__content'>
                 <div className='product__content__property'>

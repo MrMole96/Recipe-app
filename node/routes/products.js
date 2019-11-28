@@ -35,5 +35,18 @@ router.post("/", function (req, res, next) {
   })
   // res.send("API is working properly");
 });
+router.delete("/", function (req, res, next) {
+  client.connect(function (err) {
+    console.log('delete',req.query)
+    Product.findById(req.query.id).remove().then(() => {
+      res.send('item saved');
+    }).catch(err => {
+      res.status(400).send("unable to delete from database");
+    })
+    client.close();
+
+  })
+  // res.send("API is working properly");
+});
 
 module.exports = router;

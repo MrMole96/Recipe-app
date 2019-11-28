@@ -33,11 +33,9 @@ const Navigation = () => {
   return (
     <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
+        
         <Typography variant="h6" className={classes.title}>
-          News
+         Swiat przepisow
         </Typography>
         <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/products"><Button color="inherit">Products</Button></Link>
 

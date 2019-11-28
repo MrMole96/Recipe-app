@@ -25,9 +25,9 @@ const theme = createMuiTheme({
     primary: {
       main: '#039be5',
     },
-    secondary: {
-      main: '#43a047',
-    },
+    success:{
+      main: '#43a047'
+    }
   },
 });
 class App extends Component {
@@ -43,8 +43,7 @@ class App extends Component {
       <Router>
         <ThemeProvider theme={theme}>
           <Navigation />
-          <Container maxWidth="sm">
-            <h1>Swiat przepisow</h1>
+          <Container maxWidth="lg">
             <Switch>
               <Route path="/products">
                 <StylesProvider injectFirst>

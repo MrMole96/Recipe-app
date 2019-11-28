@@ -5,17 +5,16 @@ import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './product.css'
-import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Ring } from 'react-awesome-spinners'
 
 import Box from '@material-ui/core/Box';
+
 const Wrapper = styled.section`
-  padding: 5px;
+  padding: 2em;
   border: 2px solid #039BE5;
-  border-radius: 10px
-  text-align:center;
+  border-radius: 10px;
+  max-width:450px;
 `;
 
 const units = ['ml', 'g', 'szt', 'dkg', 'kg'];
@@ -80,6 +79,16 @@ export default class products extends Component {
             })
     }
 
+    deleteProduct = (productId) => {
+        axios.delete('http://localhost:9000/Products', {params: {id:productId}})
+            .then(response => {
+                console.log(response);
+                this.loadProducts();
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+    }
     componentDidMount() {
         this.loadProducts();
     }
@@ -88,16 +97,18 @@ export default class products extends Component {
 
     render() {
         let products = null
-
+        var that = this;
         if (this.state.products) {
             products = this.state.products.map(function (product, index) {
-                return <Box flexGrow={1} marginX={1} width={250}>
+                return <Box key={index} flexGrow={1} marginX={1} width={250}>
                     <Product className="Product"
                         name={product.name}
                         amount={product.amount}
                         calories={product.calories}
                         unit={product.unit}
-                        key={product.id} />
+                        id={product._id}
+                        key={product._id}
+                        deleteProduct={that.deleteProduct} />
                 </Box>
             })
         }
@@ -112,7 +123,7 @@ export default class products extends Component {
                             <TextField
                                 id="name"
                                 label="Nazwa"
-                                onChange={(value) => this.formHandler(value)}
+                                onChange={(value) => this.inputHandler(value)}
                                 helperText="Nazwa produktu"
                                 margin="normal"
                             />
@@ -122,7 +133,7 @@ export default class products extends Component {
                                 id="amount"
                                 label="Ilosc"
                                 className="input"
-                                onChange={(value) => this.formHandler(value)}
+                                onChange={(value) => this.inputHandler(value)}
                                 helperText="Ilosc produktu"
                                 margin="normal"
                             />
@@ -131,7 +142,7 @@ export default class products extends Component {
                             <TextField
                                 id="calories"
                                 label="Kalorie"
-                                onChange={(value) => this.formHandler(value)}
+                                onChange={(value) => this.inputHandler(value)}
                                 className="input"
                                 helperText="Ilosc kalori w produkcie"
                                 margin="normal"
@@ -142,7 +153,7 @@ export default class products extends Component {
                                 id="unit"
                                 select
                                 label="Wybierz"
-                                onChange={(value) => this.formSelectHandler(value)}
+                                onChange={(value) => this.inputSelectHandler(value)}
                                 value={this.props.unit}
                                 helperText="Miara ilosci produktu"
                                 margin="normal"
