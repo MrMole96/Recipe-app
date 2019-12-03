@@ -6,12 +6,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AppBar from '@material-ui/core/AppBar';
+import { amber } from '@material-ui/core/colors';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -26,20 +28,30 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
   },
 }));
-
+const NavButton = withStyles(theme => ({
+  root: {
+    color: theme.palette.getContrastText(amber[300]),
+    margin: '0 5px',
+    backgroundColor: amber[300],
+    '&:hover': {
+      backgroundColor: amber[700],
+    },
+  },
+}))(Button);
 
 const Navigation = () => {
   const classes = useStyles();
   return (
-    <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
+    <AppBar position="static" color="primary"  elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         
         <Typography variant="h6" className={classes.title}>
          Swiat przepisow
         </Typography>
-        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/products"><Button color="inherit">Products</Button></Link>
+        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/products"><NavButton>Products</NavButton></Link>
+        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/recipes"><NavButton>Recipes</NavButton></Link>
 
-        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/"><Button color="inherit">Home</Button></Link>
+        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/"><NavButton>Home</NavButton></Link>
       </Toolbar>
     </AppBar>
   )

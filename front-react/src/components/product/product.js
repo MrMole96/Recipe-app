@@ -7,7 +7,7 @@ import './product.css'
 const Product = (props) => {
     return (
         <div className='product primary-3'>
-            <IconButton className="button__delete" aria-label="delete" onClick={()=>props.deleteProduct(props.id)}>
+            <IconButton className="button__delete" aria-label="delete" onClick={()=>props.deleteProduct(props.id)} style={{borderRadius:'50%'}}>
                 <HighlightOffOutlinedIcon color="secondary" style={{ fontSize: 30 }} />
             </IconButton>
             <h2>{props.name}</h2>

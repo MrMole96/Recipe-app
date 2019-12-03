@@ -9,6 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import Box from '@material-ui/core/Box';
+import { Container, Grid } from '@material-ui/core';
 
 const Wrapper = styled.section`
   padding: 2em;
@@ -80,7 +81,7 @@ export default class products extends Component {
     }
 
     deleteProduct = (productId) => {
-        axios.delete('http://localhost:9000/Products', {params: {id:productId}})
+        axios.delete('http://localhost:9000/Products', { params: { id: productId } })
             .then(response => {
                 console.log(response);
                 this.loadProducts();
@@ -116,63 +117,65 @@ export default class products extends Component {
         return (
 
             <div className="">
-                <h2>Formatka do dodawania produktu</h2>
-                <Wrapper>
-                    <form>
-                        <div>
-                            <TextField
-                                id="name"
-                                label="Nazwa"
-                                onChange={(value) => this.inputHandler(value)}
-                                helperText="Nazwa produktu"
-                                margin="normal"
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="amount"
-                                label="Ilosc"
-                                className="input"
-                                onChange={(value) => this.inputHandler(value)}
-                                helperText="Ilosc produktu"
-                                margin="normal"
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="calories"
-                                label="Kalorie"
-                                onChange={(value) => this.inputHandler(value)}
-                                className="input"
-                                helperText="Ilosc kalori w produkcie"
-                                margin="normal"
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="unit"
-                                select
-                                label="Wybierz"
-                                onChange={(value) => this.inputSelectHandler(value)}
-                                value={this.props.unit}
-                                helperText="Miara ilosci produktu"
-                                margin="normal"
-                                style={{ width: '200px' }}
-                            >
-                                {units.map(option => (
-                                    <MenuItem key={option} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className='Button'>
-                            <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
-                                Zapisz
+                <Grid container alignContent="center" justify="center" direction="column">
+                    <h2>Formatka do dodawania produktu</h2>
+                    <Wrapper>
+                        <form>
+                            <div>
+                                <TextField
+                                    id="name"
+                                    label="Nazwa"
+                                    onChange={(value) => this.inputHandler(value)}
+                                    helperText="Nazwa produktu"
+                                    margin="normal"
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    id="amount"
+                                    label="Ilosc"
+                                    className="input"
+                                    onChange={(value) => this.inputHandler(value)}
+                                    helperText="Ilosc produktu"
+                                    margin="normal"
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    id="calories"
+                                    label="Kalorie"
+                                    onChange={(value) => this.inputHandler(value)}
+                                    className="input"
+                                    helperText="Ilosc kalori w produkcie"
+                                    margin="normal"
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    id="unit"
+                                    select
+                                    label="Wybierz"
+                                    onChange={(value) => this.inputSelectHandler(value)}
+                                    value={this.props.unit}
+                                    helperText="Miara ilosci produktu"
+                                    margin="normal"
+                                    style={{ width: '200px' }}
+                                >
+                                    {units.map(option => (
+                                        <MenuItem key={option} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className='Button'>
+                                <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
+                                    Zapisz
                         </Button></div>
 
-                    </form>
-                </Wrapper>
+                        </form>
+                    </Wrapper>
+                </Grid>
 
 
                 <h2>Lista produktow</h2>

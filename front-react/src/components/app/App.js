@@ -8,6 +8,7 @@ import blue from '@material-ui/core/colors/blue';
 import amber from '@material-ui/core/colors/amber';
 import Listrecipes from '../../container/Listrecipes'
 import Products from '../product/products'
+import Recipes from '../recipe/recipes'
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,10 +24,15 @@ import { StylesProvider } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#039be5',
+      main: '#0984e3',
+      light:'#24A0FF',
+      dark:'#035796'
     },
-    success:{
-      main: '#43a047'
+    secondary: {
+      main: '#965A00',
+      light:'#E38C09',
+
+     
     }
   },
 });
@@ -48,6 +54,11 @@ class App extends Component {
               <Route path="/products">
                 <StylesProvider injectFirst>
                   <Products/>
+                </StylesProvider>
+              </Route>
+              <Route path="/recipes">
+                <StylesProvider injectFirst>
+                  <Recipes/>
                 </StylesProvider>
               </Route>
               <Route exact path="/">

@@ -12,17 +12,26 @@ body{
 }
 
 .primary{
-  color: #4FA1FF
+  color: #0984e3
 }
-.primary-2{
-  color: #9CCAFF
+.warning{
+  color: #F39237
 }
-.primary-3{
-  color: #285180
+.success{
+  color: #40BCD8
 }
-.secondary{
-  color: #4E6580
+.danger{
+  color: #D63230
 }
-.background {
-  color: #3F81CC
+.secondary {
+  color: #484D6D
 }
+
+.dark-primary-color    { background: #0288D1; }
+.default-primary-color { background: #03A9F4; }
+.light-primary-color   { background: #B3E5FC; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #536DFE; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
