@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import ToDoList from './toDoList'
 
 const Wrapper = styled.section`
   padding: 2em;
@@ -26,7 +27,7 @@ export default class recipes extends Component {
         recipes: [],
         recipesForm: {
             listOfProducts: [],
-            description: '',
+            description: [],
             numberOfPersons: 0,
             difficulty: 0,
             name: ''
@@ -45,15 +46,6 @@ export default class recipes extends Component {
     loadData = async () => {
         var that = this;
         this.setState({ isLoading: true })
-        // axios.get('http://localhost:9000/Recipes')
-        //     .then(function (response) {
-        //         console.log(response.data)
-        //         that.setState({ recipes: response.data })
-        //         that.setState({ isLoading: false })
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err);
-        //     })
         return await Promise.all([this.loadRecipes(), this.loadProducts()])
             .then(axios.spread(function (recipes, products) {
                 that.setState((prevState) => ({
@@ -83,6 +75,35 @@ export default class recipes extends Component {
         this.setState({ productForm: recipesForm })
 
     }
+
+    deleteTaskHandler = (index) => {
+        let tasks = this.state.recipesForm.description;
+        console.log('tasks', tasks)
+        console.log('index', index)
+        // tasks = tasks.filter((task, indexT) => { return indexT !== index; })
+        tasks.splice(index, 1);
+
+        this.setState((prevState) => ({
+            recipesForm: {
+                ...prevState.recipesForm,
+                description: tasks
+            }
+        }));
+
+    }
+
+    toDoListHandler = (task) => {
+        console.log(task);
+        let array = this.state.recipesForm.description;
+        array.push(task);
+        this.setState((prevState) => ({
+            recipesForm: {
+                ...prevState.recipesForm,
+                description: array
+            }
+        }));
+    }
+
     inputSelectHandler = (event) => {
         const productForm = {
             ...this.state.productForm,
@@ -209,16 +230,7 @@ export default class recipes extends Component {
                                             />
                                         </div>
                                         <h4>TODO list opis</h4>
-                                        <div>
-                                            <TextField
-                                                id="description"
-                                                label="Opis"
-                                                onChange={(value) => this.inputHandler(value)}
-                                                className="input"
-                                                helperText="Opis wykonania przepisu"
-                                                margin="normal"
-                                            />
-                                        </div>
+                                        <ToDoList handler={this.toDoListHandler} description={this.state.recipesForm.description} deleteTaskHandler={this.deleteTaskHandler} />
                                     </Grid>
                                     <div className='Button'>
                                         <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
