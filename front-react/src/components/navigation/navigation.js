@@ -43,14 +43,12 @@ const Navigation = () => {
   const classes = useStyles();
   return (
     <AppBar position="static" color="primary"  elevation={0} className={classes.appBar}>
-      <Toolbar className={classes.toolbar}>
-        
+      <Toolbar className={classes.toolbar}>        
         <Typography variant="h6" className={classes.title}>
          Swiat przepisow
         </Typography>
         <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/products"><NavButton>Products</NavButton></Link>
         <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/recipes"><NavButton>Recipes</NavButton></Link>
-
         <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/"><NavButton>Home</NavButton></Link>
       </Toolbar>
     </AppBar>

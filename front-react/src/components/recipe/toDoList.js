@@ -6,6 +6,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Task from './task'
+import List from '@material-ui/core/List';
+
+
 import './toDoList.css'
 export default class toDoList extends Component {
 
@@ -18,43 +21,38 @@ export default class toDoList extends Component {
   }
 
   render() {
-
     let listOfProducts = this.props.description.map((task, index) => {
-      return <Task index={index} description={task} deleteHandler={this.props.deleteTaskHandler}/>
+      return <Task key={task._id} index={index} description={task} deleteHandler={this.props.deleteTaskHandler} />
     })
 
     return (
-      //onChange -> onclick?
       <div >
         <TextField
           id="description"
           label="Opis"
           multiline
           onChange={(value) => this.inputHandler(value)}
-          helperText="Opis etapu"
+          helperText="Dodaj etap w przepisie"
           margin="normal"
-          placeholder
           value={this.state.task}
           fullWidth
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
+                  onClick={() => { this.props.handler(this.state.task); this.setState({ task: '' }) }}
                 >
-                  <AddIcon
-                    onClick={() => { this.props.handler(this.state.task); this.setState({ task: '' }) }}
-                  />
+                  <AddIcon/>
                 </IconButton>
               </InputAdornment>
             )
           }}
-
         />
-        <ul className="toDoList">
+        <List dense>
           {listOfProducts}
-        </ul>
-
+        </List>
       </div>
     )
   }
 }
+

@@ -11,7 +11,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import ToDoList from './toDoList'
-
+import Container from '@material-ui/core/Container';
+const shortid = require('shortid');
 const Wrapper = styled.section`
   padding: 2em;
   border: 2px solid #039BE5;
@@ -19,7 +20,7 @@ const Wrapper = styled.section`
   width:100%
 `;
 
-const levels = ['Latwe', 'Srednie', 'Trudne']
+const levels = ['Latwe', 'Srednie', 'Trudne'];
 
 export default class recipes extends Component {
 
@@ -29,7 +30,7 @@ export default class recipes extends Component {
             listOfProducts: [],
             description: [],
             numberOfPersons: 0,
-            difficulty: 0,
+            difficulty: '',
             name: ''
         },
         isLoading: false
@@ -41,7 +42,6 @@ export default class recipes extends Component {
     loadProducts = () => {
         return axios.get('http://localhost:9000/Products')
     }
-
 
     loadData = async () => {
         var that = this;
@@ -78,11 +78,8 @@ export default class recipes extends Component {
 
     deleteTaskHandler = (index) => {
         let tasks = this.state.recipesForm.description;
-        console.log('tasks', tasks)
-        console.log('index', index)
         // tasks = tasks.filter((task, indexT) => { return indexT !== index; })
         tasks.splice(index, 1);
-
         this.setState((prevState) => ({
             recipesForm: {
                 ...prevState.recipesForm,
@@ -95,7 +92,10 @@ export default class recipes extends Component {
     toDoListHandler = (task) => {
         console.log(task);
         let array = this.state.recipesForm.description;
-        array.push(task);
+        array.push({
+            _id: shortid.generate(),
+            description: task
+        });
         this.setState((prevState) => ({
             recipesForm: {
                 ...prevState.recipesForm,
@@ -144,7 +144,7 @@ export default class recipes extends Component {
         var that = this;
         if (this.state.recipes) {
             recipes = this.state.recipes.map(function (recipe, index) {
-                return <Grid item sm={12} md={6}>
+                return <Grid item sm={12} md={6} key={index}>
                     <Recipe className="Recipe"
                         listOfProducts={recipe.listOfProducts}
                         name={recipe.name}
@@ -168,9 +168,7 @@ export default class recipes extends Component {
                         <Wrapper>
                             <form>
                                 <Grid container spacing={3}>
-
-                                    <Grid item sm={12} md={6}>
-
+                                    <Grid item sm={12} md={4}>
                                         <div>
                                             <TextField
                                                 id="name"
@@ -191,9 +189,9 @@ export default class recipes extends Component {
                                                 margin="normal"
                                                 style={{ width: '200px' }}
                                             >
-                                                {levels.map(option => (
-                                                    <MenuItem key={option._id} style={{ display: 'block', paddingLeft: '10px' }} value={option.name}>
-                                                        {option.name}
+                                                {levels.map((option, index) => (
+                                                    <MenuItem key={index} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
+                                                        {option}
                                                     </MenuItem>
                                                 ))}
                                             </TextField>
@@ -209,7 +207,7 @@ export default class recipes extends Component {
                                             />
                                         </div>
                                     </Grid>
-                                    <Grid item sm={12} md={6}>
+                                    <Grid item sm={12} md={8}>
                                         <div>
                                             <Autocomplete
                                                 multiple
@@ -229,23 +227,23 @@ export default class recipes extends Component {
                                                 )}
                                             />
                                         </div>
-                                        <h4>TODO list opis</h4>
                                         <ToDoList handler={this.toDoListHandler} description={this.state.recipesForm.description} deleteTaskHandler={this.deleteTaskHandler} />
                                     </Grid>
-                                    <div className='Button'>
-                                        <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
-                                            Zapisz
-                        </Button>
-                                    </div>
-
-
+                                    <Grid container>
+                                        <Grid item xs={2} />
+                                        <Grid item xs={8} style={{ textAlign: "center" }}>
+                                            <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
+                                                Zapisz
+                                        </Button>
+                                        </Grid>
+                                        <Grid item xs={2} />
+                                    </Grid>
                                 </Grid>
                             </form>
                         </Wrapper>
                     </Grid>
                     <Grid item xs={2}></Grid>
                 </Grid>
-
                 <h2>Lista przepisow</h2>
                 <div style={{ width: '100%' }}>
                     <Grid container spacing={3}>

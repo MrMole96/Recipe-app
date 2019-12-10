@@ -2,10 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import './recipe.css';
 const recipe = props => {
-    // let description = props.description.map((step, index) => {
-    //     return <li>{index}. {step}</li>
-    // })
     return (
         <div className="recipe">
             <Grid container spacing={3}>
@@ -19,16 +17,8 @@ const recipe = props => {
                         <img alt="ssss" width='260' src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
                     </Grid>
                 </Grid>
-                <Container maxWidth="sm">
-                    {/* <ul>
-                {description}
-            </ul> */}
-                </Container>
-</Grid>
+            </Grid>
         </div>
-            )
-        }
-        
-        
-        
-        export default recipe
+    )
+}
+export default recipe

@@ -25,24 +25,18 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#0984e3',
-      light:'#24A0FF',
-      dark:'#035796'
+      light: '#24A0FF',
+      dark: '#035796'
     },
     secondary: {
       main: '#965A00',
-      light:'#E38C09',
+      light: '#E38C09',
 
-     
+
     }
   },
 });
 class App extends Component {
-
-  state = {
-      
-  };
-
-
 
   render() {
     return (
@@ -53,12 +47,12 @@ class App extends Component {
             <Switch>
               <Route path="/products">
                 <StylesProvider injectFirst>
-                  <Products/>
+                  <Products />
                 </StylesProvider>
               </Route>
               <Route path="/recipes">
                 <StylesProvider injectFirst>
-                  <Recipes/>
+                  <Recipes />
                 </StylesProvider>
               </Route>
               <Route exact path="/">
