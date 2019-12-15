@@ -8,10 +8,8 @@ import './recipe.css'
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import ToDoList from './toDoList'
-import Container from '@material-ui/core/Container';
 const shortid = require('shortid');
 const Wrapper = styled.section`
   padding: 2em;

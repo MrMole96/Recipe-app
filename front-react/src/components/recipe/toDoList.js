@@ -42,7 +42,7 @@ export default class toDoList extends Component {
                 <IconButton
                   onClick={() => { this.props.handler(this.state.task); this.setState({ task: '' }) }}
                 >
-                  <AddIcon/>
+                  <AddIcon />
                 </IconButton>
               </InputAdornment>
             )
