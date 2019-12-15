@@ -3,8 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
-import FormControl from '@material-ui/core/FormControl';
 import Task from './task'
 import List from '@material-ui/core/List';
 

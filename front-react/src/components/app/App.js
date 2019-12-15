@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
-import logo from '../../assets/images/logo.svg';
 import './App.css';
 import Container from '@material-ui/core/Container';
 import Search from '../search/search'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
-import amber from '@material-ui/core/colors/amber';
 import Listrecipes from '../../container/Listrecipes'
 import Products from '../product/products'
 import Recipes from '../recipe/recipes'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Navigation from '../navigation/navigation'
-import axios from 'axios';
-import { width } from '@material-ui/system';
 
 import { StylesProvider } from '@material-ui/core/styles';
 

@@ -23,9 +23,10 @@ const levels = ['Latwe', 'Srednie', 'Trudne'];
 export default class recipes extends Component {
 
     state = {
+        listOfProducts: [],
         recipes: [],
         recipesForm: {
-            listOfProducts: [],
+            productsInRecipe: [],
             description: [],
             numberOfPersons: 0,
             difficulty: '',
@@ -46,22 +47,16 @@ export default class recipes extends Component {
         this.setState({ isLoading: true })
         return await Promise.all([this.loadRecipes(), this.loadProducts()])
             .then(axios.spread(function (recipes, products) {
-                that.setState((prevState) => ({
+                that.setState({
                     recipes: recipes.data,
-                    recipesForm: {
-                        ...prevState.recipesForm,
-                        listOfProducts: products.data
-                    },
+                    // recipesForm: {
+                    //     ...prevState.recipesForm,
+                    //     listOfProducts: products.data
+                    // },
+                    listOfProducts: products.data,
                     isLoading: true
-                }))
-                console.log('recipes', recipes)
-                console.log('products', products)
+                })
             }));
-    }
-
-    handleChange = (event) => {
-        console.log(event);
-        this.setState({ testInput: event.target.value })
     }
 
     inputHandler = (event) => {
@@ -70,7 +65,8 @@ export default class recipes extends Component {
             [event.target.id]: event.target.value,
         }
 
-        this.setState({ productForm: recipesForm })
+
+        this.setState({ recipesForm: recipesForm })
 
     }
 
@@ -94,20 +90,31 @@ export default class recipes extends Component {
             _id: shortid.generate(),
             description: task
         });
-        this.setState((prevState) => ({
+        console.log(array);
+        this.setState({
             recipesForm: {
-                ...prevState.recipesForm,
+                ...this.state.recipesForm,
                 description: array
             }
-        }));
+        });
     }
 
-    inputSelectHandler = (event) => {
-        const productForm = {
-            ...this.state.productForm,
-            listOfProducts: event.target.value,
+    inputProductsHandler = (event, values) => {
+        const recipesForm = {
+            ...this.state.recipesForm,
+            productsInRecipe: values,
         }
-        this.setState({ productForm: productForm })
+        console.log(values)
+        this.setState({ recipesForm: recipesForm })
+    }
+
+    inputDifficultyHandler = (event) => {
+        const recipesForm = {
+            ...this.state.recipesForm,
+            difficulty: event.target.value,
+        }
+        console.log(event.target.value)
+        this.setState({ recipesForm: recipesForm })
     }
     sendForm = () => {
         console.log('wysylam');
@@ -181,7 +188,7 @@ export default class recipes extends Component {
                                                 id="difficulty"
                                                 select
                                                 label="Wybierz"
-                                                onChange={(value) => this.inputSelectHandler(value)}
+                                                onChange={(value) => this.inputDifficultyHandler(value)}
                                                 value={this.props.unit}
                                                 helperText="Poziom trudnosci przepisu"
                                                 margin="normal"
@@ -209,10 +216,10 @@ export default class recipes extends Component {
                                         <div>
                                             <Autocomplete
                                                 multiple
-                                                options={this.state.recipesForm.listOfProducts}
+                                                options={this.state.listOfProducts}
                                                 getOptionLabel={option => option.name}
                                                 filterSelectedOptions
-                                                onChange={this.inputSelectHandler}
+                                                onChange={this.inputProductsHandler}
                                                 renderInput={params => (
                                                     <TextField
                                                         {...params}
@@ -225,7 +232,10 @@ export default class recipes extends Component {
                                                 )}
                                             />
                                         </div>
-                                        <ToDoList handler={this.toDoListHandler} description={this.state.recipesForm.description} deleteTaskHandler={this.deleteTaskHandler} />
+                                        <ToDoList
+                                            handler={this.toDoListHandler}
+                                            description={this.state.recipesForm.description}
+                                            deleteTaskHandler={this.deleteTaskHandler} />
                                     </Grid>
                                     <Grid container>
                                         <Grid item xs={2} />
