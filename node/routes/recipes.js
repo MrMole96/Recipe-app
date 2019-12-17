@@ -8,19 +8,32 @@ var mongoose = require('mongoose');
 mongoose.connect(url, { useNewUrlParser: true });
 
 var Recipe = require('../models/recipe');
+var Product = require('../models/product');
 
 router.get('/', function (req, res, next) {
-    Recipe.find({}, function (err, docs) {
-        if (!err) {
-            // console.log(docs);
-            res.send(docs)
-        } else { throw err; }
-    });
+    Recipe
+        .find({})
+        .populate('listOfProducts')
+        .exec(function (err, docs) {
+            if (!err) {
+                res.send(docs)
+            } else { throw err; }
+        });
 });
 
 router.post("/", function (req, res, next) {
     client.connect(function (err) {
-        var recipe = new Recipe(req.body);
+        //var recipe = new Recipe(req.body);
+        console.log(req.body)
+        console.log(req.body.description)
+        let recipeToSave = {
+            name: req.body.name,
+            difficulty: req.body.difficulty,
+            numberOfPersons: req.body.numberOfPersons,
+            description: req.body.description,
+            listOfProducts: req.body.productsInRecipe
+        };
+        let recipe = new Recipe(recipeToSave);
         recipe.save().then(item => {
             res.send('item saved');
         }).catch(err => {

@@ -6,3 +6,18 @@
     text-align: center;
     position: relative;   
 }
+.recipe{
+    transition: .2s ease-in-out;
+}
+.recipe:hover{
+    transform: scale(1.1, 1.1);
+    transition: .2s ease-in-out;
+    cursor: pointer;
+}
+
+.productList{
+    width: 100%;
+    display: flex;
+    justify-content: center;  
+    flex-wrap: wrap;
+}

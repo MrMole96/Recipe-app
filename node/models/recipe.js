@@ -2,10 +2,12 @@ var mongoose = require("mongoose");
 
 var RecipeSchema = new mongoose.Schema({
     name: String,
-    difficulty: Number,
+    difficulty: String,
     numberOfPersons: Number,
     image: { data: Buffer, contentType: String },
-    description: String,
+    description: [{
+        type:String
+    }],
     averageTime: Date,
     listOfProducts: [{ type: mongoose.Schema.ObjectId, ref: 'Product' }]
 });

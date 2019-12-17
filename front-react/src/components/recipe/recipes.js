@@ -64,10 +64,7 @@ export default class recipes extends Component {
             ...this.state.recipesForm,
             [event.target.id]: event.target.value,
         }
-
-
         this.setState({ recipesForm: recipesForm })
-
     }
 
     deleteTaskHandler = (index) => {
@@ -117,11 +114,28 @@ export default class recipes extends Component {
         this.setState({ recipesForm: recipesForm })
     }
     sendForm = () => {
-        console.log('wysylam');
-        axios.post('http://localhost:9000/Recipes', this.state.recipesForm)
+        var that = this;
+        let object = this.state.recipesForm;
+        object.description = object.description.map(item => {
+            return item.description
+        })
+        object.productsInRecipe = object.productsInRecipe.map(item => {
+            return item._id;
+        })
+        console.log(object);
+        axios.post('http://localhost:9000/Recipes', object)
             .then(response => {
                 console.log(response);
-                this.loadRecipes();
+                that.setState({
+                    recipesForm: {
+                        productsInRecipe: [],
+                        description: [],
+                        numberOfPersons: 0,
+                        difficulty: '',
+                        name: ''
+                    }
+                })
+                that.loadRecipes();
             })
             .catch(function (err) {
                 console.log(err);
@@ -179,6 +193,7 @@ export default class recipes extends Component {
                                                 id="name"
                                                 label="Nazwa"
                                                 onChange={(value) => this.inputHandler(value)}
+                                                value={this.state.recipesForm.name}
                                                 helperText="Nazwa przepisu"
                                                 margin="normal"
                                             />
@@ -189,7 +204,7 @@ export default class recipes extends Component {
                                                 select
                                                 label="Wybierz"
                                                 onChange={(value) => this.inputDifficultyHandler(value)}
-                                                value={this.props.unit}
+                                                value={this.state.recipesForm.difficulty}
                                                 helperText="Poziom trudnosci przepisu"
                                                 margin="normal"
                                                 style={{ width: '200px' }}
@@ -206,6 +221,7 @@ export default class recipes extends Component {
                                                 id="numberOfPersons"
                                                 label="Ilosc osob"
                                                 onChange={(value) => this.inputHandler(value)}
+                                                value={this.state.recipesForm.numberOfPersons}
                                                 className="input"
                                                 helperText="Szacunkowa ilosc osob na danie"
                                                 margin="normal"
@@ -220,6 +236,7 @@ export default class recipes extends Component {
                                                 getOptionLabel={option => option.name}
                                                 filterSelectedOptions
                                                 onChange={this.inputProductsHandler}
+                                                value={this.state.recipesForm.productsInRecipe}
                                                 renderInput={params => (
                                                     <TextField
                                                         {...params}
@@ -254,7 +271,7 @@ export default class recipes extends Component {
                 </Grid>
                 <h2>Lista przepisow</h2>
                 <div style={{ width: '100%' }}>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={5}>
                         {recipes}
                     </Grid>
                 </div>
