@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Recipe from './recipe'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import ToDoList from './toDoList'
+import ListRecipes from './ListRecipes'
 const shortid = require('shortid');
 const Wrapper = styled.section`
   padding: 2em;
@@ -159,22 +159,22 @@ export default class recipes extends Component {
 
 
     render() {
-        let recipes = null
-        var that = this;
-        if (this.state.recipes) {
-            recipes = this.state.recipes.map(function (recipe, index) {
-                return <Grid item sm={12} md={6} key={index}>
-                    <Recipe className="Recipe"
-                        listOfProducts={recipe.listOfProducts}
-                        name={recipe.name}
-                        difficulty={recipe.difficulty}
-                        numberOfPersons={recipe.numberOfPersons}
-                        id={recipe._id}
-                        key={recipe._id}
-                        deleteRecipe={that.deleteRecipe} ></Recipe>
-                </Grid>
-            })
-        }
+        // let recipes = null
+        // var that = this;
+        // if (this.state.recipes) {
+        //     recipes = this.state.recipes.map(function (recipe, index) {
+        //         return <Grid item sm={12} md={6} key={index}>
+        //             <Recipe className="Recipe"
+        //                 listOfProducts={recipe.listOfProducts}
+        //                 name={recipe.name}
+        //                 difficulty={recipe.difficulty}
+        //                 numberOfPersons={recipe.numberOfPersons}
+        //                 id={recipe._id}
+        //                 key={recipe._id}
+        //                 deleteRecipe={that.deleteRecipe} ></Recipe>
+        //         </Grid>
+        //     })
+        // }
 
         return (
 
@@ -270,11 +270,13 @@ export default class recipes extends Component {
                     <Grid item xs={2}></Grid>
                 </Grid>
                 <h2>Lista przepisow</h2>
-                <div style={{ width: '100%' }}>
-                    <Grid container spacing={5}>
+
+                {/* <Grid container spacing={5}>
                         {recipes}
-                    </Grid>
-                </div>
+                    </Grid> */}
+                <ListRecipes recipes={this.state.recipes} />
+
+
 
             </div>
         )
