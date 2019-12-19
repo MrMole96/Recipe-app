@@ -5,16 +5,16 @@ class ListRecipes extends React.Component {
 
     mapToRecipeItem = recipe => {
 
-        return             <Recipe
-                listOfProducts={recipe.listOfProducts}
-                name={recipe.name}
-                difficulty={recipe.difficulty}
-                numberOfPersons={recipe.numberOfPersons}
-                id={recipe._id}
-                key={recipe._id}
-            // deleteRecipe={that.deleteRecipe}
-            />
-       
+        return <Recipe
+            listOfProducts={recipe.listOfProducts}
+            name={recipe.name}
+            difficulty={recipe.difficulty}
+            numberOfPersons={recipe.numberOfPersons}
+            id={recipe._id}
+            key={recipe._id}
+        // deleteRecipe={that.deleteRecipe}
+        />
+
 
     }
 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
-import Search from '../search/search'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Listrecipes from '../../container/Listrecipes'
 import Products from '../product/products'
 import Recipes from '../recipe/recipes'
 import {
@@ -14,6 +12,7 @@ import {
 import Navigation from '../navigation/navigation'
 
 import { StylesProvider } from '@material-ui/core/styles';
+import MainWindow from '../../container/MainWindow';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,9 +48,8 @@ class App extends Component {
                   <Recipes />
                 </StylesProvider>
               </Route>
-              <Route exact path="/">
-                <Search />
-                <Listrecipes />
+              <Route exact path="/">               
+              <MainWindow/>
               </Route>
             </Switch>
           </Container>

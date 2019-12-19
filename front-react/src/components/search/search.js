@@ -4,32 +4,24 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 export default class Search extends Component {
 
-    constructor(props) {
-        super(props);
-        console.log('[App.js] constructor');
-    }
     state = {
         products: [],
-        recipes:[]
+        recipes: []
     };
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/users')
+        this.getProductsHandler();
+    }
+
+    getProductsHandler = () => {
+        axios.get('http://localhost:9000/Products')
             .then(res => {
-                this.setState({ products: res.data })            
+                this.setState({ products: res.data })
                 console.log(res.data)
             })
     }
     selectHandler = (event, value) => {
-        let that = this;
-        axios.post('http://localhost:9000/Products', value)
-            .then(function (response) {
-                console.log(response)
-                that.setState({recipes:response})
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
+        this.props.getRecipes(value);
     }
     render() {
         return (
