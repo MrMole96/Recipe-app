@@ -11,14 +11,18 @@ var Recipe = require('../models/recipe');
 var Product = require('../models/product');
 
 router.get('/', function (req, res, next) {
-    Recipe
-        .find({})
-        .populate('listOfProducts')
-        .exec(function (err, docs) {
-            if (!err) {
-                res.send(docs)
-            } else { throw err; }
-        });
+    client.connect(function (err) {
+        Recipe
+            .find({})
+            .populate('listOfProducts')
+            .exec(function (err, docs) {
+                if (!err) {
+                    res.send(docs)
+                } else { throw err; }
+            });
+
+        client.close();
+    })
 });
 
 router.post("/", function (req, res, next) {
@@ -44,10 +48,29 @@ router.post("/", function (req, res, next) {
 
     })
 });
+
+router.post("/byProducts", function (req, res, next) {
+    console.log(req.body.products)
+    client.connect(function (err) {
+        Recipe
+            .find({
+                listOfProducts: { $in: req.body.products }
+            })
+            .populate('listOfProducts')
+            .exec(function (err, docs) {
+                if (!err) {
+                    res.send(docs)
+                } else { throw err; }
+            });
+
+        client.close();
+    })
+});
+
 router.delete("/", function (req, res, next) {
     client.connect(function (err) {
         Recipe.findById(req.query.id).remove().then(() => {
-            res.send('item saved');
+            res.send('item deleted');
         }).catch(err => {
             res.status(400).send("unable to delete from database");
         })

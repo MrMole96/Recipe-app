@@ -6,7 +6,8 @@ export default class Search extends Component {
 
     state = {
         products: [],
-        recipes: []
+        recipes: [],
+        loading: true
     };
 
     componentDidMount() {
@@ -16,14 +17,18 @@ export default class Search extends Component {
     getProductsHandler = () => {
         axios.get('http://localhost:9000/Products')
             .then(res => {
-                this.setState({ products: res.data })
-                console.log(res.data)
+                this.setState({
+                    products: res.data,
+                    loading: false
+                })
             })
     }
     selectHandler = (event, value) => {
         this.props.getRecipes(value);
     }
     render() {
+
+
         return (
             <div className="search">
                 <Autocomplete
@@ -32,6 +37,7 @@ export default class Search extends Component {
                     getOptionLabel={option => option.name}
                     filterSelectedOptions
                     onChange={this.selectHandler}
+                    loading={this.state.loading}
                     renderInput={params => (
                         <TextField
                             {...params}

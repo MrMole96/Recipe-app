@@ -12,7 +12,7 @@ class ListRecipes extends React.Component {
             numberOfPersons={recipe.numberOfPersons}
             id={recipe._id}
             key={recipe._id}
-        // deleteRecipe={that.deleteRecipe}
+            deleteRecipe={this.props.deleteRecipe}
         />
 
 
@@ -20,7 +20,7 @@ class ListRecipes extends React.Component {
 
     render() {
         return (
-            <Grid container spacing={5}>
+            <Grid container style={{ marginTop: '10px' }} spacing={5}>
                 {this.props.recipes.map(this.mapToRecipeItem)}
             </Grid >
         )

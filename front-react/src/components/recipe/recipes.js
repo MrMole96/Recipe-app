@@ -135,7 +135,7 @@ export default class recipes extends Component {
                         name: ''
                     }
                 })
-                that.loadRecipes();
+                that.loadData();
             })
             .catch(function (err) {
                 console.log(err);
@@ -146,7 +146,7 @@ export default class recipes extends Component {
         axios.delete('http://localhost:9000/Recipes', { params: { id: recipeId } })
             .then(response => {
                 console.log(response);
-                this.loadRecipes();
+                this.loadData();
             })
             .catch(function (err) {
                 console.log(err);
@@ -274,7 +274,7 @@ export default class recipes extends Component {
                 {/* <Grid container spacing={5}>
                         {recipes}
                     </Grid> */}
-                <ListRecipes recipes={this.state.recipes} />
+                <ListRecipes recipes={this.state.recipes} deleteRecipe={this.deleteRecipe} />
 
 
 

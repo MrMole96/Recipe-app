@@ -9,7 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import Box from '@material-ui/core/Box';
-import { Container, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const Wrapper = styled.section`
   padding: 2em;
