@@ -31,6 +31,12 @@ export default class products extends Component {
             calories: 0,
             unit: ''
         },
+        validationForm: {
+            name: [],
+            amount: [],
+            calories: [],
+            unit: []
+        },
         open: false,
         snackMessage: '',
         snackVariant: '',
@@ -79,6 +85,7 @@ export default class products extends Component {
     sendForm = () => {
         console.log('wysylam');
         var that = this;
+        if (this.validationHandler()) return;
         axios.post('http://localhost:9000/Products', this.state.productForm)
             .then(response => {
                 console.log(response);
@@ -99,6 +106,80 @@ export default class products extends Component {
                 })
             })
     }
+
+    validationHandler = () => {
+        for (let prop in this.state.productForm) {
+            switch (prop) {
+                case 'name':
+                    {
+                        let array = this.state.validationForm.name
+                        if (this.state.productForm[prop].trim().length <= 1 && !array.includes('Nazwa produktu za krotka')) {
+                            array.push('Nazwa produktu za krotka');
+                        } else if (this.state.productForm[prop].trim().length > 1) {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                name: array
+                            }
+                        })
+                    }
+                    break;
+                case 'amount':
+                    {
+                        let array = this.state.validationForm.amount
+                        if (this.state.productForm[prop] <= 0 && !array.includes('Ilosc musi byc wieksza od zera')) {
+                            array.push('Ilosc musi byc wieksza od zera');
+                        } else if (this.state.productForm[prop] > 0) {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                amount: array
+                            }
+                        })
+                    }
+                    break;
+                case 'calories':
+                    {
+                        let array = this.state.validationForm.calories
+                        if (this.state.productForm[prop] <= 0 && !array.includes('Ilosc musi byc wieksza od zera')) {
+                            array.push('Ilosc musi byc wieksza od zera');
+                        } else if (this.state.productForm[prop] > 0) {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                calories: array
+                            }
+                        })
+                    }
+                    break;
+                case 'unit':
+                    {
+                        let array = this.state.validationForm.unit
+                        if (this.state.productForm[prop] <= 0 && !array.includes('Nie wybrano miary')) {
+                            array.push('Nie wybrano miary');
+                        } else if (this.state.productForm[prop] != undefined) {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                unit: array
+                            }
+                        })
+                    }
+                    break;
+            }
+
+        }
+        return true;
+    }
+
 
     deleteProduct = (productId) => {
         axios.delete('http://localhost:9000/Products', { params: { id: productId } })
@@ -155,7 +236,7 @@ export default class products extends Component {
                         vertical: 'bottom',
                         horizontal: 'left',
                     }}
-                    //autoHideDuration={6000}
+                //autoHideDuration={6000}
                 >
                     <SnackBarWrapper
                         variant={this.state.snackVariant}
@@ -165,14 +246,16 @@ export default class products extends Component {
                 <Grid container alignContent="center" justify="center" direction="column">
                     <h2>Formatka do dodawania produktu</h2>
                     <Wrapper>
-                        <form>
+                        <form noValidate >
                             <div>
                                 <TextField
                                     id="name"
                                     label="Nazwa"
                                     onChange={(value) => this.inputHandler(value)}
-                                    helperText="Nazwa produktu"
+                                    placeholder="Nazwa produktu"
                                     margin="normal"
+                                    helperText={this.state.validationForm.name}
+                                    error={this.state.validationForm.name.length != 0}
                                 />
                             </div>
                             <div>
@@ -181,7 +264,9 @@ export default class products extends Component {
                                     label="Ilosc"
                                     className="input"
                                     onChange={(value) => this.inputHandler(value)}
-                                    helperText="Ilosc produktu"
+                                    placeholder="Ilosc produktu"
+                                    helperText={this.state.validationForm.amount}
+                                    error={this.state.validationForm.amount.length != 0}
                                     margin="normal"
                                 />
                             </div>
@@ -191,8 +276,10 @@ export default class products extends Component {
                                     label="Kalorie"
                                     onChange={(value) => this.inputHandler(value)}
                                     className="input"
-                                    helperText="Ilosc kalori w produkcie"
+                                    placeholder="Ilosc kalori w produkcie"
                                     margin="normal"
+                                    helperText={this.state.validationForm.calories}
+                                    error={this.state.validationForm.calories.length != 0}
                                 />
                             </div>
                             <div>
@@ -201,10 +288,12 @@ export default class products extends Component {
                                     select
                                     label="Wybierz"
                                     onChange={(value) => this.inputSelectHandler(value)}
-                                    value={this.props.unit}
-                                    helperText="Miara ilosci produktu"
+                                    value={this.state.productForm.unit}
+                                    placeholder="Miara ilosci produktu"
                                     margin="normal"
                                     style={{ width: '200px' }}
+                                    helperText={this.state.validationForm.unit}
+                                    error={this.state.validationForm.unit.length != 0}
                                 >
                                     {units.map(option => (
                                         <MenuItem key={option} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
