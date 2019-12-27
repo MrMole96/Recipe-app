@@ -25,7 +25,7 @@ router.post("/", function (req, res, next) {
   client.connect(function (err) {
     var product = new Product(req.body);
     product.save().then(item => {
-      res.send('item saved');
+      res.send('Produkt zostal zapisany');
     }).catch(err => {
       res.status(400).send("unable to save to database");
     })
@@ -39,7 +39,7 @@ router.delete("/", function (req, res, next) {
   client.connect(function (err) {
     console.log('delete',req.query)
     Product.findById(req.query.id).remove().then(() => {
-      res.send('item saved');
+      res.send('Produkt zostal usuniety');
     }).catch(err => {
       res.status(400).send("unable to delete from database");
     })

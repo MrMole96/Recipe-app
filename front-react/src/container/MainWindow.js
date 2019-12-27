@@ -2,24 +2,15 @@ import React, { Component } from 'react'
 import Search from '../components/search/search'
 import Listrecipes from '../components/recipe/ListRecipes'
 import axios from 'axios';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import Button from '@material-ui/core/Button';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import CloseIcon from '@material-ui/icons/Close';
-import { amber, green } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import WarningIcon from '@material-ui/icons/Warning';
-import { makeStyles } from '@material-ui/core/styles';
-import Slide from '@material-ui/core/Slide';
+import SnackBarWrapper from '../components/SnackBarWrapper/SnackBarWrapper'
 export class MainWindow extends Component {
 
     state = {
         recipes: [],
         open: false,
-        snackMessage: ''
+        snackMessage: '',
+        snackVariant: ''
     }
     getRecipesHandler = (products) => {
         console.log(products)
@@ -33,22 +24,33 @@ export class MainWindow extends Component {
             })
             .catch(function (err) {
                 console.log(err);
+                that.setState({
+                    open: true,
+                    snackMessage: 'Nie udalo sie',
+                    snackVariant: 'error'
+                })
             })
     }
 
     deleteRecipe = (recipeId) => {
+        var that = this;
         axios.delete('http://localhost:9000/Recipes', { params: { id: recipeId } })
             .then(response => {
                 console.log(response);
-                this.setState({ open: true, snackMessage: response.data })
+                this.setState({
+                    open: true,
+                    snackMessage: response.data,
+                    snackVariant: 'success'
+                })
             })
             .catch(function (err) {
                 console.log(err);
+                that.setState({
+                    open: true,
+                    snackMessage: err,
+                    snackVariant: 'error'
+                })
             })
-    }
-
-    TransitionLeft = (props) => {
-        return <Slide {...props} />;
     }
 
     render() {
@@ -56,19 +58,18 @@ export class MainWindow extends Component {
             <div>
                 <Snackbar
                     open={this.state.open}
-                    style={{ backgroundColor: green[600] }}
                     onClose={() => this.setState({ open: false })}
                     anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'left',
                     }}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    autoHideDuration={6000}
-                    variant="success"
-                    message={<span id="message-id">{this.state.snackMessage}</span>}
-                />
+                    // autoHideDuration={6000}
+                >
+                    <SnackBarWrapper
+                        variant={this.state.snackVariant}
+                        message={this.state.snackMessage}
+                        onClose={() => this.setState({ open: false })} />
+                </Snackbar>
                 <Search getRecipes={this.getRecipesHandler} />
                 <Listrecipes recipes={this.state.recipes} deleteRecipe={this.deleteRecipe} />
             </div >

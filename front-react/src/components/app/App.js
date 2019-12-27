@@ -20,12 +20,6 @@ const theme = createMuiTheme({
       main: '#0984e3',
       light: '#24A0FF',
       dark: '#035796'
-    },
-    secondary: {
-      main: '#965A00',
-      light: '#E38C09',
-
-
     }
   },
 });
@@ -39,12 +33,12 @@ class App extends Component {
           <Container maxWidth="lg">
             <Switch>
               <Route path="/products">
-                <StylesProvider injectFirst>
+                <StylesProvider>
                   <Products />
                 </StylesProvider>
               </Route>
               <Route path="/recipes">
-                <StylesProvider injectFirst>
+                <StylesProvider>
                   <Recipes />
                 </StylesProvider>
               </Route>

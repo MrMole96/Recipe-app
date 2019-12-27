@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import './product.css'
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackBarWrapper from '../SnackBarWrapper/SnackBarWrapper'
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
 
@@ -30,20 +31,27 @@ export default class products extends Component {
             calories: 0,
             unit: ''
         },
+        open: false,
+        snackMessage: '',
+        snackVariant: '',
         isLoading: false
     }
 
     loadProducts = () => {
         var that = this;
-        this.setState({ isLoading: false })
         axios.get('http://localhost:9000/Products')
             .then(function (response) {
                 console.log(response.data)
-                that.setState({ products: response.data })
-                that.setState({ isLoading: true })
+                this.setState({ products: response.data })
+                this.setState({ isLoading: true })
             })
             .catch(function (err) {
                 console.log(err);
+                that.setState({
+                    open: true,
+                    snackMessage: 'Nie udalo sie',
+                    snackVariant: 'error'
+                })
             })
     }
 
@@ -70,13 +78,25 @@ export default class products extends Component {
     }
     sendForm = () => {
         console.log('wysylam');
+        var that = this;
         axios.post('http://localhost:9000/Products', this.state.productForm)
             .then(response => {
                 console.log(response);
+                this.setState({
+                    open: true,
+                    snackMessage: response.data,
+                    snackVariant: 'success'
+                })
                 this.loadProducts();
+
             })
             .catch(function (err) {
                 console.log(err);
+                that.setState({
+                    open: true,
+                    snackMessage: 'Nie udalo sie',
+                    snackVariant: 'error'
+                })
             })
     }
 
@@ -84,10 +104,22 @@ export default class products extends Component {
         axios.delete('http://localhost:9000/Products', { params: { id: productId } })
             .then(response => {
                 console.log(response);
+                this.setState({
+                    open: true,
+                    snackMessage: response.data,
+                    snackVariant: 'success'
+                })
                 this.loadProducts();
+
+
             })
             .catch(function (err) {
                 console.log(err);
+                this.setState({
+                    open: true,
+                    snackMessage: 'Nie udalo sie',
+                    snackVariant: 'error'
+                })
             })
     }
     componentDidMount() {
@@ -115,8 +147,21 @@ export default class products extends Component {
         }
 
         return (
-
-            <div className="">
+            <div>
+                <Snackbar
+                    open={this.state.open}
+                    onClose={() => this.setState({ open: false })}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    //autoHideDuration={6000}
+                >
+                    <SnackBarWrapper
+                        variant={this.state.snackVariant}
+                        message={this.state.snackMessage}
+                        onClose={() => this.setState({ open: false })} />
+                </Snackbar>
                 <Grid container alignContent="center" justify="center" direction="column">
                     <h2>Formatka do dodawania produktu</h2>
                     <Wrapper>

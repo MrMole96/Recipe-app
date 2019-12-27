@@ -10,6 +10,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import ToDoList from './toDoList'
 import ListRecipes from './ListRecipes'
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackBarWrapper from '../SnackBarWrapper/SnackBarWrapper'
 const shortid = require('shortid');
 const Wrapper = styled.section`
   padding: 2em;
@@ -32,6 +34,9 @@ export default class recipes extends Component {
             difficulty: '',
             name: ''
         },
+        open: false,
+        snackMessage: '',
+        snackVariant: '',
         isLoading: false
     }
 
@@ -56,7 +61,15 @@ export default class recipes extends Component {
                     listOfProducts: products.data,
                     isLoading: true
                 })
-            }));
+            }))
+            .catch(function (err) {
+                console.log(err)
+                that.setState({
+                    open: true,
+                    snackMessage: 'Nie udalo sie pobrac danych',
+                    snackVariant: 'error'
+                })
+            });
     }
 
     inputHandler = (event) => {
@@ -159,26 +172,23 @@ export default class recipes extends Component {
 
 
     render() {
-        // let recipes = null
-        // var that = this;
-        // if (this.state.recipes) {
-        //     recipes = this.state.recipes.map(function (recipe, index) {
-        //         return <Grid item sm={12} md={6} key={index}>
-        //             <Recipe className="Recipe"
-        //                 listOfProducts={recipe.listOfProducts}
-        //                 name={recipe.name}
-        //                 difficulty={recipe.difficulty}
-        //                 numberOfPersons={recipe.numberOfPersons}
-        //                 id={recipe._id}
-        //                 key={recipe._id}
-        //                 deleteRecipe={that.deleteRecipe} ></Recipe>
-        //         </Grid>
-        //     })
-        // }
-
         return (
 
-            <div className="">
+            <div>
+                <Snackbar
+                    open={this.state.open}
+                    onClose={() => this.setState({ open: false })}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    // autoHideDuration={6000}
+                >
+                    <SnackBarWrapper
+                        variant={this.state.snackVariant}
+                        message={this.state.snackMessage}
+                        onClose={() => this.setState({ open: false })} />
+                </Snackbar>
                 <Grid container justify="space-between"
                     alignItems="center">
                     <Grid item xs={2}></Grid>
@@ -270,14 +280,7 @@ export default class recipes extends Component {
                     <Grid item xs={2}></Grid>
                 </Grid>
                 <h2>Lista przepisow</h2>
-
-                {/* <Grid container spacing={5}>
-                        {recipes}
-                    </Grid> */}
                 <ListRecipes recipes={this.state.recipes} deleteRecipe={this.deleteRecipe} />
-
-
-
             </div>
         )
     }
