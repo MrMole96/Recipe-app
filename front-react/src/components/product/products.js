@@ -48,8 +48,10 @@ export default class products extends Component {
         axios.get('http://localhost:9000/Products')
             .then(function (response) {
                 console.log(response.data)
-                this.setState({ products: response.data })
-                this.setState({ isLoading: true })
+                that.setState({
+                    products: response.data,
+                    isLoading: true
+                })
             })
             .catch(function (err) {
                 console.log(err);
@@ -83,7 +85,6 @@ export default class products extends Component {
         this.setState({ productForm: productForm })
     }
     sendForm = () => {
-        console.log('wysylam');
         var that = this;
         if (this.validationHandler()) return;
         axios.post('http://localhost:9000/Products', this.state.productForm)
@@ -95,7 +96,6 @@ export default class products extends Component {
                     snackVariant: 'success'
                 })
                 this.loadProducts();
-
             })
             .catch(function (err) {
                 console.log(err);
@@ -108,6 +108,7 @@ export default class products extends Component {
     }
 
     validationHandler = () => {
+
         for (let prop in this.state.productForm) {
             switch (prop) {
                 case 'name':
@@ -115,6 +116,7 @@ export default class products extends Component {
                         let array = this.state.validationForm.name
                         if (this.state.productForm[prop].trim().length <= 1 && !array.includes('Nazwa produktu za krotka')) {
                             array.push('Nazwa produktu za krotka');
+
                         } else if (this.state.productForm[prop].trim().length > 1) {
                             array.pop();
                         }
@@ -124,6 +126,7 @@ export default class products extends Component {
                                 name: array
                             }
                         })
+
                     }
                     break;
                 case 'amount':
@@ -131,6 +134,7 @@ export default class products extends Component {
                         let array = this.state.validationForm.amount
                         if (this.state.productForm[prop] <= 0 && !array.includes('Ilosc musi byc wieksza od zera')) {
                             array.push('Ilosc musi byc wieksza od zera');
+
                         } else if (this.state.productForm[prop] > 0) {
                             array.pop();
                         }
@@ -140,6 +144,7 @@ export default class products extends Component {
                                 amount: array
                             }
                         })
+
                     }
                     break;
                 case 'calories':
@@ -147,6 +152,7 @@ export default class products extends Component {
                         let array = this.state.validationForm.calories
                         if (this.state.productForm[prop] <= 0 && !array.includes('Ilosc musi byc wieksza od zera')) {
                             array.push('Ilosc musi byc wieksza od zera');
+
                         } else if (this.state.productForm[prop] > 0) {
                             array.pop();
                         }
@@ -156,6 +162,7 @@ export default class products extends Component {
                                 calories: array
                             }
                         })
+
                     }
                     break;
                 case 'unit':
@@ -163,7 +170,8 @@ export default class products extends Component {
                         let array = this.state.validationForm.unit
                         if (this.state.productForm[prop] <= 0 && !array.includes('Nie wybrano miary')) {
                             array.push('Nie wybrano miary');
-                        } else if (this.state.productForm[prop] != undefined) {
+
+                        } else if (this.state.productForm[prop] != "") {
                             array.pop();
                         }
                         this.setState({
@@ -172,12 +180,18 @@ export default class products extends Component {
                                 unit: array
                             }
                         })
+
                     }
                     break;
             }
-
         }
-        return true;
+        let isError = false;
+        for (let prop in this.state.validationForm) {
+            if (this.state.validationForm[prop].length !== 0) {
+                isError = true;
+            }
+        }
+        return isError;
     }
 
 

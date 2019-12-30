@@ -34,6 +34,13 @@ export default class recipes extends Component {
             difficulty: '',
             name: ''
         },
+        validationForm: {
+            name: [],
+            difficulty: [],
+            numberOfPersons: [],
+            productsInRecipe: [],
+            description: []
+        },
         open: false,
         snackMessage: '',
         snackVariant: '',
@@ -70,6 +77,114 @@ export default class recipes extends Component {
                     snackVariant: 'error'
                 })
             });
+    }
+
+
+    validationHandler = () => {
+
+        for (let prop in this.state.recipesForm) {
+            switch (prop) {
+                case 'name':
+                    {
+                        let array = this.state.validationForm.name
+                        if (this.state.recipesForm[prop].trim().length <= 1 && !array.includes('Nazwa przepisu za krotka')) {
+                            array.push('Nazwa przepisu za krotka');
+
+                        } else if (this.state.recipesForm[prop].trim().length > 1) {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                name: array
+                            }
+                        })
+
+                    }
+                    break;
+                case 'difficulty':
+                    {
+                        let array = this.state.validationForm.difficulty
+                        if (this.state.recipesForm[prop] <= 0 && !array.includes('Wybierz poziom trudnosci')) {
+                            array.push('Wybierz poziom trudnosci');
+
+                        } else if (this.state.recipesForm[prop] != "") {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                difficulty: array
+                            }
+                        })
+
+                    }
+                    break;
+                case 'numberOfPersons':
+                    {
+                        let array = this.state.validationForm.numberOfPersons
+                        if (this.state.recipesForm[prop] <= 0 && !array.includes('Ilosc musi byc wieksza od zera')) {
+                            array.push('Ilosc musi byc wieksza od zera');
+
+                        } else if (this.state.recipesForm[prop] > 0) {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                numberOfPersons: array
+                            }
+                        })
+
+                    }
+                    break;
+                case 'productsInRecipe':
+                    {
+                        let array = this.state.validationForm.productsInRecipe
+                        if (this.state.recipesForm[prop].length === 0 && !array.includes('Nie wybrano zadnego skladnika')) {
+                            array.push('Nie wybrano zadnego skladnika');
+
+                        } else if (this.state.recipesForm[prop] != "") {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                productsInRecipe: array
+                            }
+                        })
+
+                    }
+                    break;
+                case 'description':
+                    {
+                        let array = this.state.validationForm.description
+                        if (this.state.recipesForm[prop] <= 0 && !array.includes('Brak opisu')) {
+                            array.push('Brak opisu');
+
+                        } else if (this.state.recipesForm[prop] != "") {
+                            array.pop();
+                        }
+                        this.setState({
+                            validationForm: {
+                                ...this.state.validationForm,
+                                description: array
+                            }
+                        })
+
+                    }
+                    break;
+            }
+        }
+        let isError = false;
+        for (let prop in this.state.validationForm) {
+            if (this.state.validationForm[prop].length !== 0) {
+                console.log('prop', prop)
+                console.log(this.state.validationForm[prop])
+                isError = true;
+            }
+        }
+        return isError;
     }
 
     inputHandler = (event) => {
@@ -129,6 +244,9 @@ export default class recipes extends Component {
     sendForm = () => {
         var that = this;
         let object = this.state.recipesForm;
+
+        if (this.validationHandler()) return;
+
         object.description = object.description.map(item => {
             return item.description
         })
@@ -182,7 +300,7 @@ export default class recipes extends Component {
                         vertical: 'bottom',
                         horizontal: 'left',
                     }}
-                    // autoHideDuration={6000}
+                // autoHideDuration={6000}
                 >
                     <SnackBarWrapper
                         variant={this.state.snackVariant}
@@ -204,8 +322,10 @@ export default class recipes extends Component {
                                                 label="Nazwa"
                                                 onChange={(value) => this.inputHandler(value)}
                                                 value={this.state.recipesForm.name}
-                                                helperText="Nazwa przepisu"
+                                                placeholder="Nazwa przepisu"
                                                 margin="normal"
+                                                helperText={this.state.validationForm.name}
+                                                error={this.state.validationForm.name.length != 0}
                                             />
                                         </div>
                                         <div>
@@ -215,9 +335,11 @@ export default class recipes extends Component {
                                                 label="Wybierz"
                                                 onChange={(value) => this.inputDifficultyHandler(value)}
                                                 value={this.state.recipesForm.difficulty}
-                                                helperText="Poziom trudnosci przepisu"
+                                                placeholder="Poziom trudnosci przepisu"
                                                 margin="normal"
                                                 style={{ width: '200px' }}
+                                                helperText={this.state.validationForm.difficulty}
+                                                error={this.state.validationForm.difficulty.length != 0}
                                             >
                                                 {levels.map((option, index) => (
                                                     <MenuItem key={index} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
@@ -233,8 +355,10 @@ export default class recipes extends Component {
                                                 onChange={(value) => this.inputHandler(value)}
                                                 value={this.state.recipesForm.numberOfPersons}
                                                 className="input"
-                                                helperText="Szacunkowa ilosc osob na danie"
+                                                placeholder="Szacunkowa ilosc osob na danie"
                                                 margin="normal"
+                                                helperText={this.state.validationForm.numberOfPersons}
+                                                error={this.state.validationForm.numberOfPersons.length != 0}
                                             />
                                         </div>
                                     </Grid>
@@ -247,6 +371,7 @@ export default class recipes extends Component {
                                                 filterSelectedOptions
                                                 onChange={this.inputProductsHandler}
                                                 value={this.state.recipesForm.productsInRecipe}
+
                                                 renderInput={params => (
                                                     <TextField
                                                         {...params}
@@ -255,6 +380,8 @@ export default class recipes extends Component {
                                                         placeholder="Produkt"
                                                         margin="normal"
                                                         fullWidth
+                                                        helperText={this.state.validationForm.productsInRecipe}
+                                                        error={this.state.validationForm.productsInRecipe.length != 0}
                                                     />
                                                 )}
                                             />
@@ -262,7 +389,10 @@ export default class recipes extends Component {
                                         <ToDoList
                                             handler={this.toDoListHandler}
                                             description={this.state.recipesForm.description}
-                                            deleteTaskHandler={this.deleteTaskHandler} />
+                                            deleteTaskHandler={this.deleteTaskHandler}
+                                            errorHandler={this.state.validationForm.description.length != 0}
+                                            errorText={this.state.validationForm.description}
+                                        />
                                     </Grid>
                                     <Grid container>
                                         <Grid item xs={2} />

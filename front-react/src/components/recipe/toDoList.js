@@ -30,7 +30,9 @@ export default class toDoList extends Component {
           label="Opis"
           multiline
           onChange={(value) => this.inputHandler(value)}
-          helperText="Dodaj etap w przepisie"
+          placeholder="Dodaj etap w przepisie"
+          helperText={this.props.errorText}
+          error={this.props.errorHandler}
           margin="normal"
           value={this.state.task}
           fullWidth
