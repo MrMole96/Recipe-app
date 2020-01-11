@@ -1,0 +1,28 @@
+.recipe__details{
+    display: flex;
+}
+.recipe__details__property{
+    margin:5px;    
+    text-align: center;
+}
+.recipe__details__property >h3{
+    margin: 0 auto;
+}
+.recipe__details__property > span{
+    color: #000;
+    font-style: italic;
+}
+.steps{
+    list-style-type: none;
+    padding: 0px;
+}
+.steps-item{
+    word-wrap: break-word;
+    margin: 10px 0;
+    padding: 5px;
+    border: 1px solid gray;
+    box-shadow: 0px 0px 5px 1px rgba(39,109,194,1);
+}
+.products{
+
+}

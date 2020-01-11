@@ -9,7 +9,7 @@ import './recipe.css';
 const recipe = (props) => (
 
   <Grid  container item sm={12} md={6}>
-    <Grid container item className="recipe">    
+    <Grid container item className="recipe" onClick={props.handleClick}>    
       <Grid container item spacing={2} >
         <Grid container item sm={6}>
           <Grid item sm={12}><h1>{props.name}</h1></Grid>

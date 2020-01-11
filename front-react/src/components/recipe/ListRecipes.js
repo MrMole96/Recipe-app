@@ -1,7 +1,28 @@
 import React from 'react'
 import Recipe from './recipe'
 import Grid from '@material-ui/core/Grid';
+import ModalWrapper from '../ModalWrapper/ModalWrapper'
 class ListRecipes extends React.Component {
+
+    state = {
+        open: false,
+        clickedRecipe: {}
+    }
+
+    handleClickOpen = (recipe) => {
+        console.log('click dziala')
+        console.log('recipe', recipe)
+        this.setState({
+            open: true,
+            clickedRecipe: recipe
+        })
+    };
+
+    handleClose = () => {
+        this.setState({
+            open: false
+        })
+    };
 
     mapToRecipeItem = recipe => {
 
@@ -13,6 +34,7 @@ class ListRecipes extends React.Component {
             id={recipe._id}
             key={recipe._id}
             deleteRecipe={this.props.deleteRecipe}
+            handleClick={()=>this.handleClickOpen(recipe)}
         />
 
 
@@ -20,9 +42,13 @@ class ListRecipes extends React.Component {
 
     render() {
         return (
-            <Grid container style={{ marginTop: '10px' }} spacing={5}>
-                {this.props.recipes.map(this.mapToRecipeItem)}
-            </Grid >
+            <div>
+                <Grid container style={{ marginTop: '10px' }} spacing={5}>
+                    {this.props.recipes.map(this.mapToRecipeItem)}
+                </Grid >
+                <ModalWrapper open={this.state.open} recipe={this.state.clickedRecipe} handleClose={this.handleClose} />
+            </div>
+
         )
     }
 }

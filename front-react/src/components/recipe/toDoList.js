@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
+import ImageIcon from '@material-ui/icons/Image';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Task from './task'
 import List from '@material-ui/core/List';
@@ -12,10 +13,15 @@ export default class toDoList extends Component {
 
 
   state = {
-    task: ''
+    task: '',
+    image: null
   }
   inputHandler = event => {
     this.setState({ task: event.target.value })
+  }
+
+  uploadFile = event => {
+    console.log(event.target.value)
   }
 
   render() {
@@ -44,6 +50,13 @@ export default class toDoList extends Component {
                 >
                   <AddIcon />
                 </IconButton>
+                <IconButton onClick={() => this.fileUpload.click()}>
+                  <ImageIcon />
+                </IconButton>
+                <input type="file" ref={(fileUpload) => {
+                  this.fileUpload = fileUpload;
+                }}
+                  style={{ visibility: 'hidden' }} onChange={this.uploadFile} />
               </InputAdornment>
             )
           }}
