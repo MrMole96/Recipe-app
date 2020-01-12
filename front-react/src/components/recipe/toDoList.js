@@ -14,18 +14,30 @@ export default class toDoList extends Component {
 
   state = {
     task: '',
-    image: null
+    image: ''
   }
+
   inputHandler = event => {
     this.setState({ task: event.target.value })
   }
 
-  uploadFile = event => {
-    console.log(event.target.value)
+  uploadFile = () => {
+    let file = this.fileUpload.files[0]
+    this.toBase64(file).then(result => {
+      this.setState({ image: result })
+    })
   }
+
+  toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 
   render() {
     let listOfProducts = this.props.description.map((task, index) => {
+      console.log('TASK',task)
       return <Task key={task._id} index={index} description={task} deleteHandler={this.props.deleteTaskHandler} />
     })
 
@@ -46,11 +58,11 @@ export default class toDoList extends Component {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  onClick={() => { this.props.handler(this.state.task); this.setState({ task: '' }) }}
+                  onClick={() => { this.props.handler(this.state); this.setState({ task: '', image: {} }) }}
                 >
                   <AddIcon />
                 </IconButton>
-                <IconButton onClick={() => this.fileUpload.click()}>
+                <IconButton color={this.state.image? 'primary' : 'secondary'} onClick={() => this.fileUpload.click()}>
                   <ImageIcon />
                 </IconButton>
                 <input type="file" ref={(fileUpload) => {

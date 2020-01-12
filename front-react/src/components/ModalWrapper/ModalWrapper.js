@@ -45,7 +45,7 @@ const ModalWrapper = (props) => {
     let steps = [];
     if (props.recipe.listOfProducts) {
         products = props.recipe.listOfProducts.map((item, index) => {
-            return <li key={item.name + index}>{item.name} {index}x</li>
+            return <li key={item.name + index}>{item.name} {index}{item.unit}</li>
         })
     }
     if (props.recipe.description) {

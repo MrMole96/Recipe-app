@@ -6,7 +6,8 @@ var RecipeSchema = new mongoose.Schema({
     numberOfPersons: Number,
     image: { data: Buffer, contentType: String },
     description: [{
-        type:String
+        task: String,
+        image: Buffer,
     }],
     averageTime: Date,
     listOfProducts: [{ type: mongoose.Schema.ObjectId, ref: 'Product' }]
@@ -14,4 +15,4 @@ var RecipeSchema = new mongoose.Schema({
 
 var Recipe = mongoose.model('Recipe', RecipeSchema, 'Recipes');
 
-module.exports =  Recipe;
+module.exports = Recipe;

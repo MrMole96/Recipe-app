@@ -20,8 +20,10 @@
     word-wrap: break-word;
     margin: 10px 0;
     padding: 5px;
-    border: 1px solid gray;
-    box-shadow: 0px 0px 5px 1px rgba(39,109,194,1);
+    /* border: 1px solid gray;
+    box-shadow: 0px 0px 5px 1px rgba(39,109,194,1); */
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
 }
 .products{
 

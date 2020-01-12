@@ -208,14 +208,13 @@ export default class recipes extends Component {
 
     }
 
-    toDoListHandler = (task) => {
-        console.log(task);
+    toDoListHandler = (description) => {
         let array = this.state.recipesForm.description;
         array.push({
             _id: shortid.generate(),
-            description: task
+            task: description.task,
+            image: description.image
         });
-        console.log(array);
         this.setState({
             recipesForm: {
                 ...this.state.recipesForm,
@@ -241,6 +240,7 @@ export default class recipes extends Component {
         console.log(event.target.value)
         this.setState({ recipesForm: recipesForm })
     }
+
     sendForm = () => {
         var that = this;
         let object = this.state.recipesForm;
@@ -248,7 +248,12 @@ export default class recipes extends Component {
         if (this.validationHandler()) return;
 
         object.description = object.description.map(item => {
-            return item.description
+            let object = {
+               
+                task: item.task,
+                image: item.image
+            }
+            return object
         })
         object.productsInRecipe = object.productsInRecipe.map(item => {
             return item._id;

@@ -29,7 +29,6 @@ router.post("/", function (req, res, next) {
     client.connect(function (err) {
         //var recipe = new Recipe(req.body);
         console.log(req.body)
-        console.log(req.body.description)
         let recipeToSave = {
             name: req.body.name,
             difficulty: req.body.difficulty,
@@ -41,6 +40,7 @@ router.post("/", function (req, res, next) {
         recipe.save().then(item => {
             res.send('item saved');
         }).catch(err => {
+            console.log(err)
             res.status(400).send("unable to save to database");
         })
 
