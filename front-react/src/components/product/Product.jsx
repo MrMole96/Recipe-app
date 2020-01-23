@@ -1,7 +1,7 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
-import './product.css'
+import './Product.css'
 const Product = (props) => {
     return (
         <div className='product primary-3'>

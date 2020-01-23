@@ -3,15 +3,15 @@ import axios from 'axios';
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import './recipe.css'
+
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
-import ToDoList from './toDoList'
-import ListRecipes from './ListRecipes'
+import ToDoList from '../toDoList/ToDoList'
+import ListRecipes from '../../components/listRecipes/ListRecipes'
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackBarWrapper from '../SnackBarWrapper/SnackBarWrapper'
+import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
 const shortid = require('shortid');
 const Wrapper = styled.section`
   padding: 2em;

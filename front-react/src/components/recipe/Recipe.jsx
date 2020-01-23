@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
-import './recipe.css';
+import './Recipe.css';
 
 const recipe = (props) => (
 

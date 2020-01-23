@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Products from '../product/products'
-import Recipes from '../recipe/recipes'
+import Products from './container/product/Products'
+import Recipes from './container/recipes/Recipes'
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
-import Navigation from '../navigation/navigation'
+import Navigation from './components/navigation/Navigation'
 
 import { StylesProvider } from '@material-ui/core/styles';
-import MainWindow from '../../container/MainWindow';
+import MainWindow from './container/mainWindow/MainWindow';
 
 const theme = createMuiTheme({
   palette: {

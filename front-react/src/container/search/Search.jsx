@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackBarWrapper from '../SnackBarWrapper/SnackBarWrapper'
+import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
 import axios from 'axios';
 export default class Search extends Component {
 

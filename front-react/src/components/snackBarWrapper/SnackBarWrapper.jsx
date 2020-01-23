@@ -1,14 +1,14 @@
-import React from 'react';
-import clsx from 'clsx';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import CloseIcon from '@material-ui/icons/Close';
-import { amber, green } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import WarningIcon from '@material-ui/icons/Warning';
-import { makeStyles } from '@material-ui/core/styles';
+import React from '../../../node_modules/react';
+import clsx from '../../../node_modules/clsx';
+import CheckCircleIcon from '../../../node_modules/@material-ui/icons/CheckCircle';
+import ErrorIcon from '../../../node_modules/@material-ui/icons/Error';
+import InfoIcon from '../../../node_modules/@material-ui/icons/Info';
+import CloseIcon from '../../../node_modules/@material-ui/icons/Close';
+import { amber, green } from '../../../node_modules/@material-ui/core/colors';
+import IconButton from '../../../node_modules/@material-ui/core/IconButton';
+import SnackbarContent from '../../../node_modules/@material-ui/core/SnackbarContent';
+import WarningIcon from '../../../node_modules/@material-ui/icons/Warning';
+import { makeStyles } from '../../../node_modules/@material-ui/core/styles';
 
 
 const variantIcon = {

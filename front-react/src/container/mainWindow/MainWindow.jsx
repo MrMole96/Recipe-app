@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Search from '../components/search/search'
-import Listrecipes from '../components/recipe/ListRecipes'
+import Search from '../search/Search'
+import Listrecipes from '../../components/listRecipes/ListRecipes'
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackBarWrapper from '../components/SnackBarWrapper/SnackBarWrapper'
+import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
 export class MainWindow extends Component {
 
     state = {
@@ -22,7 +22,7 @@ export class MainWindow extends Component {
                 console.log(response.data)
                 that.setState({ recipes: response.data })
             })
-            .catch(function (err) {
+      .catch(function(err) {
                 console.log(err);
                 that.setState({
                     open: true,

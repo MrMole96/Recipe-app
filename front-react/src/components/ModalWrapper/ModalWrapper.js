@@ -1,13 +1,12 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import React from '../../../node_modules/react';
+import Button from '../../../node_modules/@material-ui/core/Button';
+import Dialog from '../../../node_modules/@material-ui/core/Dialog';
+import DialogActions from '../../../node_modules/@material-ui/core/DialogActions';
+import DialogContent from '../../../node_modules/@material-ui/core/DialogContent';
+import DialogTitle from '../../../node_modules/@material-ui/core/DialogTitle';
+import useMediaQuery from '../../../node_modules/@material-ui/core/useMediaQuery';
+import { useTheme } from '../../../node_modules/@material-ui/core/styles';
+import Grid from '../../../node_modules/@material-ui/core/Grid';
 
 import './ModalWrapper.css';
 
@@ -55,9 +54,6 @@ const ModalWrapper = (props) => {
     }
 
     return (
-
-
-
         <div>
             <Dialog
                 fullScreen={fullScreen}

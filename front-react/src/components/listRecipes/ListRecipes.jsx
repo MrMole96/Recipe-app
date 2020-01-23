@@ -1,7 +1,7 @@
 import React from 'react'
-import Recipe from './recipe'
+import Recipe from '../recipe/Recipe'
 import Grid from '@material-ui/core/Grid';
-import ModalWrapper from '../ModalWrapper/ModalWrapper'
+import ModalWrapper from '../modalWrapper/ModalWrapper'
 class ListRecipes extends React.Component {
 
     state = {
@@ -25,7 +25,6 @@ class ListRecipes extends React.Component {
     };
 
     mapToRecipeItem = recipe => {
-
         return <Recipe
             listOfProducts={recipe.listOfProducts}
             name={recipe.name}
@@ -36,8 +35,6 @@ class ListRecipes extends React.Component {
             deleteRecipe={this.props.deleteRecipe}
             handleClick={()=>this.handleClickOpen(recipe)}
         />
-
-
     }
 
     render() {

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Product from './product'
+import Product from '../../components/product/Product'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import './product.css'
+import '../../components/product/Product.css'
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackBarWrapper from '../SnackBarWrapper/SnackBarWrapper'
+import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
 
