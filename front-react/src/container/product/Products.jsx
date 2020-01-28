@@ -11,6 +11,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { addProduct } from '../../actions/productsActions'
 
 const Wrapper = styled.section`
   padding: 2em;
@@ -20,8 +22,12 @@ const Wrapper = styled.section`
 `;
 
 const units = ['ml', 'g', 'szt', 'dkg', 'kg'];
-
-export default class products extends Component {
+// @connect((store) => {
+//     return {
+//         product: store.product
+//     }
+// })
+class products extends Component {
 
     state = {
         products: [],
@@ -61,6 +67,10 @@ export default class products extends Component {
                     snackVariant: 'error'
                 })
             })
+    }
+    test = () => {
+        console.log('tsasd')
+        this.props.dispatch(addProduct({}))
     }
 
     handleChange = (event) => {
@@ -259,80 +269,85 @@ export default class products extends Component {
                 </Snackbar>
                 <Grid container alignContent="center" justify="center" direction="column">
                     <h2>Formatka do dodawania produktu</h2>
+                    <button onClick={this.test}>test</button>
                     <Wrapper>
                         <form noValidate >
-                            <div>
-                                <TextField
-                                    id="name"
-                                    label="Nazwa"
-                                    onChange={(value) => this.inputHandler(value)}
-                                    placeholder="Nazwa produktu"
-                                    margin="normal"
-                                    helperText={this.state.validationForm.name}
-                                    error={this.state.validationForm.name.length != 0}
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    id="amount"
-                                    label="Ilosc"
-                                    className="input"
-                                    onChange={(value) => this.inputHandler(value)}
-                                    placeholder="Ilosc produktu"
-                                    helperText={this.state.validationForm.amount}
-                                    error={this.state.validationForm.amount.length != 0}
-                                    margin="normal"
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    id="calories"
-                                    label="Kalorie"
-                                    onChange={(value) => this.inputHandler(value)}
-                                    className="input"
-                                    placeholder="Ilosc kalori w produkcie"
-                                    margin="normal"
-                                    helperText={this.state.validationForm.calories}
-                                    error={this.state.validationForm.calories.length != 0}
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    id="unit"
-                                    select
-                                    label="Wybierz"
-                                    onChange={(value) => this.inputSelectHandler(value)}
-                                    value={this.state.productForm.unit}
-                                    placeholder="Miara ilosci produktu"
-                                    margin="normal"
-                                    style={{ width: '200px' }}
-                                    helperText={this.state.validationForm.unit}
-                                    error={this.state.validationForm.unit.length != 0}
-                                >
-                                    {units.map(option => (
-                                        <MenuItem key={option} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
-                                            {option}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                            </div>
-                            <div className='Button'>
-                                <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
-                                    Zapisz
+                        <div>
+                            <TextField
+                                id="name"
+                                label="Nazwa"
+                                onChange={(value) => this.inputHandler(value)}
+                                placeholder="Nazwa produktu"
+                                margin="normal"
+                                helperText={this.state.validationForm.name}
+                                error={this.state.validationForm.name.length != 0}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="amount"
+                                label="Ilosc"
+                                className="input"
+                                onChange={(value) => this.inputHandler(value)}
+                                placeholder="Ilosc produktu"
+                                helperText={this.state.validationForm.amount}
+                                error={this.state.validationForm.amount.length != 0}
+                                margin="normal"
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="calories"
+                                label="Kalorie"
+                                onChange={(value) => this.inputHandler(value)}
+                                className="input"
+                                placeholder="Ilosc kalori w produkcie"
+                                margin="normal"
+                                helperText={this.state.validationForm.calories}
+                                error={this.state.validationForm.calories.length != 0}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="unit"
+                                select
+                                label="Wybierz"
+                                onChange={(value) => this.inputSelectHandler(value)}
+                                value={this.state.productForm.unit}
+                                placeholder="Miara ilosci produktu"
+                                margin="normal"
+                                style={{ width: '200px' }}
+                                helperText={this.state.validationForm.unit}
+                                error={this.state.validationForm.unit.length != 0}
+                            >
+                                {units.map(option => (
+                                    <MenuItem key={option} style={{ display: 'block', paddingLeft: '10px' }} value={option}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+                        <div className='Button'>
+                            <Button variant="contained" color="primary" onClick={() => this.sendForm()} startIcon={<SaveIcon />}>
+                                Zapisz
                         </Button></div>
 
-                        </form>
+                    </form>
                     </Wrapper>
                 </Grid>
 
 
-                <h2>Lista produktow</h2>
-                <div style={{ width: '100%' }}>
-                    <Box display="flex" flexWrap="wrap">
-                        {products}
-                    </Box>
-                </div>
+            <h2>Lista produktow</h2>
+            <div style={{ width: '100%' }}>
+                <Box display="flex" flexWrap="wrap">
+                    {products}
+                </Box>
             </div>
+            </div >
         )
     }
 }
+function mapStateToProps(state) {
+    return { products: state.products }
+}
+export default connect(mapStateToProps)(products)
