@@ -4,9 +4,26 @@ import initialState from './initialState'
 
 export const productsReducer = (state = initialState.products, action) => {
     switch (action.type) {
-        case productsConst.ADD_PRODUCT_PENDING:
+        case productsConst.ADD_PRODUCT:
             return update(state, {
-                dowloanding: { $set: true }
+                downloading: { $set: true }
+            })
+        case productsConst.ADD_PRODUCT_SUCCESS:
+            return update(state, {
+                downloading: { $set: false }
+            })
+        case productsConst.ADD_PRODUCT_FAIL:
+            return update(state, {
+                downloading: { $set: false }
+            })
+        case productsConst.GET_PRODUCTS:
+            return update(state, {
+                downloading: { $set: true }
+            })
+        case productsConst.GET_PRODUCTS_SUCCESS:
+            return update(state, {
+                downloading: { $set: false },
+                data: { $set: action.payload }
             })
         default:
             return state

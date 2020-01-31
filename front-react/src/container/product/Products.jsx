@@ -51,7 +51,7 @@ class products extends Component {
 
     loadProducts = () => {
         var that = this;
-        axios.get('http://localhost:9000/Products')
+        axios.get('/Products')
             .then(function (response) {
                 console.log(response.data)
                 that.setState({
@@ -69,7 +69,7 @@ class products extends Component {
             })
     }
     test = () => {
-        console.log('tsasd')
+        //<-loader
         this.props.dispatch(addProduct({}))
     }
 
@@ -97,7 +97,7 @@ class products extends Component {
     sendForm = () => {
         var that = this;
         if (this.validationHandler()) return;
-        axios.post('http://localhost:9000/Products', this.state.productForm)
+        axios.post('/Products', this.state.productForm)
             .then(response => {
                 console.log(response);
                 this.setState({
@@ -206,7 +206,7 @@ class products extends Component {
 
 
     deleteProduct = (productId) => {
-        axios.delete('http://localhost:9000/Products', { params: { id: productId } })
+        axios.delete('/Products', { params: { id: productId } })
             .then(response => {
                 console.log(response);
                 this.setState({

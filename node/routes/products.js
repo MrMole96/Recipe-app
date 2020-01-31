@@ -25,7 +25,12 @@ router.post("/", function (req, res, next) {
   client.connect(function (err) {
     var product = new Product(req.body);
     product.save().then(item => {
-      res.send('Produkt zostal zapisany');
+      Product.find({}, function (err, docs) {
+        if (!err) {
+          // console.log(docs);
+          res.send(docs)
+        } else { throw err; }
+      });
     }).catch(err => {
       res.status(400).send("unable to save to database");
     })
@@ -37,7 +42,7 @@ router.post("/", function (req, res, next) {
 });
 router.delete("/", function (req, res, next) {
   client.connect(function (err) {
-    console.log('delete',req.query)
+    console.log('delete', req.query)
     Product.findById(req.query.id).remove().then(() => {
       res.send('Produkt zostal usuniety');
     }).catch(err => {
