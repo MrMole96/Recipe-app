@@ -44,13 +44,14 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const SnackBarWrapper = (props) => {
+export const SnackBarWrapper = (props) => {
     const classes = useStyles();
     const { className, message, onClose, variant, ...other } = props;
     const Icon = variantIcon[variant];
+    console.log(props)
     return (
         <SnackbarContent
-            className={clsx(classes[variant], className)}         
+            className={clsx(classes[variant], className)}
             message={
                 <span id="client-snackbar" className={classes.message}>
                     <Icon className={clsx(classes.icon, classes.iconVariant)} />
@@ -67,4 +68,4 @@ const SnackBarWrapper = (props) => {
     )
 }
 
-export default SnackBarWrapper
+

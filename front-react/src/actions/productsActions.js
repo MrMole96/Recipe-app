@@ -1,5 +1,6 @@
 import { productsConst } from './actionTypes'
 import axios from 'axios'
+import { openSnackBar } from './snackBarActions'
 
 
 const handleAddProduct = (dispatch) => {
@@ -18,12 +19,12 @@ const handleFetchProductError = (dispatch) => {
 export function addProduct(product) {
     return async (dispatch) => {
         handleAddProduct(dispatch)
-        console.log('loader start')
         try {
             let response = await axios.post('/Products', product);
             console.log('response', response)
-            handleFetchProductSuccess(dispatch, response.data)
-            console.log('loader end')
+            handleFetchProductSuccess(dispatch, response.data.products)
+            console.log("SNACKBARR")
+            openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
 
         } catch (error) {
             handleFetchProductError(dispatch)

@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import ToDoList from '../toDoList/ToDoList'
 import ListRecipes from '../../components/listRecipes/ListRecipes'
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
+import { SnackBarWrapper } from '../../components/snackBarWrapper/SnackBarWrapper'
 const shortid = require('shortid');
 const Wrapper = styled.section`
   padding: 2em;
@@ -249,7 +249,7 @@ export default class recipes extends Component {
 
         object.description = object.description.map(item => {
             let object = {
-               
+
                 task: item.task,
                 image: item.image
             }

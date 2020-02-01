@@ -15,3 +15,7 @@ export const loginConst = {
     LOGIN_USER: 'LOGIN_USER',
     LOGIN_HANDLE_CHANGE: 'LOGIN_HANDLE_CHANGE'
 }
+export const snackBarConst = {
+    SNACKBAR_OPEN: 'SNACKBAR_OPEN',
+    SNACKBAR_CLOSE: 'SNACKBAR_CLOSE'
+}

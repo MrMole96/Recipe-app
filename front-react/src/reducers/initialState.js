@@ -20,5 +20,10 @@ export default {
         downloading: false,
         error: false,
         data: []
+    },
+    snackBar: {
+        open: false,
+        variant: '',
+        message: ''
     }
 }

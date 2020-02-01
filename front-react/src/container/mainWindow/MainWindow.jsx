@@ -3,7 +3,7 @@ import Search from '../search/Search'
 import Listrecipes from '../../components/listRecipes/ListRecipes'
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackBarWrapper from '../../components/snackBarWrapper/SnackBarWrapper'
+import { SnackBarWrapper } from '../../components/snackBarWrapper/SnackBarWrapper'
 export class MainWindow extends Component {
 
     state = {
@@ -22,7 +22,7 @@ export class MainWindow extends Component {
                 console.log(response.data)
                 that.setState({ recipes: response.data })
             })
-      .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
                 that.setState({
                     open: true,
@@ -63,7 +63,7 @@ export class MainWindow extends Component {
                         vertical: 'bottom',
                         horizontal: 'left',
                     }}
-                    // autoHideDuration={6000}
+                // autoHideDuration={6000}
                 >
                     <SnackBarWrapper
                         variant={this.state.snackVariant}

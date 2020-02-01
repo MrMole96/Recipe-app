@@ -28,7 +28,7 @@ router.post("/", function (req, res, next) {
       Product.find({}, function (err, docs) {
         if (!err) {
           // console.log(docs);
-          res.send(docs)
+          res.send({ text: "Produkt zostal dodany", products: docs })
         } else { throw err; }
       });
     }).catch(err => {

@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 import { Provider } from 'react-redux'
 import store from './store/store'
+import SnackBar from './components/snackBarWrapper/SnackBar';
 
 
 axios.defaults.baseURL = 'http://localhost:9000'
@@ -15,6 +16,7 @@ ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
       <App />
+      <SnackBar />
     </Provider>
   </BrowserRouter>,
   document.getElementById("root")
