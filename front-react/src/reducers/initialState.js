@@ -1,5 +1,3 @@
-
-
 export default {
 
     login: {
@@ -10,7 +8,6 @@ export default {
             password: ''
         }
     },
-
     products: {
         downloading: false,
         error: false,

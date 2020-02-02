@@ -3,6 +3,7 @@ import { productsConst } from '../actions/actionTypes'
 import initialState from './initialState'
 
 export const productsReducer = (state = initialState.products, action) => {
+    console.log('ACTION PRODUYCTWS', action)
     switch (action.type) {
         case productsConst.ADD_PRODUCT:
             return update(state, {
@@ -24,6 +25,10 @@ export const productsReducer = (state = initialState.products, action) => {
             return update(state, {
                 downloading: { $set: false },
                 data: { $set: action.payload }
+            })
+        case productsConst.GET_PRODUCTS_FAIL:
+            return update(state, {
+                downloading: { $set: false }
             })
         default:
             return state

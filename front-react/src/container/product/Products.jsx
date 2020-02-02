@@ -7,11 +7,11 @@ import Button from '@material-ui/core/Button';
 import '../../components/product/Product.css'
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { addProduct } from '../../actions/productsActions'
+import { addProduct, getProducts } from '../../actions/productsActions'
 
 const Wrapper = styled.section`
   padding: 2em;
@@ -21,11 +21,6 @@ const Wrapper = styled.section`
 `;
 
 const units = ['ml', 'g', 'szt', 'dkg', 'kg'];
-// @connect((store) => {
-//     return {
-//         product: store.product
-//     }
-// })
 class products extends Component {
 
     state = {
@@ -41,35 +36,7 @@ class products extends Component {
             amount: [],
             calories: [],
             unit: []
-        },
-        open: false,
-        snackMessage: '',
-        snackVariant: '',
-        isLoading: false
-    }
-
-    loadProducts = () => {
-        var that = this;
-        axios.get('/Products')
-            .then(function (response) {
-                console.log(response.data)
-                that.setState({
-                    products: response.data,
-                    isLoading: true
-                })
-            })
-            .catch(function (err) {
-                console.log(err);
-                that.setState({
-                    open: true,
-                    snackMessage: 'Nie udalo sie',
-                    snackVariant: 'error'
-                })
-            })
-    }
-    test = () => {
-        //<-loader
-        this.props.dispatch(addProduct({}))
+        }
     }
 
     handleChange = (event) => {
@@ -94,26 +61,8 @@ class products extends Component {
         this.setState({ productForm: productForm })
     }
     sendForm = () => {
-       
+
         if (this.validationHandler()) return;
-        // axios.post('/Products', this.state.productForm)
-        //     .then(response => {
-        //         console.log(response);
-        //         this.setState({
-        //             open: true,
-        //             snackMessage: response.data,
-        //             snackVariant: 'success'
-        //         })
-        //         this.loadProducts();
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err);
-        //         that.setState({
-        //             open: true,
-        //             snackMessage: 'Nie udalo sie',
-        //             snackVariant: 'error'
-        //         })
-        //     })
         this.props.dispatch(addProduct(this.state.productForm))
     }
 
@@ -228,7 +177,7 @@ class products extends Component {
             })
     }
     componentDidMount() {
-        this.loadProducts();
+        this.props.dispatch(getProducts())
     }
 
 
@@ -236,8 +185,8 @@ class products extends Component {
     render() {
         let products = null
         var that = this;
-        if (this.state.products) {
-            products = this.state.products.map(function (product, index) {
+        if (this.props.products.data) {
+            products = this.props.products.data.map(function (product, index) {
                 return <Box key={index} flexGrow={1} marginX={1} width={250}>
                     <Product className="Product"
                         name={product.name}
@@ -253,23 +202,8 @@ class products extends Component {
 
         return (
             <div>
-                {/* <Snackbar
-                    open={this.state.open}
-                    onClose={() => this.setState({ open: false })}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                //autoHideDuration={6000}
-                >
-                    <SnackBarWrapper
-                        variant={this.state.snackVariant}
-                        message={this.state.snackMessage}
-                        onClose={() => this.setState({ open: false })} />
-                </Snackbar> */}
                 <Grid container alignContent="center" justify="center" direction="column">
                     <h2>Formatka do dodawania produktu</h2>
-                    <button onClick={this.test}>test</button>
                     <Wrapper>
                         <form noValidate >
                             <div>
@@ -338,11 +272,9 @@ class products extends Component {
 
 
                 <h2>Lista produktow</h2>
-                <div style={{ width: '100%' }}>
-                    <Box display="flex" flexWrap="wrap">
-                        {products}
-                    </Box>
-                </div>
+                {this.props.products.downloading ? <div className='loader'><CircularProgress size={50} /></div> : <Box display="flex" flexWrap="wrap">
+                    {products}
+                </Box>}
             </div >
         )
     }
