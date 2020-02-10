@@ -27,7 +27,6 @@ router.post("/", function (req, res, next) {
     product.save().then(item => {
       Product.find({}, function (err, docs) {
         if (!err) {
-          // console.log(docs);
           res.send({ text: "Produkt zostal dodany", products: docs })
         } else { throw err; }
       });
@@ -42,9 +41,12 @@ router.post("/", function (req, res, next) {
 });
 router.delete("/", function (req, res, next) {
   client.connect(function (err) {
-    console.log('delete', req.query)
     Product.findById(req.query.id).remove().then(() => {
-      res.send('Produkt zostal usuniety');
+      Product.find({}, function (err, docs) {
+        if (!err) {
+          res.send({ text: "Produkt zostal usuniety", products: docs })
+        } else { throw err; }
+      });
     }).catch(err => {
       res.status(400).send("unable to delete from database");
     })

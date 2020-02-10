@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { addProduct, getProducts } from '../../actions/productsActions'
+import { addProduct, getProducts, deleteProduct } from '../../actions/productsActions'
 
 const Wrapper = styled.section`
   padding: 2em;
@@ -155,26 +155,7 @@ class products extends Component {
 
 
     deleteProduct = (productId) => {
-        axios.delete('/Products', { params: { id: productId } })
-            .then(response => {
-                console.log(response);
-                this.setState({
-                    open: true,
-                    snackMessage: response.data,
-                    snackVariant: 'success'
-                })
-                this.loadProducts();
-
-
-            })
-            .catch(function (err) {
-                console.log(err);
-                this.setState({
-                    open: true,
-                    snackMessage: 'Nie udalo sie',
-                    snackVariant: 'error'
-                })
-            })
+        this.props.dispatch(deleteProduct(productId))
     }
     componentDidMount() {
         this.props.dispatch(getProducts())

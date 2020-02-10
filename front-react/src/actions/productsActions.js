@@ -8,11 +8,11 @@ const handleAddProduct = (dispatch) => {
 }
 
 const handleFetchProductSuccess = (dispatch, response) => {
-    return dispatch({ type: productsConst.GET_PRODUCTS_SUCCESS, payload: response })
+    return dispatch({ type: productsConst.ADD_PRODUCT_SUCCESS, payload: response })
 }
 
 const handleFetchProductError = (dispatch) => {
-    return dispatch({ type: productsConst.GET_PRODUCTS_FAIL })
+    return dispatch({ type: productsConst.ADD_PRODUCT_FAIL })
 }
 
 const handleFetchProducts = (dispatch) => {
@@ -27,6 +27,33 @@ const handleFetchProductsFail = (dispatch) => {
     return dispatch({ type: productsConst.GET_PRODUCTS_FAIL })
 }
 
+const handleDeleteProduct = (dispatch) => {
+    return dispatch({ type: productsConst.DELETE_PRODUCT })
+}
+
+const handleDeleteProductSuccess = (dispatch, response) => {
+    return dispatch({ type: productsConst.DELETE_PRODUCT_SUCCESS, payload: response })
+}
+
+const handleDeleteProductFail = (dispatch) => {
+    return dispatch({ type: productsConst.DELETE_PRODUCT_FAIL })
+}
+
+
+export function deleteProduct(productId) {
+    return async (dispatch) => {
+        handleDeleteProduct(dispatch)
+        try {
+            let response = await axios.delete('/Products', { params: { id: productId } })
+            handleDeleteProductSuccess(dispatch, response.data.products)
+            openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
+        } catch (error) {
+            handleDeleteProductFail(dispatch)
+            openSnackBar(dispatch, { message: error.message, variant: 'error' })
+        }
+    }
+
+}
 
 export function addProduct(product) {
     return async (dispatch) => {
