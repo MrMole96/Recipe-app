@@ -10,8 +10,6 @@ class ListRecipes extends React.Component {
     }
 
     handleClickOpen = (recipe) => {
-        console.log('click dziala')
-        console.log('recipe', recipe)
         this.setState({
             open: true,
             clickedRecipe: recipe

@@ -13,17 +13,14 @@ export class MainWindow extends Component {
         snackVariant: ''
     }
     getRecipesHandler = (products) => {
-        console.log(products)
         let that = this;
         axios.post('http://localhost:9000/Recipes/byProducts', {
             products: products
         })
             .then(function (response) {
-                console.log(response.data)
                 that.setState({ recipes: response.data })
             })
             .catch(function (err) {
-                console.log(err);
                 that.setState({
                     open: true,
                     snackMessage: 'Nie udalo sie',
@@ -36,7 +33,6 @@ export class MainWindow extends Component {
         var that = this;
         axios.delete('http://localhost:9000/Recipes', { params: { id: recipeId } })
             .then(response => {
-                console.log(response);
                 this.setState({
                     open: true,
                     snackMessage: response.data,
@@ -44,7 +40,6 @@ export class MainWindow extends Component {
                 })
             })
             .catch(function (err) {
-                console.log(err);
                 that.setState({
                     open: true,
                     snackMessage: err,

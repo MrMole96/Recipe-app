@@ -7,7 +7,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 const task = props => {
-    console.log(props)
     return (
         <ListItem className={'task'}>
             <ListItemIcon>

@@ -29,7 +29,7 @@ export default class Search extends Component {
                 })
             })
             .catch(function (err) {
-                console.log(err)
+         
                 that.setState({
                     open: true,
                     snackMessage: 'Nie udalo sie pobrac produktow',

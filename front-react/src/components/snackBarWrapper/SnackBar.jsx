@@ -7,12 +7,10 @@ import { closeSnackBar } from '../../actions/snackBarActions';
 class SnackBar extends Component {
 
     closeSnackBar() {
-        console.log("CLOSE")
         this.props.dispatch(closeSnackBar())
     }
 
     render() {
-        console.log('this.props.snackBar', this.props.snackBar)
         return (
             <Snackbar
                 open={this.props.snackBar.open}
@@ -21,7 +19,6 @@ class SnackBar extends Component {
                     vertical: 'bottom',
                     horizontal: 'left',
                 }}
-            //autoHideDuration={6000}
             >
                 <SnackBarWrapper
                     variant={this.props.snackBar.variant}
@@ -32,7 +29,6 @@ class SnackBar extends Component {
     }
 }
 function mapStateToProps(state) {
-    console.log('state', state)
     return { snackBar: state.snackBar }
 }
 

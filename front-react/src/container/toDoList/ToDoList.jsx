@@ -37,7 +37,6 @@ export default class toDoList extends Component {
 
   render() {
     let listOfProducts = this.props.description.map((task, index) => {
-      console.log('TASK',task)
       return <Task key={task._id} index={index} description={task} deleteHandler={this.props.deleteTaskHandler} />
     })
 

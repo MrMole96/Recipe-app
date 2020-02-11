@@ -70,7 +70,6 @@ export default class recipes extends Component {
                 })
             }))
             .catch(function (err) {
-                console.log(err)
                 that.setState({
                     open: true,
                     snackMessage: 'Nie udalo sie pobrac danych',
@@ -179,8 +178,6 @@ export default class recipes extends Component {
         let isError = false;
         for (let prop in this.state.validationForm) {
             if (this.state.validationForm[prop].length !== 0) {
-                console.log('prop', prop)
-                console.log(this.state.validationForm[prop])
                 isError = true;
             }
         }
@@ -228,7 +225,6 @@ export default class recipes extends Component {
             ...this.state.recipesForm,
             productsInRecipe: values,
         }
-        console.log(values)
         this.setState({ recipesForm: recipesForm })
     }
 
@@ -237,7 +233,6 @@ export default class recipes extends Component {
             ...this.state.recipesForm,
             difficulty: event.target.value,
         }
-        console.log(event.target.value)
         this.setState({ recipesForm: recipesForm })
     }
 
@@ -258,10 +253,8 @@ export default class recipes extends Component {
         object.productsInRecipe = object.productsInRecipe.map(item => {
             return item._id;
         })
-        console.log(object);
         axios.post('http://localhost:9000/Recipes', object)
             .then(response => {
-                console.log(response);
                 that.setState({
                     recipesForm: {
                         productsInRecipe: [],
@@ -274,18 +267,16 @@ export default class recipes extends Component {
                 that.loadData();
             })
             .catch(function (err) {
-                console.log(err);
             })
     }
 
     deleteRecipe = (recipeId) => {
         axios.delete('http://localhost:9000/Recipes', { params: { id: recipeId } })
             .then(response => {
-                console.log(response);
                 this.loadData();
             })
             .catch(function (err) {
-                console.log(err);
+
             })
     }
     componentDidMount() {

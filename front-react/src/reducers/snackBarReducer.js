@@ -5,7 +5,6 @@ import update from 'immutability-helper'
 
 export const snackBarReducer = (state = initialState.snackBar, action) => {
   
-    console.log('action.payload', action)
     switch (action.type) {
         case snackBarConst.SNACKBAR_OPEN:
             return update(state, {
