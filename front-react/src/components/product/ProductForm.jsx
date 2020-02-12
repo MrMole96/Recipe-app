@@ -30,7 +30,6 @@ export const ProductForm = props => {
     }),
     onSubmit: (values, { resetForm }) => {
       props.sendForm(values);
-
       resetForm();
     }
   });

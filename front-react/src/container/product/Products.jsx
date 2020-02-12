@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Product from "../../components/product/Product";
 import styled from "styled-components";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import "../../components/product/Product.css";
-import SaveIcon from "@material-ui/icons/Save";
-import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import { Grid } from "@material-ui/core";
@@ -25,135 +20,15 @@ const Wrapper = styled.section`
   max-width: 450px;
 `;
 
-const units = ["ml", "g", "szt", "dkg", "kg"];
+
 class products extends Component {
-  state = {
-    productForm: {
-      name: "",
-      amount: 0,
-      calories: 0,
-      unit: ""
-    },
-    validationForm: {
-      name: [],
-      amount: [],
-      calories: [],
-      unit: []
-    }
-  };
 
   componentDidMount() {
     this.props.dispatch(getProducts());
   }
 
-  inputHandler = event => {
-    const productForm = {
-      ...this.state.productForm,
-      [event.target.id]: event.target.value
-    };
-    this.setState({ productForm: productForm });
-  };
-
-  inputSelectHandler = event => {
-    const productForm = {
-      ...this.state.productForm,
-      unit: event.target.value
-    };
-    this.setState({ productForm: productForm });
-  };
-
   sendForm = product => {
     this.props.dispatch(addProduct(product));
-  };
-
-  validationHandler = () => {
-    for (let prop in this.state.productForm) {
-      switch (prop) {
-        case "name":
-          {
-            let array = this.state.validationForm.name;
-            if (
-              this.state.productForm[prop].trim().length <= 1 &&
-              !array.includes("Nazwa produktu za krotka")
-            ) {
-              array.push("Nazwa produktu za krotka");
-            } else if (this.state.productForm[prop].trim().length > 1) {
-              array.pop();
-            }
-            this.setState({
-              validationForm: {
-                ...this.state.validationForm,
-                name: array
-              }
-            });
-          }
-          break;
-        case "amount":
-          {
-            let array = this.state.validationForm.amount;
-            if (
-              this.state.productForm[prop] <= 0 &&
-              !array.includes("Ilosc musi byc wieksza od zera")
-            ) {
-              array.push("Ilosc musi byc wieksza od zera");
-            } else if (this.state.productForm[prop] > 0) {
-              array.pop();
-            }
-            this.setState({
-              validationForm: {
-                ...this.state.validationForm,
-                amount: array
-              }
-            });
-          }
-          break;
-        case "calories":
-          {
-            let array = this.state.validationForm.calories;
-            if (
-              this.state.productForm[prop] <= 0 &&
-              !array.includes("Ilosc musi byc wieksza od zera")
-            ) {
-              array.push("Ilosc musi byc wieksza od zera");
-            } else if (this.state.productForm[prop] > 0) {
-              array.pop();
-            }
-            this.setState({
-              validationForm: {
-                ...this.state.validationForm,
-                calories: array
-              }
-            });
-          }
-          break;
-        case "unit":
-          {
-            let array = this.state.validationForm.unit;
-            if (
-              this.state.productForm[prop] <= 0 &&
-              !array.includes("Nie wybrano miary")
-            ) {
-              array.push("Nie wybrano miary");
-            } else if (this.state.productForm[prop] != "") {
-              array.pop();
-            }
-            this.setState({
-              validationForm: {
-                ...this.state.validationForm,
-                unit: array
-              }
-            });
-          }
-          break;
-      }
-    }
-    let isError = false;
-    for (let prop in this.state.validationForm) {
-      if (this.state.validationForm[prop].length !== 0) {
-        isError = true;
-      }
-    }
-    return isError;
   };
 
   deleteProduct = productId => {

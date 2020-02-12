@@ -4,14 +4,12 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Task from '../../components/task/Task'
+import Task from '../task/Task'
 import List from '@material-ui/core/List';
 
 
 import './ToDoList.css'
 export default class toDoList extends Component {
-
-
   state = {
     task: '',
     image: ''
