@@ -15,6 +15,7 @@ import { SnackBarWrapper } from "../../components/snackBarWrapper/SnackBarWrappe
 import { RecipeForm } from "../../components/recipe/RecipeForm";
 import { connect } from "react-redux";
 import { getProducts } from "../../actions/productsActions";
+import { getRecipes } from "../../actions/recipesActions";
 const shortid = require("shortid");
 const Wrapper = styled.section`
   padding: 2em;
@@ -50,9 +51,8 @@ class recipes extends Component {
   };
 
   componentDidMount() {
-    this.loadData();
-
     this.props.dispatch(getProducts());
+    this.props.dispatch(getRecipes());
   }
 
   loadRecipes = () => {
@@ -412,7 +412,7 @@ class recipes extends Component {
         </Grid>
         <h2>Lista przepisow</h2>
         <ListRecipes
-          recipes={this.state.recipes}
+          recipes={this.props.recipes.data}
           deleteRecipe={this.deleteRecipe}
         />
       </div>

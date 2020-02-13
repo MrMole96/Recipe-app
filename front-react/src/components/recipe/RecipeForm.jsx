@@ -8,6 +8,7 @@ import ToDoList from "../toDoList/ToDoList";
 import MenuItem from "@material-ui/core/MenuItem";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SaveIcon from "@material-ui/icons/Save";
+const shortid = require("shortid");
 
 const levels = ["Latwe", "Srednie", "Trudne"];
 
@@ -28,15 +29,33 @@ export const RecipeForm = props => {
       numberOfPersons: Yup.number()
         .moreThan(0, "Wartosc musi byc wieksza niz 0")
         .required("To pole jest wymagane"),
-      productsInRecipe: Yup.array()
-        .required("To pole jest wymagane")
-        .min(3, "Musza byc przynajmniej 3 skladniki"),
-      description: Yup.array().required("To pole jest wymagane")
+      productsInRecipe: Yup.array().min(
+        3,
+        "Musza byc przynajmniej 3 skladniki"
+      ),
+      description: Yup.array().min(3, "Musza byc przynajmniej 3 kroki")
     }),
     onSubmit: (values, { resetForm }) => {
       console.log("submit");
     }
   });
+
+  const toDoListHandler = description => {
+    // let array = this.state.recipesForm.description;
+    // array.push({
+    //   _id: shortid.generate(),
+    //   task: description.task,
+    //   image: description.image
+    // });
+    // this.setState({
+    //   recipesForm: {
+    //     ...this.state.recipesForm,
+    //     description: array
+    //   }
+    // });
+    console.log("descriptio", description);
+    formik.setFieldValue("description", description);
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -81,6 +100,7 @@ export const RecipeForm = props => {
           <div>
             <TextField
               id="numberOfPersons"
+              type="number"
               label="Ilosc osob"
               {...formik.getFieldProps("numberOfPersons")}
               className="input"
@@ -103,9 +123,9 @@ export const RecipeForm = props => {
               options={props.products.data}
               getOptionLabel={option => option.name}
               filterSelectedOptions
-            //   {...formik.getFieldProps("productsInRecipe")}
-              onChange={e => formik.setFieldValue("productsInRecipe", e.target.value)}
-              onSelect={val => formik.setFieldValue("productsInRecipe", val)}
+              onChange={(e, value) =>
+                formik.setFieldValue("productsInRecipe", value)
+              }
               renderInput={params => (
                 <TextField
                   {...params}
@@ -114,6 +134,7 @@ export const RecipeForm = props => {
                   placeholder="Produkt"
                   margin="normal"
                   fullWidth
+                  {...formik.getFieldProps("productsInRecipe")}
                   helperText={
                     formik.touched.productsInRecipe &&
                     formik.errors.productsInRecipe
@@ -126,13 +147,14 @@ export const RecipeForm = props => {
               )}
             />
           </div>
-          {/* <ToDoList
-            handler={this.toDoListHandler}
-            description={this.state.recipesForm.description}
-            deleteTaskHandler={this.deleteTaskHandler}
-            errorHandler={this.state.validationForm.description.length != 0}
-            errorText={this.state.validationForm.description}
-          /> */}
+          <ToDoList
+            handler={toDoListHandler}
+            validation={formik}
+            // description={this.state.recipesForm.description}
+            // deleteTaskHandler={this.deleteTaskHandler}
+            // errorHandler={this.state.validationForm.description.length != 0}
+            // errorText={this.state.validationForm.description}
+          />
         </Grid>
         <Grid container>
           <Grid item xs={2} />
