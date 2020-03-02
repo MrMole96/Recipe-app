@@ -29,8 +29,8 @@ export const snackBarConst = {
     SNACKBAR_CLOSE: 'SNACKBAR_CLOSE'
 }
 
-export const modalConst = {
-    MODAL_OPEN: 'MODAL_OPEN',
-    MODAL_CLOSE: 'MODAL_CLOSE',
-    MODAL_CLEAR: 'MODAL_CLEAR'
-}
+// export const modalConst = {
+//     MODAL_OPEN: 'MODAL_OPEN',
+//     MODAL_CLOSE: 'MODAL_CLOSE',
+//     MODAL_CLEAR: 'MODAL_CLEAR'
+// }

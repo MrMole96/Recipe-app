@@ -8,21 +8,24 @@ import Task from "../task/Task";
 import List from "@material-ui/core/List";
 
 import "./ToDoList.css";
+import { TaskModal } from "../taskModal/TaskModal";
 export default class toDoList extends Component {
   state = {
     tasks: [],
-    task: "",
-    image: ""
+    text: "",
+    image: null,
+    open: false,
+    clickedTask: null
   };
 
   inputHandler = event => {
-    this.setState({ task: event.target.value });
+    this.setState({ text: event.target.value });
   };
 
-  tasksHandler = task => {
-    let array = this.state.tasks;
-    array.push(task);
-    console.log(array);
+  addTasksHandler = () => {
+    let { text, image, tasks } = this.state;
+    let array = tasks;
+    array.push({ text: text, image: image });
     this.setState({ tasks: array }, () => this.props.handler(array));
   };
 
@@ -31,6 +34,10 @@ export default class toDoList extends Component {
     this.toBase64(file).then(result => {
       this.setState({ image: result });
     });
+  };
+
+  showTaskHandler = task => {
+    this.setState({ clickedTask: task, open: true });
   };
 
   toBase64 = file =>
@@ -43,24 +50,25 @@ export default class toDoList extends Component {
 
   render() {
     let listOfProducts = null;
-    if (this.props.description) {
-      listOfProducts = this.props.description.map((task, index) => {
-        return (
-          <Task
-            key={task._id}
-            index={index}
-            description={task}
-            deleteHandler={this.props.deleteTaskHandler}
-          />
-        );
-      });
+    if (this.props.validation.values.description) {
+      listOfProducts = this.props.validation.values.description.map(
+        (task, index) => {
+          return (
+            <Task
+              key={index}
+              index={index}
+              description={task}
+              showTaskHandler={this.showTaskHandler}
+              deleteHandler={this.props.deleteTaskHandler}
+            />
+          );
+        }
+      );
     }
-    let {
-      onChange,
-      handleChange,
-      onBlur,
-      handleBlur
-    } = this.props.validation.getFieldProps("description");
+    let { onBlur } = this.props.validation.getFieldProps("description");
+
+    let { clickedTask, tasks, open } = this.state;
+    console.log(this.state);
     return (
       <div>
         <TextField
@@ -79,16 +87,17 @@ export default class toDoList extends Component {
             Boolean(this.props.validation.errors.description)
           }
           margin="normal"
-          value={this.state.task}
+          value={this.state.text}
           fullWidth
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   onClick={() => {
-                    this.tasksHandler(this.state.task);
-                    this.setState({ task: "", image: {} });
+                    this.addTasksHandler();
+                    this.setState({ text: "", image: null });
                   }}
+                  disabled={this.state.text && this.state.image ? false : true}
                 >
                   <AddIcon />
                 </IconButton>
@@ -111,6 +120,15 @@ export default class toDoList extends Component {
           }}
         />
         <List dense>{listOfProducts}</List>
+        {this.state.open && (
+          <TaskModal
+            open={open}
+            index={tasks.indexOf(clickedTask) + 1}
+            description={clickedTask.text}
+            image={clickedTask.image}
+            handleClose={() => this.setState({ open: false })}
+          />
+        )}
       </div>
     );
   }
