@@ -18,13 +18,16 @@ const task = props => {
         primary={props.description.text}
       />
       <ListItemSecondaryAction>
-        <IconButton edge="end" onClick={()=>props.showTaskHandler(props.description)}>
+        <IconButton
+          edge="end"
+          onClick={() => props.showTaskHandler(props.description)}
+        >
           <ZoomOutMapIcon />
         </IconButton>
         <IconButton
           edge="end"
           aria-label="delete"
-          onClick={() => props.deleteHandler(props.index)}
+          onClick={() => props.deleteHandler(props.task, props.index)}
         >
           <DeleteIcon />
         </IconButton>

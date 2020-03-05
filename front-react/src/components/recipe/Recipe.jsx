@@ -20,7 +20,7 @@ const recipe = (props) => (
         <IconButton className="button__delete" aria-label="delete" onClick={()=>props.deleteRecipe(props.id)} style={{borderRadius:'50%'}}>
                 <HighlightOffOutlinedIcon color="secondary" style={{ fontSize: 30 }} />
             </IconButton>      
-          <img alt="ssss" width="260" src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
+          <img className={'recipe_img'} alt="ssss" src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
         </Grid>
       </Grid>
       <Grid className='productList' style={{ marginTop: '10px' }}>

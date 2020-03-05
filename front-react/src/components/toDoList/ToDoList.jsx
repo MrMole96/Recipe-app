@@ -11,7 +11,6 @@ import "./ToDoList.css";
 import { TaskModal } from "../taskModal/TaskModal";
 export default class toDoList extends Component {
   state = {
-    tasks: [],
     text: "",
     image: null,
     open: false,
@@ -23,10 +22,8 @@ export default class toDoList extends Component {
   };
 
   addTasksHandler = () => {
-    let { text, image, tasks } = this.state;
-    let array = tasks;
-    array.push({ text: text, image: image });
-    this.setState({ tasks: array }, () => this.props.handler(array));
+    let { text, image } = this.state;
+    this.props.handler({ text: text, image: image });
   };
 
   uploadFile = () => {
@@ -59,16 +56,14 @@ export default class toDoList extends Component {
               index={index}
               description={task}
               showTaskHandler={this.showTaskHandler}
-              deleteHandler={this.props.deleteTaskHandler}
+              deleteHandler={this.props.handler}
             />
           );
         }
       );
     }
-    let { onBlur } = this.props.validation.getFieldProps("description");
-
-    let { clickedTask, tasks, open } = this.state;
-    console.log(this.state);
+    let { onBlur, value } = this.props.validation.getFieldProps("description");
+    let { clickedTask, open } = this.state;
     return (
       <div>
         <TextField
@@ -123,7 +118,7 @@ export default class toDoList extends Component {
         {this.state.open && (
           <TaskModal
             open={open}
-            index={tasks.indexOf(clickedTask) + 1}
+            index={value.indexOf(clickedTask) + 1}
             description={clickedTask.text}
             image={clickedTask.image}
             handleClose={() => this.setState({ open: false })}

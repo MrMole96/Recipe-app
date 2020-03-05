@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { recipesConst } from './actionTypes'
-
+import { openSnackBar } from './snackBarActions'
 
 const handleGetRecipes = (dispatch) => {
     return dispatch({
@@ -8,10 +8,10 @@ const handleGetRecipes = (dispatch) => {
     })
 }
 
-const handleGetRecipesSuccess = (dispatch, response) => {
+const handleGetRecipesSuccess = (dispatch, data) => {
     return dispatch({
         type: recipesConst.GET_RECIPES_SUCCESS,
-        payload: response
+        payload: data
     })
 }
 
@@ -21,7 +21,24 @@ const handleGetRecipesFail = (dispatch) => {
     })
 }
 
+const handlePostRecipe = (dispatch) => {
+    return dispatch({
+        type: recipesConst.ADD_RECIPE
+    })
+}
 
+const handlePostRecipeSuccess = (dispatch, data) => {
+    return dispatch({
+        type: recipesConst.ADD_RECIPE_SUCCESS,
+        payload: data
+    })
+}
+
+const handlePostRecipeFail = (dispatch) => {
+    return dispatch({
+        type: recipesConst.ADD_RECIPE_FAIL
+    })
+}
 
 
 export function getRecipes() {
@@ -30,8 +47,23 @@ export function getRecipes() {
         try {
             let response = await axios.get('/Recipes');
             handleGetRecipesSuccess(dispatch, response.data)
-        } catch (e) {
+        } catch (error) {
             handleGetRecipesFail(dispatch)
+            openSnackBar(dispatch, { message: error.message, variant: 'error' })
+        }
+    }
+}
+
+export function addRecipe(recipe) {
+    return async (dispatch) => {
+        handlePostRecipe(dispatch)
+        try {
+            let response = await axios.post('/Recipes', recipe);
+            handlePostRecipeSuccess(dispatch, response.data)
+            openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
+        } catch (error) {
+            handlePostRecipeFail(dispatch)
+            openSnackBar(dispatch, { message: error.message, variant: 'error' })
         }
     }
 }

@@ -18,7 +18,7 @@ export const TaskModal = ({ index, description, image, open, handleClose }) => {
                 fullScreen={fullScreen}
                 open={open}
                 onClose={handleClose}
-                fullWidth
+                // fullWidth
                 maxWidth='md'
             >
                 <DialogTitle>Krok {index}</DialogTitle>

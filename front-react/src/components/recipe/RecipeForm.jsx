@@ -8,6 +8,7 @@ import ToDoList from "../toDoList/ToDoList";
 import MenuItem from "@material-ui/core/MenuItem";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SaveIcon from "@material-ui/icons/Save";
+import Axios from "axios";
 const shortid = require("shortid");
 
 const levels = ["Latwe", "Srednie", "Trudne"];
@@ -33,28 +34,18 @@ export const RecipeForm = props => {
         3,
         "Musza byc przynajmniej 3 skladniki"
       ),
-      description: Yup.array().min(3, "Musza byc przynajmniej 3 kroki")
+      description: Yup.array().min(1, "Musza byc przynajmniej 3 kroki")
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log("submit");
+      props.addRecipeHandler(values);
+      resetForm();
     }
   });
 
-  const toDoListHandler = description => {
-    // let array = this.state.recipesForm.description;
-    // array.push({
-    //   _id: shortid.generate(),
-    //   task: description.task,
-    //   image: description.image
-    // });
-    // this.setState({
-    //   recipesForm: {
-    //     ...this.state.recipesForm,
-    //     description: array
-    //   }
-    // });
-    console.log("descriptio", description);
-    formik.setFieldValue("description", description);
+  const toDoListHandler = (task, index) => {
+    let currentArray = formik.getFieldProps("description").value;
+    index===undefined ? currentArray.push(task) : currentArray.splice(index, 1);
+    formik.setFieldValue("description", currentArray);
   };
 
   return (
@@ -123,6 +114,7 @@ export const RecipeForm = props => {
               options={props.products.data}
               getOptionLabel={option => option.name}
               filterSelectedOptions
+              value={formik.getFieldProps("productsInRecipe").value}
               onChange={(e, value) =>
                 formik.setFieldValue("productsInRecipe", value)
               }
@@ -150,10 +142,7 @@ export const RecipeForm = props => {
           <ToDoList
             handler={toDoListHandler}
             validation={formik}
-            // description={this.state.recipesForm.description}
-            // deleteTaskHandler={this.deleteTaskHandler}
-            // errorHandler={this.state.validationForm.description.length != 0}
-            // errorText={this.state.validationForm.description}
+            description={formik.getFieldProps("productsInRecipe").value}
           />
         </Grid>
         <Grid container>

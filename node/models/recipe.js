@@ -4,9 +4,9 @@ var RecipeSchema = new mongoose.Schema({
     name: String,
     difficulty: String,
     numberOfPersons: Number,
-    image: { data: Buffer, contentType: String },
+    // image: { data: Buffer, contentType: String },
     description: [{
-        task: String,
+        text: String,
         image: Buffer,
     }],
     averageTime: Date,

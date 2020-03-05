@@ -28,7 +28,6 @@ router.get('/', function (req, res, next) {
 router.post("/", function (req, res, next) {
     client.connect(function (err) {
         //var recipe = new Recipe(req.body);
-        console.log(req.body)
         let recipeToSave = {
             name: req.body.name,
             difficulty: req.body.difficulty,
@@ -38,7 +37,11 @@ router.post("/", function (req, res, next) {
         };
         let recipe = new Recipe(recipeToSave);
         recipe.save().then(item => {
-            res.send('item saved');
+            Recipe.find({}, function (err, docs) {
+                if (!err) {
+                  res.send({ text: "Przepis zostal dodany", recipes: docs })
+                } else { throw err; }
+              });
         }).catch(err => {
             console.log(err)
             res.status(400).send("unable to save to database");
