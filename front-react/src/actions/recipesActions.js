@@ -40,6 +40,25 @@ const handlePostRecipeFail = (dispatch) => {
     })
 }
 
+const handleDeleteRecipe = (dispatch) => {
+    return dispatch({
+        type: recipesConst.DELETE_RECIPE
+    })
+}
+
+const handleDeleteRecipeSuccess = (dispatch, data) => {
+    return dispatch({
+        type: recipesConst.DELETE_RECIPE_SUCCESS,
+        payload: data
+    })
+}
+
+const handleDeleteRecipeFail = (dispatch) => {
+    return dispatch({
+        type: recipesConst.DELETE_RECIPE_FAIL
+    })
+}
+
 
 export function getRecipes() {
     return async (dispatch) => {
@@ -59,10 +78,24 @@ export function addRecipe(recipe) {
         handlePostRecipe(dispatch)
         try {
             let response = await axios.post('/Recipes', recipe);
-            handlePostRecipeSuccess(dispatch, response.data)
+            handlePostRecipeSuccess(dispatch, recipe)
             openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
         } catch (error) {
             handlePostRecipeFail(dispatch)
+            openSnackBar(dispatch, { message: error.message, variant: 'error' })
+        }
+    }
+}
+
+export function deleteRecipe(recipeId) {
+    return async (dispatch) => {
+        handleDeleteRecipe(dispatch)
+        try {
+            let response = await axios.delete('/Recipes', { params: { id: recipeId } })
+            handleDeleteRecipeSuccess(dispatch, recipeId)
+            openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
+        } catch (error) {
+            handleDeleteRecipeFail(dispatch)
             openSnackBar(dispatch, { message: error.message, variant: 'error' })
         }
     }

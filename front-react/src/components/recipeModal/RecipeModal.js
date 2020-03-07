@@ -87,7 +87,7 @@ const RecipeModal = (props) => {
                 <DialogActions>
                     <Button onClick={props.handleClose} color="primary" autoFocus>
                         Close
-          </Button>
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

@@ -27,23 +27,21 @@ router.get('/', function (req, res, next) {
 
 router.post("/", function (req, res, next) {
     client.connect(function (err) {
-        //var recipe = new Recipe(req.body);
         let recipeToSave = {
             name: req.body.name,
             difficulty: req.body.difficulty,
             numberOfPersons: req.body.numberOfPersons,
             description: req.body.description,
-            listOfProducts: req.body.productsInRecipe
+            listOfProducts: req.body.listOfProducts
         };
         let recipe = new Recipe(recipeToSave);
         recipe.save().then(item => {
-            Recipe.find({}, function (err, docs) {
-                if (!err) {
-                  res.send({ text: "Przepis zostal dodany", recipes: docs })
-                } else { throw err; }
-              });
+
+            if (!err) {
+                res.send({ text: 'Przepis zostal dodany' })
+            } else { throw err; }
+
         }).catch(err => {
-            console.log(err)
             res.status(400).send("unable to save to database");
         })
 
@@ -53,7 +51,6 @@ router.post("/", function (req, res, next) {
 });
 
 router.post("/byProducts", function (req, res, next) {
-    console.log(req.body.products)
     client.connect(function (err) {
         Recipe
             .find({
@@ -73,7 +70,9 @@ router.post("/byProducts", function (req, res, next) {
 router.delete("/", function (req, res, next) {
     client.connect(function (err) {
         Recipe.findById(req.query.id).remove().then(() => {
-            res.send('item deleted');
+            if (!err) {
+                res.send({ text: 'Przepis zostal usuniety' })
+            } else { throw err; }
         }).catch(err => {
             res.status(400).send("unable to delete from database");
         })

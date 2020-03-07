@@ -11,7 +11,7 @@ export const recipeReducer = (state = initialState.recipes, action) => {
         case recipesConst.ADD_RECIPE_SUCCESS:
             return update(state, {
                 downloading: { $set: false },
-                data: { $set: action.payload }
+                data: { $push: [action.payload] }
             })
         case recipesConst.ADD_RECIPE_FAIL:
             return update(state, {
@@ -33,7 +33,7 @@ export const recipeReducer = (state = initialState.recipes, action) => {
         case recipesConst.DELETE_RECIPE_SUCCESS:
             return update(state, {
                 downloading: { $set: false },
-                data: { $set: action.payload }
+                data: { $splice: [[state.data.findIndex(x => x._id === action.payload), 1]] }
             })
         case recipesConst.DELETE_RECIPE_FAIL:
             return update(state, {

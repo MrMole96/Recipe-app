@@ -19,7 +19,7 @@ export const RecipeForm = props => {
       name: "",
       difficulty: "",
       numberOfPersons: 0,
-      productsInRecipe: [],
+      listOfProducts: [],
       description: []
     },
     validationSchema: Yup.object({
@@ -30,13 +30,14 @@ export const RecipeForm = props => {
       numberOfPersons: Yup.number()
         .moreThan(0, "Wartosc musi byc wieksza niz 0")
         .required("To pole jest wymagane"),
-      productsInRecipe: Yup.array().min(
+      listOfProducts: Yup.array().min(
         3,
         "Musza byc przynajmniej 3 skladniki"
       ),
       description: Yup.array().min(1, "Musza byc przynajmniej 3 kroki")
     }),
     onSubmit: (values, { resetForm }) => {
+      values._id = shortid.generate()
       props.addRecipeHandler(values);
       resetForm();
     }
@@ -114,9 +115,9 @@ export const RecipeForm = props => {
               options={props.products.data}
               getOptionLabel={option => option.name}
               filterSelectedOptions
-              value={formik.getFieldProps("productsInRecipe").value}
+              value={formik.getFieldProps("listOfProducts").value}
               onChange={(e, value) =>
-                formik.setFieldValue("productsInRecipe", value)
+                formik.setFieldValue("listOfProducts", value)
               }
               renderInput={params => (
                 <TextField
@@ -126,14 +127,14 @@ export const RecipeForm = props => {
                   placeholder="Produkt"
                   margin="normal"
                   fullWidth
-                  {...formik.getFieldProps("productsInRecipe")}
+                  {...formik.getFieldProps("listOfProducts")}
                   helperText={
-                    formik.touched.productsInRecipe &&
-                    formik.errors.productsInRecipe
+                    formik.touched.listOfProducts &&
+                    formik.errors.listOfProducts
                   }
                   error={
-                    formik.touched.productsInRecipe &&
-                    Boolean(formik.errors.productsInRecipe)
+                    formik.touched.listOfProducts &&
+                    Boolean(formik.errors.listOfProducts)
                   }
                 />
               )}
@@ -142,7 +143,7 @@ export const RecipeForm = props => {
           <ToDoList
             handler={toDoListHandler}
             validation={formik}
-            description={formik.getFieldProps("productsInRecipe").value}
+            description={formik.getFieldProps("listOfProducts").value}
           />
         </Grid>
         <Grid container>
