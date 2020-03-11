@@ -15,25 +15,34 @@ import {
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import { Container, Box } from "@material-ui/core";
 
-const Wrapper = styled.section`
-  padding: 2em;
+const Wrapper = styled.div`
+  padding: 25px;
   border: 2px solid #039be5;
-  border-radius: 10px;
-  width: 100%;
+  border-radius: 25px;
+  min-width: 350px;
 `;
 
-const steps = [
-  "Podstawowe informacje",
-  "Szczegoly",
-  "Opis"
-];
+const steps = ["Podstawowe informacje", "Szczegoly", "Opis"];
 
 class recipes extends Component {
+  state = {
+    step: 0
+  };
+
   componentDidMount() {
     this.props.dispatch(getProducts());
     this.props.dispatch(getRecipes());
   }
+
+  nextStep = () => {
+    this.setState(state => ({ step: state.step + 1 }));
+  };
+
+  previousStep = () => {
+    this.setState(state => ({ step: state.step - 1 }));
+  };
 
   addRecipe = recipe => {
     this.props.dispatch(addRecipe(recipe));
@@ -45,13 +54,18 @@ class recipes extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Grid container justify="space-between" alignItems="center">
-          <Grid item xs={2}></Grid>
-          <Grid item xs={8}>
-            <h2>Formatka do dodawania przepisu</h2>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        justify="center"
+        style={{ minHeight: "85vh" }}
+      >
+        <Grid item>
+          <div style={{ textAlign: "center" }}>
+            <h2>Dodawanie przepisu</h2>
             <Wrapper>
-              <Stepper alternativeLabel>
+              <Stepper alternativeLabel activeStep={this.state.step}>
                 {steps.map(label => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
@@ -59,25 +73,16 @@ class recipes extends Component {
                 ))}
               </Stepper>
               <RecipeForm
+                nextStep={this.nextStep}
+                previousStep={this.previousStep}
+                currentStep={this.state.step}
                 addRecipeHandler={this.addRecipe}
                 products={this.props.products}
               />
             </Wrapper>
-          </Grid>
-          <Grid item xs={2}></Grid>
-        </Grid>
-        {/* <h2>Lista przepisow</h2>
-        {this.props.recipes.downloading ? (
-          <div className="loader">
-            <CircularProgress size={50} />
           </div>
-        ) : (
-          <ListRecipes
-            recipes={this.props.recipes.data}
-            deleteRecipe={this.deleteRecipe}
-          />
-        )} */}
-      </React.Fragment>
+        </Grid>
+      </Grid>
     );
   }
 }

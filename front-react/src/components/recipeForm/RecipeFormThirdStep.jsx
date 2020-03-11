@@ -1,12 +1,20 @@
 import React from "react";
-import toDoList from "../toDoList/ToDoList";
+import ToDoList from "../toDoList/ToDoList";
 
-export const RecipeFormThirdStep = ({ formik, toDoListHandler }) => {
+export const RecipeFormThirdStep = props => {
+  console.log(props)
+  const toDoListHandler = (task, index) => {
+    let currentArray = props.getFieldProps("description").value;
+    index === undefined
+      ? currentArray.push(task)
+      : currentArray.splice(index, 1);
+    props.setFieldValue("description", currentArray);
+  };
   return (
-    <toDoList
+    <ToDoList
       handler={toDoListHandler}
-      validation={formik}
-      description={formik.getFieldProps("listOfProducts").value}
+      validation={props}
+      description={props.getFieldProps("listOfProducts").value}
     />
   );
 };

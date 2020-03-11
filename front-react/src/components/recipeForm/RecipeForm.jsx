@@ -8,13 +8,18 @@ import ToDoList from "../toDoList/ToDoList";
 import MenuItem from "@material-ui/core/MenuItem";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SaveIcon from "@material-ui/icons/Save";
+import { RecipeFormFirstStep } from "./RecipeFormFirstStep";
+import { RecipeFormSecondStep } from "./RecipeFormSecondStep";
+import { RecipeFormThirdStep } from "./RecipeFormThirdStep";
+import Wizard from "./Wizard";
+import { WizardStep } from "./WizardStep";
 
 const shortid = require("shortid");
 
 const levels = ["Latwe", "Srednie", "Trudne"];
 
 export const RecipeForm = props => {
-  const formik = useFormik({
+  const formSetUp = {
     initialValues: {
       name: "",
       difficulty: "",
@@ -32,51 +37,21 @@ export const RecipeForm = props => {
         .required("To pole jest wymagane"),
       listOfProducts: Yup.array().min(3, "Musza byc przynajmniej 3 skladniki"),
       description: Yup.array().min(1, "Musza byc przynajmniej 3 kroki")
-    }),
-    onSubmit: (values, { resetForm }) => {
-      values._id = shortid.generate();
-      props.addRecipeHandler(values);
-      resetForm();
-    }
-  });
-
-  const toDoListHandler = (task, index) => {
-    let currentArray = formik.getFieldProps("description").value;
-    index === undefined
-      ? currentArray.push(task)
-      : currentArray.splice(index, 1);
-    formik.setFieldValue("description", currentArray);
+    })
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={3}>
-        <Grid item sm={12} md={8}>
-          <div></div>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justify="space-around"
-          alignItems="center"
-        >
-          <Grid item>
-            <Button variant="contained" color="secondary">
-              Wstecz
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              startIcon={<SaveIcon />}
-            >
-              Dalej
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    </form>
+    <Grid
+      container
+      direction="column"
+      justify="space-between"
+      alignItems="center"
+      style={{ minHeight: "200px" }}
+    >
+      <Wizard
+        setUp={formSetUp}
+        products={props.products.data}
+      />
+    </Grid>
   );
 };

@@ -9,31 +9,34 @@ import SaveIcon from "@material-ui/icons/Save";
 
 const levels = ["Latwe", "Srednie", "Trudne"];
 
-export const RecipeFormFirstStep = ({ formik }) => {
+export const RecipeFormFirstStep = props => {
+  console.log("props", props);
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={3}>
+    <Grid container justify="center" item spacing={3}>
+      <Grid item xs={4}>
         <TextField
           id="name"
           label="Nazwa"
-          {...formik.getFieldProps("name")}
+          name="name"
+          {...props.getFieldProps("name")}
           placeholder="Nazwa przepisu"
           margin="normal"
-          helperText={formik.touched.name && formik.errors.name}
-          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={props.touched.name && props.errors.name}
+          error={props.touched.name && Boolean(props.errors.name)}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <TextField
           id="difficulty"
+          name="difficulty"
           select
           label="Wybierz"
-          {...formik.getFieldProps("difficulty")}
+          {...props.getFieldProps("difficulty")}
           placeholder="Poziom trudnosci przepisu"
           margin="normal"
           style={{ width: "200px" }}
-          helperText={formik.touched.difficulty && formik.errors.difficulty}
-          error={formik.touched.difficulty && Boolean(formik.errors.difficulty)}
+          helperText={props.touched.difficulty && props.errors.difficulty}
+          error={props.touched.difficulty && Boolean(props.errors.difficulty)}
         >
           {levels.map((option, index) => (
             <MenuItem
@@ -46,23 +49,53 @@ export const RecipeFormFirstStep = ({ formik }) => {
           ))}
         </TextField>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <TextField
           id="numberOfPersons"
+          name="numberOfPersons"
           type="number"
           label="Ilosc osob"
-          {...formik.getFieldProps("numberOfPersons")}
+          {...props.getFieldProps("numberOfPersons")}
           className="input"
           placeholder="Szacunkowa ilosc osob na danie"
           margin="normal"
           helperText={
-            formik.touched.numberOfPersons && formik.errors.numberOfPersons
+            props.touched.numberOfPersons && props.errors.numberOfPersons
           }
           error={
-            formik.touched.numberOfPersons &&
-            Boolean(formik.errors.numberOfPersons)
+            props.touched.numberOfPersons &&
+            Boolean(props.errors.numberOfPersons)
           }
         />
+      </Grid>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
+        <Grid item>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={props.navigateBack}
+            disabled={props.formStep === 0}
+          >
+            Wstecz
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+             type="submit"
+            // startIcon={<SaveIcon />}
+            onClick={props.navigateNext}
+            disabled={props.errors.name || props.errors.numberOfPersons || props.errors.difficulty}
+          >
+            Dalej
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

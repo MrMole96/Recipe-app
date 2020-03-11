@@ -29,6 +29,11 @@ export const snackBarConst = {
     SNACKBAR_CLOSE: 'SNACKBAR_CLOSE'
 }
 
+export const stepperConst = {
+    NEXT_STEP: 'NEXT_STEP',
+    PREVIOUS_STEP:'PREVIOUS_STEP'
+}
+
 // export const modalConst = {
 //     MODAL_OPEN: 'MODAL_OPEN',
 //     MODAL_CLOSE: 'MODAL_CLOSE',

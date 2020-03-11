@@ -16,7 +16,8 @@ export default {
     recipes: {
         downloading: false,
         error: false,
-        data: []
+        data: [],
+        formStep:0
     },
     snackBar: {
         open: false,
