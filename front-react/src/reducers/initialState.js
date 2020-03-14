@@ -16,8 +16,10 @@ export default {
     recipes: {
         downloading: false,
         error: false,
-        data: [],
-        formStep:0
+        data: []
+    },
+    wiz: {
+        formStep: 0
     },
     snackBar: {
         open: false,

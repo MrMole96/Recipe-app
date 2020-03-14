@@ -5,6 +5,7 @@ import { RecipeFormFirstStep } from "../../components/recipeForm/RecipeFormFirst
 import { RecipeFormThirdStep } from "../../components/recipeForm/RecipeFormThirdStep";
 import { RecipeFormSecondStep } from "../../components/recipeForm/RecipeFormSecondStep";
 import Wiz from "../../container/stepper/Wiz";
+import Grid from "@material-ui/core/Grid";
 class Wizard extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,7 @@ class Wizard extends Component {
         pages={[RecipeFormFirstStep, RecipeFormSecondStep, RecipeFormThirdStep]}
       >
         {wizProps => (
-          <div>
+          <Grid container justify="center">
             <Formik
               initialValues={this.props.setUp.initialValues}
               validationSchema={this.props.setUp.validationSchema}
@@ -48,7 +49,7 @@ class Wizard extends Component {
               {props => {
                 const { handleSubmit } = props;
                 return (
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                     {/* {wizProps.pageIndex === 1
                       ? wizProps.renderPage({ formik, products })
                       : wizProps.renderPage(formik)} */}
@@ -57,13 +58,11 @@ class Wizard extends Component {
                 );
               }}
             </Formik>
-          </div>
+          </Grid>
         )}
       </Wiz>
     );
   }
 }
-
-
 
 export default Wizard;

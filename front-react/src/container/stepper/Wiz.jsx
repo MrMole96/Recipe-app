@@ -10,7 +10,7 @@ class Wiz extends Component {
     const renderProps = {
       navigateBack: this._navigateBack,
       navigateNext: this._navigateNext,
-      formStep: this.props.recipes.formStep,
+      formStep: this.props.wiz.formStep,
       renderPage: this._renderPage
     };
     return this.props.children(renderProps);
@@ -20,8 +20,7 @@ class Wiz extends Component {
     // this.setState(prevState => ({
     //   formStep: prevState.formStep - 1 < 0 ? prevState.formStep - 1 : 0
     // }));
-    if (this.props.recipes.formStep - 1 < 0)
-      this.props.dispatch(previousStep());
+    if (this.props.wiz.formStep - 1 <= 0) this.props.dispatch(previousStep());
   };
 
   _navigateNext = () => {
@@ -32,7 +31,7 @@ class Wiz extends Component {
   };
 
   _renderPage = formProps => {
-    const formStep = this.props.recipes.formStep;
+    const formStep = this.props.wiz.formStep;
 
     const Page = this.props.pages[formStep];
 
@@ -47,7 +46,7 @@ class Wiz extends Component {
   };
 }
 function mapStateToProps(state) {
-  return { recipes: state.recipes };
+  return { wiz: state.wiz };
 }
 
 export default connect(mapStateToProps)(Wiz);

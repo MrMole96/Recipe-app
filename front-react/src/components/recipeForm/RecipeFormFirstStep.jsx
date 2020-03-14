@@ -70,6 +70,7 @@ export const RecipeFormFirstStep = props => {
       </Grid>
       <Grid
         container
+        item
         direction="row"
         justify="space-between"
         alignItems="center"
@@ -88,10 +89,14 @@ export const RecipeFormFirstStep = props => {
           <Button
             variant="contained"
             color="primary"
-             type="submit"
+            type="submit"
             // startIcon={<SaveIcon />}
             onClick={props.navigateNext}
-            disabled={props.errors.name || props.errors.numberOfPersons || props.errors.difficulty}
+            disabled={
+              props.errors.name ||
+              props.errors.numberOfPersons ||
+              props.errors.difficulty
+            }
           >
             Dalej
           </Button>

@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   min-width: 350px;
 `;
 
-const steps = ["Podstawowe informacje", "Szczegoly", "Opis"];
+const steps = ["Podstawowe informacje", "Szczegoly", "Opis", "Podsumowanie"];
 
 class recipes extends Component {
   state = {
@@ -53,6 +53,7 @@ class recipes extends Component {
   };
 
   render() {
+    console.log(this.props.wiz.formStep);
     return (
       <Grid
         container
@@ -65,7 +66,7 @@ class recipes extends Component {
           <div style={{ textAlign: "center" }}>
             <h2>Dodawanie przepisu</h2>
             <Wrapper>
-              <Stepper alternativeLabel activeStep={this.state.step}>
+              <Stepper alternativeLabel activeStep={this.props.wiz.formStep}>
                 {steps.map(label => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
@@ -87,7 +88,7 @@ class recipes extends Component {
   }
 }
 function mapStateToProps(state) {
-  return { products: state.products, recipes: state.recipes };
+  return { products: state.products, wiz: state.wiz };
 }
 
 export default connect(mapStateToProps)(recipes);

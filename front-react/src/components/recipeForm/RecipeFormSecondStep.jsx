@@ -7,7 +7,7 @@ export const RecipeFormSecondStep = props => {
   console.log(props);
 
   return (
-    <React.Fragment>
+    <Grid container justify="center" item spacing={3}>
       <Grid item xs={12}>
         <Autocomplete
           style={{ width: "100%" }}
@@ -42,6 +42,7 @@ export const RecipeFormSecondStep = props => {
       </Grid>
       <Grid
         container
+        item
         direction="row"
         justify="space-between"
         alignItems="center"
@@ -69,6 +70,6 @@ export const RecipeFormSecondStep = props => {
           </Button>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Grid>
   );
 };
