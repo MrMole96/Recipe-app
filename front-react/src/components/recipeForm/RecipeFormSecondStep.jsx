@@ -1,11 +1,61 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Input } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-export const RecipeFormSecondStep = props => {
-  console.log(props);
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import Box from "@material-ui/core/Box";
 
+const units = ["ml", "g", "szt", "dkg", "kg"];
+
+export const RecipeFormSecondStep = props => {
+  const addProductInput = value => {
+    let products = value;
+
+    return products.map(x => (
+      <Grid item xs={6} md={4} lg={3} key={x.id}>
+        <Box display="flex" flexWrap="nowrap">
+          <h4>{x.name}:</h4>
+          <FormControl style={{ margin: "0px 10px" }}>
+            <InputLabel>Ilosc</InputLabel>
+            <Input
+              className="input"
+              type="number"
+              margin="normal"
+              inputProps={{ style: { textAlign: "center" } }}
+              style={{ width: "50px" }}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel>Jednostka</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              className="input"
+              margin="normal"
+              style={{ width: "100px" }}
+            >
+              {units.map((option, index) => (
+                <MenuItem
+                  key={index}
+                  style={{ display: "block", paddingLeft: "10px" }}
+                  value={option}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </Grid>
+    ));
+  };
+
+  let productInputs = addProductInput(props.formik.values.listOfProducts);
+  console.log(productInputs);
   return (
     <Grid container justify="center" item spacing={3}>
       <Grid item xs={12}>
@@ -15,10 +65,11 @@ export const RecipeFormSecondStep = props => {
           options={props.products}
           getOptionLabel={option => option.name}
           filterSelectedOptions
-          value={props.formik.getFieldProps("listOfProducts").value}
-          onChange={(e, value) =>
-            props.formik.setFieldValue("listOfProducts", value)
-          }
+          // value={props.formik.getFieldProps("listOfProducts").value}
+          onChange={async (e, value) => {
+            //dodac funkcje ktora dodaje inputy aby mozna bylo ustawic ilosc i miare
+            props.formik.setFieldValue("listOfProducts", value);
+          }}
           renderInput={params => (
             <TextField
               {...params}
@@ -39,6 +90,9 @@ export const RecipeFormSecondStep = props => {
             />
           )}
         />
+      </Grid>
+      <Grid container direction="row" item spacing={3} xs={12}>
+        {productInputs}
       </Grid>
       <Grid
         container
@@ -64,7 +118,7 @@ export const RecipeFormSecondStep = props => {
             // type="submit"
             // startIcon={<SaveIcon />}
             onClick={props.navigateNext}
-            disabled={!props.formik.errors.listOfProducts}
+            disabled={Boolean(props.formik.errors.listOfProducts)}
           >
             Dalej
           </Button>

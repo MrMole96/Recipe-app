@@ -10,7 +10,7 @@ import SaveIcon from "@material-ui/icons/Save";
 const levels = ["Latwe", "Srednie", "Trudne"];
 
 export const RecipeFormFirstStep = props => {
-  console.log("props", props);
+
   return (
     <Grid container justify="center" item spacing={3}>
       <Grid item xs={4}>
@@ -93,9 +93,12 @@ export const RecipeFormFirstStep = props => {
             // startIcon={<SaveIcon />}
             onClick={props.navigateNext}
             disabled={
-              props.errors.name ||
-              props.errors.numberOfPersons ||
-              props.errors.difficulty
+              Boolean(props.errors.name) ||
+              props.values.name === "" ||
+              Boolean(props.errors.numberOfPersons) ||
+              props.values.numberOfPersons === 0 ||
+              Boolean(props.errors.difficulty) ||
+              props.values.difficulty === ""
             }
           >
             Dalej

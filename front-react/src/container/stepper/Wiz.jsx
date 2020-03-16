@@ -20,7 +20,7 @@ class Wiz extends Component {
     // this.setState(prevState => ({
     //   formStep: prevState.formStep - 1 < 0 ? prevState.formStep - 1 : 0
     // }));
-    if (this.props.wiz.formStep - 1 <= 0) this.props.dispatch(previousStep());
+    if (this.props.wiz.formStep - 1 >= 0) this.props.dispatch(previousStep());
   };
 
   _navigateNext = () => {
