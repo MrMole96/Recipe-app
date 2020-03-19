@@ -8,15 +8,42 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
+import { useState } from "react";
 
 const units = ["ml", "g", "szt", "dkg", "kg"];
 
 export const RecipeFormSecondStep = props => {
+  const [valueInputs, setValueInputs] = useState({});
+
+  const handleInputChange = event => {
+    event.persist();
+    setValueInputs(valueInputs => {
+      let name = event.target.name.split("-")[0];
+      if (isNaN(parseInt(event.target.value))) {
+        return {
+          ...valueInputs,
+          [name]: { ...valueInputs[name], unit: event.target.value }
+        };
+      } else {
+        return {
+          ...valueInputs,
+          [name]: { ...valueInputs[name], quantity: event.target.value }
+        };
+      }
+    });
+  };
+
+  const addField = () => {
+    console.log("addField");
+    let object = {};
+    props.formik.setFieldValue("productsDetails", object);
+  };
+
   const addProductInput = value => {
     let products = value;
 
-    return products.map(x => (
-      <Grid item xs={6} md={4} lg={3} key={x.id}>
+    return products.map((x, index) => (
+      <Grid item xs={6} md={4} lg={3} key={index}>
         <Box display="flex" flexWrap="nowrap">
           <h4>{x.name}:</h4>
           <FormControl style={{ margin: "0px 10px" }}>
@@ -24,9 +51,10 @@ export const RecipeFormSecondStep = props => {
             <Input
               className="input"
               type="number"
-              margin="normal"
-              inputProps={{ style: { textAlign: "center" } }}
+              name={x.name + "-input"}
+              inputProps={{ min: "0", style: { textAlign: "center" } }}
               style={{ width: "50px" }}
+              onChange={handleInputChange}
             />
           </FormControl>
           <FormControl>
@@ -35,8 +63,10 @@ export const RecipeFormSecondStep = props => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               className="input"
-              margin="normal"
               style={{ width: "100px" }}
+              defaultValue={""}
+              name={x.name + "-select"}
+              onChange={handleInputChange}
             >
               {units.map((option, index) => (
                 <MenuItem
@@ -56,6 +86,7 @@ export const RecipeFormSecondStep = props => {
 
   let productInputs = addProductInput(props.formik.values.listOfProducts);
   console.log(productInputs);
+  console.log("valueInputs", valueInputs);
   return (
     <Grid container justify="center" item spacing={3}>
       <Grid item xs={12}>
@@ -66,7 +97,7 @@ export const RecipeFormSecondStep = props => {
           getOptionLabel={option => option.name}
           filterSelectedOptions
           // value={props.formik.getFieldProps("listOfProducts").value}
-          onChange={async (e, value) => {
+          onChange={(e, value) => {
             //dodac funkcje ktora dodaje inputy aby mozna bylo ustawic ilosc i miare
             props.formik.setFieldValue("listOfProducts", value);
           }}
@@ -117,7 +148,10 @@ export const RecipeFormSecondStep = props => {
             color="primary"
             // type="submit"
             // startIcon={<SaveIcon />}
-            onClick={props.navigateNext}
+            onClick={() => {
+              addField();
+              props.navigateNext();
+            }}
             disabled={Boolean(props.formik.errors.listOfProducts)}
           >
             Dalej
