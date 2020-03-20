@@ -2,9 +2,9 @@ var mongoose = require("mongoose");
 
 var ProductSchema = new mongoose.Schema({
     name: String,
-    amount: Number,
+    // amount: Number,
     calories: Number,
-    unit: String,
+    // unit: String,
     // listOfRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }]
 });
 

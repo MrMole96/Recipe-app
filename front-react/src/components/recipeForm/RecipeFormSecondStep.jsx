@@ -8,7 +8,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const units = ["ml", "g", "szt", "dkg", "kg"];
 
@@ -19,28 +19,37 @@ export const RecipeFormSecondStep = props => {
     event.persist();
     setValueInputs(valueInputs => {
       let name = event.target.name.split("-")[0];
-      if (isNaN(parseInt(event.target.value))) {
-        return {
-          ...valueInputs,
-          [name]: { ...valueInputs[name], unit: event.target.value }
-        };
-      } else {
-        return {
-          ...valueInputs,
-          [name]: { ...valueInputs[name], quantity: event.target.value }
-        };
-      }
+      let type = event.target.name.split("-")[1];
+      return {
+        ...valueInputs,
+        [name]: { ...valueInputs[name], [type]: event.target.value }
+      };
     });
   };
 
-  const addField = () => {
-    console.log("addField");
-    let object = {};
-    props.formik.setFieldValue("productsDetails", object);
+  const saveToFormik = () => {
+    let filtered = {};
+    let allowed = props.formik.values.listOfProducts.map(x => x.name);
+
+    filtered = Object.keys(valueInputs)
+      .filter(key => allowed.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = valueInputs[key];
+        return obj;
+      }, {});
+
+    setValueInputs(filtered);
+    props.formik.setFieldValue(
+      "listOfProducts",
+      props.formik.values.listOfProducts.map(x => {
+        return Object.assign(x, filtered[x.name]);
+      })
+    );
   };
 
   const addProductInput = value => {
     let products = value;
+    console.log("details", props.formik.values.productsDetails);
 
     return products.map((x, index) => (
       <Grid item xs={6} md={4} lg={3} key={index}>
@@ -51,9 +60,10 @@ export const RecipeFormSecondStep = props => {
             <Input
               className="input"
               type="number"
-              name={x.name + "-input"}
+              name={x.name + "-quantity"}
               inputProps={{ min: "0", style: { textAlign: "center" } }}
               style={{ width: "50px" }}
+              value={x.quantity}
               onChange={handleInputChange}
             />
           </FormControl>
@@ -65,7 +75,8 @@ export const RecipeFormSecondStep = props => {
               className="input"
               style={{ width: "100px" }}
               defaultValue={""}
-              name={x.name + "-select"}
+              name={x.name + "-unit"}
+              value={x.unit}
               onChange={handleInputChange}
             >
               {units.map((option, index) => (
@@ -85,8 +96,6 @@ export const RecipeFormSecondStep = props => {
   };
 
   let productInputs = addProductInput(props.formik.values.listOfProducts);
-  console.log(productInputs);
-  console.log("valueInputs", valueInputs);
   return (
     <Grid container justify="center" item spacing={3}>
       <Grid item xs={12}>
@@ -96,7 +105,7 @@ export const RecipeFormSecondStep = props => {
           options={props.products}
           getOptionLabel={option => option.name}
           filterSelectedOptions
-          // value={props.formik.getFieldProps("listOfProducts").value}
+          value={props.formik.getFieldProps("listOfProducts").value}
           onChange={(e, value) => {
             //dodac funkcje ktora dodaje inputy aby mozna bylo ustawic ilosc i miare
             props.formik.setFieldValue("listOfProducts", value);
@@ -149,7 +158,7 @@ export const RecipeFormSecondStep = props => {
             // type="submit"
             // startIcon={<SaveIcon />}
             onClick={() => {
-              addField();
+              saveToFormik();
               props.navigateNext();
             }}
             disabled={Boolean(props.formik.errors.listOfProducts)}
