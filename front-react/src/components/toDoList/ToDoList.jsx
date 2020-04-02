@@ -64,56 +64,62 @@ export default class toDoList extends Component {
     }
     let { onBlur, value } = this.props.validation.getFieldProps("description");
     let { clickedTask, open } = this.state;
+    console.log(this.props.handler)
     return (
       <div>
-        <TextField
-          id="description"
-          label="Opis"
-          multiline
-          onBlur={onBlur}
-          onChange={value => this.inputHandler(value)}
-          placeholder="Dodaj etap w przepisie"
-          helperText={
-            this.props.validation.touched.description &&
-            this.props.validation.errors.description
-          }
-          error={
-            this.props.validation.touched.description &&
-            Boolean(this.props.validation.errors.description)
-          }
-          margin="normal"
-          value={this.state.text}
-          fullWidth
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => {
-                    this.addTasksHandler();
-                    this.setState({ text: "", image: null });
-                  }}
-                  disabled={this.state.text && this.state.image ? false : true}
-                >
-                  <AddIcon />
-                </IconButton>
-                <IconButton
-                  color={this.state.image ? "primary" : "secondary"}
-                  onClick={() => this.fileUpload.click()}
-                >
-                  <ImageIcon />
-                </IconButton>
-                <input
-                  type="file"
-                  ref={fileUpload => {
-                    this.fileUpload = fileUpload;
-                  }}
-                  style={{ visibility: "hidden" }}
-                  onChange={this.uploadFile}
-                />
-              </InputAdornment>
-            )
-          }}
-        />
+        {this.props.handler && (
+          <TextField
+            id="description"
+            label="Opis"
+            multiline
+            onBlur={onBlur}
+            onChange={value => this.inputHandler(value)}
+            placeholder="Dodaj etap w przepisie"
+            helperText={
+              this.props.validation.touched.description &&
+              this.props.validation.errors.description
+            }
+            error={
+              this.props.validation.touched.description &&
+              Boolean(this.props.validation.errors.description)
+            }
+            margin="normal"
+            value={this.state.text}
+            fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      this.addTasksHandler();
+                      this.setState({ text: "", image: null });
+                    }}
+                    disabled={
+                      this.state.text && this.state.image ? false : true
+                    }
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <IconButton
+                    color={this.state.image ? "primary" : "secondary"}
+                    onClick={() => this.fileUpload.click()}
+                  >
+                    <ImageIcon />
+                  </IconButton>
+                  <input
+                    type="file"
+                    ref={fileUpload => {
+                      this.fileUpload = fileUpload;
+                    }}
+                    style={{ visibility: "hidden" }}
+                    onChange={this.uploadFile}
+                  />
+                </InputAdornment>
+              )
+            }}
+          />
+        )}
+
         <List dense>{listOfProducts}</List>
         {this.state.open && (
           <TaskModal

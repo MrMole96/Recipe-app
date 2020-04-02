@@ -6,6 +6,7 @@ import { RecipeFormThirdStep } from "../../components/recipeForm/RecipeFormThird
 import { RecipeFormSecondStep } from "../../components/recipeForm/RecipeFormSecondStep";
 import Wiz from "../../container/stepper/Wiz";
 import Grid from "@material-ui/core/Grid";
+import { RecipeFormFourthStep } from "./RecipeFormFourthStep";
 class Wizard extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,8 @@ class Wizard extends Component {
         return component.renderPage({ formik, products });
       case 2:
         return component.renderPage(formik);
+      case 3:
+        return component.renderPage(formik);
       default:
         break;
     }
@@ -32,7 +35,7 @@ class Wizard extends Component {
     const products = this.props.products;
     return (
       <Wiz
-        pages={[RecipeFormFirstStep, RecipeFormSecondStep, RecipeFormThirdStep]}
+        pages={[RecipeFormFirstStep, RecipeFormSecondStep, RecipeFormThirdStep, RecipeFormFourthStep]}
       >
         {wizProps => (
           <Grid container justify="center">

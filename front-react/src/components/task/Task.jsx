@@ -17,21 +17,29 @@ const task = props => {
         style={{ wordWrap: "break-word", paddingRight: "45px" }}
         primary={props.description.text}
       />
-      <ListItemSecondaryAction>
-        <IconButton
-          edge="end"
-          onClick={() => props.showTaskHandler(props.description)}
-        >
-          <ZoomOutMapIcon />
-        </IconButton>
-        <IconButton
-          edge="end"
-          aria-label="delete"
-          onClick={() => props.deleteHandler(props.task, props.index)}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
+      {props.showTaskHandler && props.deleteHandler && (
+        <ListItemSecondaryAction>
+          {props.showTaskHandler && (
+            <IconButton
+              edge="end"
+              onClick={() => props.showTaskHandler(props.description)}
+            >
+              <ZoomOutMapIcon />
+            </IconButton>
+          )}
+
+          {props.deleteHandler && (
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={() => props.deleteHandler(props.task, props.index)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
+        </ListItemSecondaryAction>
+      )}
+      {props.showImg && <img src={props.description.image} width={200} />}
     </ListItem>
   );
 };

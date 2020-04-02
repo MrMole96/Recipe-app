@@ -77,6 +77,7 @@ export function addRecipe(recipe) {
     return async (dispatch) => {
         handlePostRecipe(dispatch)
         try {
+            console.log('send recipe', recipe)
             let response = await axios.post('/Recipes', recipe);
             handlePostRecipeSuccess(dispatch, recipe)
             openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
