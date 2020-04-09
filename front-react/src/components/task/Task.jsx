@@ -9,7 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ZoomOutMapIcon from "@material-ui/icons/ZoomOutMap";
 const task = props => {
   return (
-    <ListItem className={"task"}>
+    <ListItem className={"task"} disableGutters>
       <ListItemIcon>
         <h3>{props.index + 1}.</h3>
       </ListItemIcon>

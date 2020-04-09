@@ -7,17 +7,18 @@ import Task from "../task/Task";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SaveIcon from "@material-ui/icons/Save";
 import { addRecipe } from "../../actions/recipesActions";
+import "./RecipeForm.css";
 
-export const RecipeFormFourthStep = props => {
+export const RecipeFormFourthStep = (props) => {
   const dispatch = useDispatch();
-  const downloading = useSelector(state => state.recipes.downloading);
+  const downloading = useSelector((state) => state.recipes.downloading);
 
   const {
     name,
     difficulty,
     numberOfPersons,
     listOfProducts,
-    description
+    description,
   } = props.values;
   listOfProducts.reduce((acc, obj) => {
     return acc + obj.calories;
@@ -38,49 +39,55 @@ export const RecipeFormFourthStep = props => {
       <Grid item>
         <h2>{name}</h2>
       </Grid>
-      <Grid item container justify="space-around">
-        <Grid item>
-          <div className="summary-header">
-            <p>
-              Stopien trudnosci: <b>{difficulty}</b>
-            </p>
-          </div>
+      <Grid item container>
+        <Grid item container justify="center" xs={12} sm={6}>
+          <img src="https://via.placeholder.com/300" width="300" />
+          {/* Zdjecie finalne i lista produktow */}
         </Grid>
-        <Grid item>
-          <div className="summary-header">
-            <p>
-              Ilosc porcji: <b>{numberOfPersons}</b>
-            </p>
-          </div>
-        </Grid>
-        <Grid item>
-          <div className="summary-header">
-            <p>
-              Szacowana ilosc kalorii:
-              <b>
-                {" "}
-                {listOfProducts.reduce((acc, obj) => acc + obj.calories, 0)}
-              </b>
-            </p>
-          </div>
+        <Grid item container xs={12} sm={6}>
+          <Grid item container spacing={3} justify="space-around">
+            <Grid item>
+              <div className="summary-header">
+                <p>
+                  Stopien trudnosci: <b>{difficulty}</b>
+                </p>
+              </div>
+            </Grid>
+            <Grid item>
+              <div className="summary-header">
+                <p>
+                  Ilosc porcji: <b>{numberOfPersons}</b>
+                </p>
+              </div>
+            </Grid>
+            <Grid item>
+              <div className="summary-header">
+                <p>
+                  Szacowana ilosc kalorii:
+                  <b>
+                    {" "}
+                    {listOfProducts.reduce((acc, obj) => acc + obj.calories, 0)}
+                  </b>
+                </p>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <ul className="list-of-products">
+              {listOfProducts.map((x, i) => (
+                <li key={i}>
+                  {x.name} {x.quantity}
+                  {x.unit}
+                </li>
+              ))}
+            </ul>
+          </Grid>
         </Grid>
       </Grid>
       <Grid item container>
-        <Grid item container justify="flex-start" xs={12} sm={6}>
-          <img src="https://via.placeholder.com/300" width="300" />
-          <ul className="list-of-products">
-            {listOfProducts.map((x, i) => (
-              <li key={i}>
-                {x.name} {x.quantity}
-                {x.unit}
-              </li>
-            ))}
-          </ul>
-          {/* Zdjecie finalne i lista produktow */}
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <List dense>{descriptionToRender}</List>
-        </Grid>
+        <List style={{ width: "100%" }} dense>
+          {descriptionToRender}
+        </List>
       </Grid>
       <Grid
         container
@@ -105,7 +112,9 @@ export const RecipeFormFourthStep = props => {
             color=""
             type="submit"
             startIcon={<SaveIcon />}
-            onClick={() => {dispatch(addRecipe(props.values))}}
+            onClick={() => {
+              dispatch(addRecipe(props.values));
+            }}
           >
             Zapisz
           </Button>

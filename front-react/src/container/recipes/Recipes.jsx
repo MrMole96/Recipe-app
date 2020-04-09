@@ -9,7 +9,7 @@ import { getProducts } from "../../actions/productsActions";
 import {
   getRecipes,
   addRecipe,
-  deleteRecipe
+  deleteRecipe,
 } from "../../actions/recipesActions";
 
 import Stepper from "@material-ui/core/Stepper";
@@ -22,13 +22,14 @@ const Wrapper = styled.div`
   border: 2px solid #039be5;
   border-radius: 25px;
   min-width: 350px;
+  max-width: 1200px;
 `;
 
 const steps = ["Podstawowe informacje", "Szczegoly", "Opis", "Podsumowanie"];
 
 class recipes extends Component {
   state = {
-    step: 0
+    step: 0,
   };
 
   componentDidMount() {
@@ -37,17 +38,17 @@ class recipes extends Component {
   }
 
   nextStep = () => {
-    this.setState(state => ({ step: state.step + 1 }));
+    this.setState((state) => ({ step: state.step + 1 }));
   };
 
   previousStep = () => {
-    this.setState(state => ({ step: state.step - 1 }));
+    this.setState((state) => ({ step: state.step - 1 }));
   };
 
-  addRecipe = recipe => {
+  addRecipe = (recipe) => {
     this.props.dispatch(addRecipe(recipe));
   };
-  deleteRecipe = recipeId => {
+  deleteRecipe = (recipeId) => {
     console.log(recipeId);
     this.props.dispatch(deleteRecipe(recipeId));
   };
@@ -60,29 +61,25 @@ class recipes extends Component {
         spacing={0}
         direction="column"
         justify="center"
-        style={{ minHeight: "85vh" }}
+        style={{ minHeight: "85vh", textAlign: "center" }}
       >
-        <Grid item>
-          <div style={{ textAlign: "center" }}>
-            <h2>Dodawanie przepisu</h2>
-            <Wrapper>
-              <Stepper alternativeLabel activeStep={this.props.wiz.formStep}>
-                {steps.map(label => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              <RecipeForm
-                nextStep={this.nextStep}
-                previousStep={this.previousStep}
-                currentStep={this.state.step}
-                addRecipeHandler={this.addRecipe}
-                products={this.props.products}
-              />
-            </Wrapper>
-          </div>
-        </Grid>
+        <h2>Dodawanie przepisu</h2>
+        <Wrapper style={{width:'100%'}}>
+          <Stepper alternativeLabel activeStep={this.props.wiz.formStep}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <RecipeForm
+            nextStep={this.nextStep}
+            previousStep={this.previousStep}
+            currentStep={this.state.step}
+            addRecipeHandler={this.addRecipe}
+            products={this.props.products}
+          />
+        </Wrapper>
       </Grid>
     );
   }

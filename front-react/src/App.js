@@ -30,7 +30,7 @@ class App extends Component {
       <Router>
         <ThemeProvider theme={theme}>
           <Navigation />
-          <Container maxWidth="lg">
+          <Container maxWidth="md">
             <Switch>
               <Route path="/products">
                 <StylesProvider>

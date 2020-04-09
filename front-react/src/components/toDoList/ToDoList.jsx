@@ -6,6 +6,7 @@ import ImageIcon from "@material-ui/icons/Image";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Task from "../task/Task";
 import List from "@material-ui/core/List";
+import { Grid } from "@material-ui/core";
 
 import "./ToDoList.css";
 import { TaskModal } from "../taskModal/TaskModal";
@@ -14,10 +15,10 @@ export default class toDoList extends Component {
     text: "",
     image: null,
     open: false,
-    clickedTask: null
+    clickedTask: null,
   };
 
-  inputHandler = event => {
+  inputHandler = (event) => {
     this.setState({ text: event.target.value });
   };
 
@@ -28,21 +29,21 @@ export default class toDoList extends Component {
 
   uploadFile = () => {
     let file = this.fileUpload.files[0];
-    this.toBase64(file).then(result => {
+    this.toBase64(file).then((result) => {
       this.setState({ image: result });
     });
   };
 
-  showTaskHandler = task => {
+  showTaskHandler = (task) => {
     this.setState({ clickedTask: task, open: true });
   };
 
-  toBase64 = file =>
+  toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
+      reader.onerror = (error) => reject(error);
     });
 
   render() {
@@ -64,63 +65,66 @@ export default class toDoList extends Component {
     }
     let { onBlur, value } = this.props.validation.getFieldProps("description");
     let { clickedTask, open } = this.state;
-    console.log(this.props.handler)
+    console.log(this.props.handler);
     return (
-      <div>
-        {this.props.handler && (
-          <TextField
-            id="description"
-            label="Opis"
-            multiline
-            onBlur={onBlur}
-            onChange={value => this.inputHandler(value)}
-            placeholder="Dodaj etap w przepisie"
-            helperText={
-              this.props.validation.touched.description &&
-              this.props.validation.errors.description
-            }
-            error={
-              this.props.validation.touched.description &&
-              Boolean(this.props.validation.errors.description)
-            }
-            margin="normal"
-            value={this.state.text}
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => {
-                      this.addTasksHandler();
-                      this.setState({ text: "", image: null });
-                    }}
-                    disabled={
-                      this.state.text && this.state.image ? false : true
-                    }
-                  >
-                    <AddIcon />
-                  </IconButton>
-                  <IconButton
-                    color={this.state.image ? "primary" : "secondary"}
-                    onClick={() => this.fileUpload.click()}
-                  >
-                    <ImageIcon />
-                  </IconButton>
-                  <input
-                    type="file"
-                    ref={fileUpload => {
-                      this.fileUpload = fileUpload;
-                    }}
-                    style={{ visibility: "hidden" }}
-                    onChange={this.uploadFile}
-                  />
-                </InputAdornment>
-              )
-            }}
-          />
-        )}
-
-        <List dense>{listOfProducts}</List>
+      <Grid container item justify="space-around" direction="column" spacing={3}>
+        <Grid item>
+          {this.props.handler && (
+            <TextField
+              id="description"
+              label="Opis"
+              multiline
+              onBlur={onBlur}
+              onChange={(value) => this.inputHandler(value)}
+              placeholder="Dodaj etap w przepisie"
+              helperText={
+                this.props.validation.touched.description &&
+                this.props.validation.errors.description
+              }
+              error={
+                this.props.validation.touched.description &&
+                Boolean(this.props.validation.errors.description)
+              }
+              margin="normal"
+              value={this.state.text}
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => {
+                        this.addTasksHandler();
+                        this.setState({ text: "", image: null });
+                      }}
+                      disabled={
+                        this.state.text && this.state.image ? false : true
+                      }
+                    >
+                      <AddIcon />
+                    </IconButton>
+                    <IconButton
+                      color={this.state.image ? "primary" : "secondary"}
+                      onClick={() => this.fileUpload.click()}
+                    >
+                      <ImageIcon />
+                    </IconButton>
+                    <input
+                      type="file"
+                      ref={(fileUpload) => {
+                        this.fileUpload = fileUpload;
+                      }}
+                      style={{ visibility: "hidden" }}
+                      onChange={this.uploadFile}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        </Grid>
+        <Grid item>
+          <List dense>{listOfProducts}</List>
+        </Grid>
         {this.state.open && (
           <TaskModal
             open={open}
@@ -130,7 +134,7 @@ export default class toDoList extends Component {
             handleClose={() => this.setState({ open: false })}
           />
         )}
-      </div>
+      </Grid>
     );
   }
 }
