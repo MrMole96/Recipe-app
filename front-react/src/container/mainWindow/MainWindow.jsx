@@ -1,75 +1,59 @@
-import React, { Component } from 'react'
-import Search from '../search/Search'
-import Listrecipes from '../../components/listRecipes/ListRecipes'
-import axios from 'axios';
-import Snackbar from '@material-ui/core/Snackbar';
-import { SnackBarWrapper } from '../../components/snackBarWrapper/SnackBarWrapper'
+import React, { Component } from "react";
+import Search from "../search/Search";
+import Listrecipes from "../../components/listRecipes/ListRecipes";
+import axios from "axios";
+import Snackbar from "@material-ui/core/Snackbar";
+import { SnackBarWrapper } from "../../components/snackBarWrapper/SnackBarWrapper";
+
+import { connect } from "react-redux";
+import { getRecipes } from "../../actions/recipesActions";
 export class MainWindow extends Component {
+  state = {
+    recipes: [],
+    open: false,
+    snackMessage: "",
+    snackVariant: "",
+  };
+  getRecipesHandler = (products) => {
+    this.props.dispatch(getRecipes(products));
+  };
 
-    state = {
-        recipes: [],
-        open: false,
-        snackMessage: '',
-        snackVariant: ''
-    }
-    getRecipesHandler = (products) => {
-        let that = this;
-        axios.post('http://localhost:9000/Recipes/byProducts', {
-            products: products
-        })
-            .then(function (response) {
-                that.setState({ recipes: response.data })
-            })
-            .catch(function (err) {
-                that.setState({
-                    open: true,
-                    snackMessage: 'Nie udalo sie',
-                    snackVariant: 'error'
-                })
-            })
-    }
+  deleteRecipe = (recipeId) => {
+    var that = this;
+    axios
+      .delete("http://localhost:9000/Recipes", { params: { id: recipeId } })
+      .then((response) => {
+        this.setState({
+          open: true,
+          snackMessage: response.data,
+          snackVariant: "success",
+        });
+      })
+      .catch(function(err) {
+        that.setState({
+          open: true,
+          snackMessage: err,
+          snackVariant: "error",
+        });
+      });
+  };
 
-    deleteRecipe = (recipeId) => {
-        var that = this;
-        axios.delete('http://localhost:9000/Recipes', { params: { id: recipeId } })
-            .then(response => {
-                this.setState({
-                    open: true,
-                    snackMessage: response.data,
-                    snackVariant: 'success'
-                })
-            })
-            .catch(function (err) {
-                that.setState({
-                    open: true,
-                    snackMessage: err,
-                    snackVariant: 'error'
-                })
-            })
-    }
-
-    render() {
-        return (
-            <div>
-                <Snackbar
-                    open={this.state.open}
-                    onClose={() => this.setState({ open: false })}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                // autoHideDuration={6000}
-                >
-                    <SnackBarWrapper
-                        variant={this.state.snackVariant}
-                        message={this.state.snackMessage}
-                        onClose={() => this.setState({ open: false })} />
-                </Snackbar>
-                <Search getRecipes={this.getRecipesHandler} />
-                <Listrecipes recipes={this.state.recipes} deleteRecipe={this.deleteRecipe} />
-            </div >
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Search getRecipes={this.getRecipesHandler} />
+        <Listrecipes
+          recipes={this.props.recipes.data}
+          deleteRecipe={this.deleteRecipe}
+          isDownloading={this.props.recipes.downloading}
+        />
+      </div>
+    );
+  }
 }
 
-export default MainWindow
+function mapStateToProps(state) {
+  return { recipes: state.recipes };
+}
+
+export default connect(mapStateToProps)(MainWindow);

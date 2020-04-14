@@ -60,11 +60,13 @@ const handleDeleteRecipeFail = (dispatch) => {
 }
 
 
-export function getRecipes() {
+export function getRecipes(products) {
     return async (dispatch) => {
         handleGetRecipes(dispatch)
         try {
-            let response = await axios.get('/Recipes');
+            let response = await axios.post("Recipes/byProducts", {
+                products: products
+            })
             handleGetRecipesSuccess(dispatch, response.data)
         } catch (error) {
             handleGetRecipesFail(dispatch)
