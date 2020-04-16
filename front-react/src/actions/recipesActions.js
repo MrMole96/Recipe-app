@@ -94,9 +94,9 @@ export function deleteRecipe(recipeId) {
     return async (dispatch) => {
         handleDeleteRecipe(dispatch)
         try {
-            let response = await axios.delete('/Recipes', { params: { id: recipeId } })
+            // let response = await axios.delete('/Recipes', { params: { id: recipeId } })
             handleDeleteRecipeSuccess(dispatch, recipeId)
-            openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
+            // openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
         } catch (error) {
             handleDeleteRecipeFail(dispatch)
             openSnackBar(dispatch, { message: error.message, variant: 'error' })

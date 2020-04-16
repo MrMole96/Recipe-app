@@ -6,7 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { SnackBarWrapper } from "../../components/snackBarWrapper/SnackBarWrapper";
 
 import { connect } from "react-redux";
-import { getRecipes } from "../../actions/recipesActions";
+import { getRecipes, deleteRecipe } from "../../actions/recipesActions";
 export class MainWindow extends Component {
   state = {
     recipes: [],
@@ -19,23 +19,7 @@ export class MainWindow extends Component {
   };
 
   deleteRecipe = (recipeId) => {
-    var that = this;
-    axios
-      .delete("http://localhost:9000/Recipes", { params: { id: recipeId } })
-      .then((response) => {
-        this.setState({
-          open: true,
-          snackMessage: response.data,
-          snackVariant: "success",
-        });
-      })
-      .catch(function(err) {
-        that.setState({
-          open: true,
-          snackMessage: err,
-          snackVariant: "error",
-        });
-      });
+    this.props.dispatch(deleteRecipe(recipeId));
   };
 
   render() {

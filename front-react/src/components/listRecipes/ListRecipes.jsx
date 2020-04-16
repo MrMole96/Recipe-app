@@ -3,6 +3,7 @@ import Recipe from "../recipe/Recipe";
 import Grid from "@material-ui/core/Grid";
 import RecipeModal from "../recipeModal/RecipeModal";
 import RecipePlaceHolder from "../../components/recipePlaceHolder/recipePlaceHolder";
+import { Spring, Transition, Trail } from "react-spring/renderprops";
 class ListRecipes extends React.Component {
   state = {
     open: false,
@@ -45,20 +46,52 @@ class ListRecipes extends React.Component {
     return placeholders;
   };
 
+  componentDidUpdate(preProps, preState) {
+    console.log(preProps);
+    console.log(preState);
+  }
+
   render() {
     console.log("isDownloading", this.props.isDownloading);
     return (
-      <div>
+      <span>
         <Grid container style={{ marginTop: "10px" }} spacing={5}>
-          {this.props.isDownloading && this.placeholderSet()}
-          {this.props.recipes.map(this.mapToRecipeItem)}
+          {this.props.isDownloading && (
+            <Trail
+              items={this.placeholderSet()}
+              keys={(item) => item.key}
+              from={{ opacity: 0 }}
+              to={{ opacity: 1 }}              
+            >
+              {(item) => (props) => (
+                <Grid container style={props} item sm={12} md={6}>
+                  {item}
+                </Grid>
+              )}
+            </Trail>
+          )}
+          {!this.props.isDownloading && (
+            <Transition
+              items={this.props.recipes.map(this.mapToRecipeItem)}
+              keys={(item) => item.key}
+              from={{ opacity: 0 }}
+              enter={{ opacity: 1 }}
+              leave={{ opacity: 0 }}
+            >
+              {(item) => (props) => (
+                <Grid container style={props} item sm={12} md={6}>
+                  {item}
+                </Grid>
+              )}
+            </Transition>
+          )}
         </Grid>
-        <RecipeModal
+        {/* <RecipeModal
           open={this.state.open}
           recipe={this.state.clickedRecipe}
           handleClose={this.handleClose}
-        />
-      </div>
+        /> */}
+      </span>
     );
   }
 }
