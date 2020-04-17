@@ -45,7 +45,7 @@ export const RecipeFormFourthStep = (props) => {
           {/* Zdjecie finalne i lista produktow */}
         </Grid>
         <Grid item container xs={12} sm={6}>
-          <Grid item container spacing={3} justify="space-around">
+          <Grid item container spacing={0} justify="space-around">
             <Grid item>
               <div className="summary-header">
                 <p>

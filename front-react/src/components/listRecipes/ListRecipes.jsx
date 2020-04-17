@@ -46,13 +46,7 @@ class ListRecipes extends React.Component {
     return placeholders;
   };
 
-  componentDidUpdate(preProps, preState) {
-    console.log(preProps);
-    console.log(preState);
-  }
-
   render() {
-    console.log("isDownloading", this.props.isDownloading);
     return (
       <span>
         <Grid container style={{ marginTop: "10px" }} spacing={5}>
@@ -86,11 +80,11 @@ class ListRecipes extends React.Component {
             </Transition>
           )}
         </Grid>
-        {/* <RecipeModal
+        <RecipeModal
           open={this.state.open}
           recipe={this.state.clickedRecipe}
           handleClose={this.handleClose}
-        /> */}
+        />
       </span>
     );
   }

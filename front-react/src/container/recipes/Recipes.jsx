@@ -64,7 +64,7 @@ class recipes extends Component {
         style={{ minHeight: "85vh", textAlign: "center" }}
       >
         <h2>Dodawanie przepisu</h2>
-        <Wrapper style={{width:'100%'}}>
+        <Wrapper>
           <Stepper alternativeLabel activeStep={this.props.wiz.formStep}>
             {steps.map((label) => (
               <Step key={label}>

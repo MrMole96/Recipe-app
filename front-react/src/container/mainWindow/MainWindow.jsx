@@ -23,6 +23,7 @@ export class MainWindow extends Component {
   };
 
   render() {
+    console.log('recipes',this.props.recipes.data)
     return (
       <div>
         <Search getRecipes={this.getRecipesHandler} />

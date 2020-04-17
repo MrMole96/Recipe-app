@@ -52,7 +52,7 @@ export const RecipeFormSecondStep = props => {
     console.log("details", props.formik.values.productsDetails);
 
     return products.map((x, index) => (
-      <Grid item xs={6} md={4} lg={3} key={index}>
+      <Grid item xs={12} sm={6} lg={4} key={index}>
         <Box display="flex" flexWrap="nowrap">
           <h4>{x.name}:</h4>
           <FormControl style={{ margin: "0px 10px" }}>
@@ -96,6 +96,7 @@ export const RecipeFormSecondStep = props => {
   };
 
   let productInputs = addProductInput(props.formik.values.listOfProducts);
+  console.log('RENDERRRR SECONDSTEP')
   return (
     <Grid container justify="center" item spacing={3}>
       <Grid item xs={12}>
