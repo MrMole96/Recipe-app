@@ -7,6 +7,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import List from "@material-ui/core/List";
+import Task from "../task/Task";
 
 import './RecipeModal.css';
 
@@ -15,82 +17,89 @@ const RecipeModal = (props) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+    const {
+        name,
+        difficulty,
+        numberOfPersons,
+        listOfProducts,
+        description,
+    } = props.recipe;
 
-    function FormRow() {
-        return (
-            <React.Fragment>
-                <Grid item xs={4}>
-                    <div className='recipe__details__property'>
-                        <h4>{props.recipe.difficulty}</h4>
-                        <span>amount</span>
-                    </div>
-                </Grid>
-                <Grid item xs={4}>
-                    <div className='recipe__details__property'>
-                        <h4>{props.recipe.numberOfPersons}</h4>
-                        <span>calories</span>
-                    </div>
-                </Grid>
-                <Grid item xs={4}>
-                    <div className='recipe__details__property'>
-                        <h4>1500</h4>
-                        <span>unit</span>
-                    </div>
-                </Grid>
-            </React.Fragment>
-        );
-    }
-    let products = [];
-    let steps = [];
-    if (props.recipe.listOfProducts) {
-        products = props.recipe.listOfProducts.map((item, index) => {
-            return <li key={item.name + index}>{item.name} {index}{item.unit}</li>
-        })
-    }
-    if (props.recipe.description) {
-        steps = props.recipe.description.map((step, index) => {
-            return <li className='steps-item' key={step + index}>{index}. {step}</li>
-        })
-    }
+
+    const descriptionToRender = description.map((task, index) => {
+        console.log('TASK',task)
+        return <Task key={index} index={index} description={task} showImg />;
+    });
 
     return (
-        <div>
-            <Dialog
-                fullScreen={fullScreen}
-                open={props.open}
-                onClose={props.handleClose}
-                fullWidth
-                maxWidth='md'
-            >
-                <DialogTitle>{props.recipe.name}</DialogTitle>
-                <DialogContent style={{ overflow: 'hidden' }}>
-                    <Grid container spacing={3}>
-                        <Grid item container xs={12} justify='space-between'>
-                            <FormRow />
+        <Dialog
+            fullScreen={fullScreen}
+            open={props.open}
+            onClose={props.handleClose}
+            fullWidth
+            maxWidth='md'
+        >
+            <DialogTitle>{name}</DialogTitle>
+            <DialogContent>
+                <Grid container justify="center" item spacing={3}>
+                    <Grid item container>
+                        <Grid item container justify="center" xs={12} sm={6}>
+                            <img src="https://via.placeholder.com/300" width="300" />
+                            {/* Zdjecie finalne i lista produktow */}
                         </Grid>
-                        <Grid item container spacing={3}>
-                            <Grid item xs={6}>
-                                <img alt="recipe photo" width="260" src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
-                                <ul className={'products'}>
-                                    {products}
-                                </ul>
+                        <Grid item container xs={12} sm={6}>
+                            <Grid item container spacing={0} justify="space-around">
+                                <Grid item>
+                                    <div className="summary-header">
+                                        <p>
+                                            Stopien trudnosci: <b>{difficulty}</b>
+                                        </p>
+                                    </div>
+                                </Grid>
+                                <Grid item>
+                                    <div className="summary-header">
+                                        <p>
+                                            Ilosc porcji: <b>{numberOfPersons}</b>
+                                        </p>
+                                    </div>
+                                </Grid>
+                                <Grid item>
+                                    <div className="summary-header">
+                                        <p>
+                                            Szacowana ilosc kalorii:
+                  <b>
+                                                {" "}
+                                                {listOfProducts.reduce((acc, obj) => acc + obj.calories, 0)}
+                                            </b>
+                                        </p>
+                                    </div>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={6}>
-                                <h4>Kroki:</h4>
-                                <ul className={'steps'}>
-                                    {steps}
+                            <Grid item>
+                                <ul className="list-of-products">
+                                    {listOfProducts.map((x, i) => (
+                                        <li key={i}>
+                                            {x.name} {x.quantity}
+                                            {x.unit}
+                                        </li>
+                                    ))}
                                 </ul>
                             </Grid>
                         </Grid>
                     </Grid>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={props.handleClose} color="primary" autoFocus>
-                        Close
+                    <Grid item container>
+                        <List style={{ width: "100%" }} dense>
+                            {descriptionToRender}
+                        </List>
+                    </Grid>
+                </Grid>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={props.handleClose} color="primary" autoFocus>
+                    Zamknij
                     </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+            </DialogActions>
+        </Dialog>
     )
 }
 

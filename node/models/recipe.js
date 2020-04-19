@@ -7,7 +7,7 @@ var RecipeSchema = new mongoose.Schema({
     // image: { data: Buffer, contentType: String },
     description: [{
         text: String,
-        image: Buffer,
+        image: String,
     }],
     averageTime: Date,
     listOfProducts: [{ type: mongoose.Schema.ObjectId, ref: 'Product' }]

@@ -11,6 +11,7 @@ class ListRecipes extends React.Component {
   };
 
   handleClickOpen = (recipe) => {
+    console.log("clicked recipe", recipe);
     this.setState({
       open: true,
       clickedRecipe: recipe,
@@ -55,7 +56,7 @@ class ListRecipes extends React.Component {
               items={this.placeholderSet()}
               keys={(item) => item.key}
               from={{ opacity: 0 }}
-              to={{ opacity: 1 }}              
+              to={{ opacity: 1 }}
             >
               {(item) => (props) => (
                 <Grid container style={props} item sm={12} md={6}>
@@ -80,11 +81,13 @@ class ListRecipes extends React.Component {
             </Transition>
           )}
         </Grid>
-        <RecipeModal
-          open={this.state.open}
-          recipe={this.state.clickedRecipe}
-          handleClose={this.handleClose}
-        />
+        {this.state.open && (
+          <RecipeModal
+            open={this.state.open}
+            recipe={this.state.clickedRecipe}
+            handleClose={this.handleClose}
+          />
+        )}
       </span>
     );
   }
