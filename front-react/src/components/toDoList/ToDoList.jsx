@@ -67,7 +67,7 @@ export default class toDoList extends Component {
     let { clickedTask, open } = this.state;
     console.log(this.props.handler);
     return (
-      <Grid container item justify="space-around" direction="column" spacing={3}>
+      <Grid container item justify="space-between" direction="column">
         <Grid item>
           {this.props.handler && (
             <TextField
@@ -122,7 +122,7 @@ export default class toDoList extends Component {
             />
           )}
         </Grid>
-        <Grid item>
+        <Grid item style={{marginBottom:"25px"}}>
           <List dense>{listOfProducts}</List>
         </Grid>
         {this.state.open && (

@@ -12,7 +12,7 @@ const levels = ["Latwe", "Srednie", "Trudne"];
 export const RecipeFormFirstStep = props => {
 
   return (
-    <Grid container justify="center" item spacing={3}>
+    <Grid item container justify="space-between" style={{height:"100%"}}>
       <Grid item xs={4}>
         <TextField
           id="name"
@@ -73,7 +73,7 @@ export const RecipeFormFirstStep = props => {
         item
         direction="row"
         justify="space-between"
-        alignItems="center"
+        alignItems="flex-end"
       >
         <Grid item>
           <Button

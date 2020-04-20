@@ -96,9 +96,8 @@ export const RecipeFormSecondStep = props => {
   };
 
   let productInputs = addProductInput(props.formik.values.listOfProducts);
-  console.log('RENDERRRR SECONDSTEP')
   return (
-    <Grid container justify="center" item spacing={3}>
+    <Grid item container style={{height:"100%"}}>
       <Grid item xs={12}>
         <Autocomplete
           style={{ width: "100%" }}
@@ -132,7 +131,7 @@ export const RecipeFormSecondStep = props => {
           )}
         />
       </Grid>
-      <Grid container direction="row" item spacing={3} xs={12}>
+      <Grid item container direction="row" spacing={3} xs={12}>
         {productInputs}
       </Grid>
       <Grid
@@ -140,7 +139,7 @@ export const RecipeFormSecondStep = props => {
         item
         direction="row"
         justify="space-between"
-        alignItems="center"
+        alignItems="flex-end"
       >
         <Grid item>
           <Button

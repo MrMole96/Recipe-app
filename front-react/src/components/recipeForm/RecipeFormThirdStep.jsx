@@ -13,7 +13,7 @@ export const RecipeFormThirdStep = props => {
   };
 
   return (
-    <Grid container justify="center" item spacing={3}>
+    <Grid item container justify="space-between" style={{height:"100%"}}>
       <ToDoList
         handler={toDoListHandler}
         validation={props}
@@ -24,7 +24,7 @@ export const RecipeFormThirdStep = props => {
         item
         direction="row"
         justify="space-between"
-        alignItems="center"
+        alignItems="flex-end"
       >
         <Grid item>
           <Button

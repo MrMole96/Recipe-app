@@ -20,9 +20,6 @@ export const ProductForm = props => {
       name: Yup.string()
         .min(3, "Zbyt krotka nazwa")
         .required("To pole jest wymagane"),
-      amount: Yup.number()
-        .moreThan(0, "Wartosc musi byc wieksza niz 0")
-        .required("To pole jest wymagane"),
       calories: Yup.number()
         .moreThan(0, "Wartosc musi byc wieksza niz 0")
         .required("To pole jest wymagane"),
@@ -45,19 +42,6 @@ export const ProductForm = props => {
           {...formik.getFieldProps("name")}
           helperText={formik.touched.name && formik.errors.name}
           error={formik.touched.name && Boolean(formik.errors.name)}
-        />
-      </div>
-      <div>
-        <TextField
-          id="amount"
-          label="Ilosc"
-          className="input"
-          onChange={value => this.inputHandler(value)}
-          placeholder="Ilosc produktu"
-          margin="normal"
-          {...formik.getFieldProps("amount")}
-          helperText={formik.touched.amount && formik.errors.amount}
-          error={formik.touched.amount && Boolean(formik.errors.amount)}
         />
       </div>
       <div>

@@ -23,6 +23,9 @@ const Wrapper = styled.div`
   border-radius: 25px;
   min-width: 350px;
   max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const steps = ["Podstawowe informacje", "Szczegoly", "Opis", "Podsumowanie"];

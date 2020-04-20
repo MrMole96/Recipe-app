@@ -38,7 +38,7 @@ class Wizard extends Component {
         pages={[RecipeFormFirstStep, RecipeFormSecondStep, RecipeFormThirdStep, RecipeFormFourthStep]}
       >
         {wizProps => (
-          <Grid container justify="center">
+          <Grid item container>
             <Formik
               initialValues={this.props.setUp.initialValues}
               validationSchema={this.props.setUp.validationSchema}

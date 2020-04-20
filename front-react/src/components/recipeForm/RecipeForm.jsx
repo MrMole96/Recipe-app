@@ -43,9 +43,6 @@ export const RecipeForm = props => {
   return (
     <Grid
       container
-      direction="column"
-      justify="space-between"
-      alignItems="center"
       style={{ minHeight: "200px" }}
     >
       <Wizard
