@@ -14,6 +14,11 @@ export class MainWindow extends Component {
     snackMessage: "",
     snackVariant: "",
   };
+
+  componentDidMount(){
+    this.props.dispatch(getRecipes());
+  }
+
   getRecipesHandler = (products) => {
     this.props.dispatch(getRecipes(products));
   };

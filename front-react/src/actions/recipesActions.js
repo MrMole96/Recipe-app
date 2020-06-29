@@ -2,6 +2,7 @@ import axios from 'axios'
 import { recipesConst } from './actionTypes'
 import { openSnackBar } from './snackBarActions'
 
+
 const handleGetRecipes = (dispatch) => {
     return dispatch({
         type: recipesConst.GET_RECIPES
@@ -60,7 +61,7 @@ const handleDeleteRecipeFail = (dispatch) => {
 }
 
 
-export function getRecipes(products) {
+export function getRecipes(products = []) {
     return async (dispatch) => {
         handleGetRecipes(dispatch)
         try {
@@ -77,12 +78,14 @@ export function getRecipes(products) {
 
 export function addRecipe(recipe) {
     return async (dispatch) => {
+     
         handlePostRecipe(dispatch)
         try {
             console.log('send recipe', recipe)
             let response = await axios.post('/Recipes', recipe);
             handlePostRecipeSuccess(dispatch, recipe)
             openSnackBar(dispatch, { message: response.data.text, variant: 'success' })
+            
         } catch (error) {
             handlePostRecipeFail(dispatch)
             openSnackBar(dispatch, { message: error.message, variant: 'error' })

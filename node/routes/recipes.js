@@ -52,16 +52,30 @@ router.post("/", function (req, res, next) {
 
 router.post("/byProducts", function (req, res, next) {
     client.connect(function (err) {
-        Recipe
-            .find({
-                listOfProducts: { $in: req.body.products }
-            })
-            .populate('listOfProducts')
-            .exec(function (err, docs) {
-                if (!err) {
-                    res.send(docs)
-                } else { throw err; }
-            });
+
+        if (req.body.products.length != 0) {
+            Recipe
+                .find({
+                    listOfProducts: { $in: req.body.products }
+                })
+                .populate('listOfProducts')
+                .exec(function (err, docs) {
+                    if (!err) {
+                        res.send(docs)
+                    } else { throw err; }
+                });
+        } else {
+            Recipe
+                .find({})
+                .populate('listOfProducts')
+                .exec(function (err, docs) {
+                    if (!err) {
+                        res.send(docs)
+                    } else { throw err; }
+                });
+        }
+
+
 
         client.close();
     })

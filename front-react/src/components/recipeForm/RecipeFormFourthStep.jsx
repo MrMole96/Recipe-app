@@ -7,10 +7,12 @@ import Task from "../task/Task";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SaveIcon from "@material-ui/icons/Save";
 import { addRecipe } from "../../actions/recipesActions";
+import { useHistory } from "react-router-dom";
 import "./RecipeForm.css";
 
 export const RecipeFormFourthStep = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const downloading = useSelector((state) => state.recipes.downloading);
 
   const {
@@ -114,6 +116,7 @@ export const RecipeFormFourthStep = (props) => {
             startIcon={<SaveIcon />}
             onClick={() => {
               dispatch(addRecipe(props.values));
+              history.push("/");
             }}
           >
             Zapisz
